@@ -1,5 +1,4 @@
 /* global d3  */
-console.log(d3);
 
 const fetchData = async () => {
   const result = await d3.csv('data/metal_bands_2017.csv', (row, index) => ({
@@ -11,7 +10,6 @@ const fetchData = async () => {
   }));
   // let bandsByCounty = d3.group(result, (d) => d.origin);
 
-  console.log(result);
   return result;
 };
 
@@ -24,10 +22,26 @@ const processData = (data) => {
         ...d,
         origin: 'Multiple Countries',
       };
+    } else if (d.origin === '') {
+      return {
+        ...d,
+        origin: 'Unknown',
+      };
     } else {
       return d;
     }
   });
+  return result;
+};
+
+const calculateTotalNumberOfFansByCountry = (data) => {
+  let result = data;
+  result = d3.rollups(
+    result,
+    (v) => d3.sum(v, (d) => d.fans),
+    (d) => d.origin
+  );
+  result.sort((a, b) => a[1] < b[1]);
   return result;
 };
 
@@ -113,12 +127,79 @@ const drawScatterplot = (data) => {
     .on('mouseleave', mouseleave);
 };
 
-const init = async () => {
-  const data = await fetchData();
+const drawCountryBarChart = (data) => {
+  const margin = {
+    top: 50,
+    right: 50,
+    bottom: 100,
+    left: 100,
+  };
 
-  const multiCountryBands = data.filter((d) => d.origin.includes(','));
-  console.table(multiCountryBands);
+  const totalWidth = 800;
+  const totalHeight = 500;
+  const width = totalWidth - margin.left - margin.right;
+  const height = totalHeight - margin.top - margin.bottom;
+
+  const xDomain = data.map((d) => d[0]);
+
+  const svg = d3
+    .select('#countries-barchart')
+    .append('svg')
+    .attr('width', totalWidth)
+    .attr('height', totalHeight)
+    .append('g')
+    .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+  const xScale = d3.scaleBand().domain(xDomain).range([0, width]).padding(0.2);
+
+  svg
+    .append('g')
+    .attr('transform', `translate(0, ${height})`)
+    .call(d3.axisBottom(xScale))
+    .selectAll('text')
+    .attr('transform', 'translate(-10,0) rotate(-45)')
+    .style('text-anchor', 'end');
+
+  svg
+    .append('text')
+    .attr('text-anchor', 'end')
+    .attr('x', width)
+    .attr('y', height + margin.bottom - 10)
+    .text('Country');
+
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max(data, (d) => d[1])])
+    .range([height, 0]);
+
+  svg.append('g').call(d3.axisLeft(yScale));
+
+  svg
+    .append('text')
+    .attr('text-anchor', 'end')
+    .attr('transform', 'rotate(-90)')
+    .attr('x', 0)
+    .attr('y', -0.5 * margin.left)
+    .text('Total number of fans');
+
+  svg
+    .selectAll('mybar')
+    .data(data)
+    .enter()
+    .append('rect')
+    .attr('x', (d) => xScale(d[0]))
+    .attr('y', (d) => yScale(d[1]))
+    .attr('width', xScale.bandwidth())
+    .attr('height', (d) => height - yScale(d[1]))
+    .attr('fill', 'salmon');
+};
+
+const init = async () => {
+  let data = await fetchData();
+  data = processData(data);
   drawScatterplot(data);
+  const totalNumberOfFansByCountry = calculateTotalNumberOfFansByCountry(data);
+  drawCountryBarChart(totalNumberOfFansByCountry.slice(0, 29));
 };
 
 init();
