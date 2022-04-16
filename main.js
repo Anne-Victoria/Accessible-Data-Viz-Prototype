@@ -8,7 +8,6 @@ const fetchData = async () => {
     formed: +row.formed,
     origin: row.origin,
   }));
-  // let bandsByCounty = d3.group(result, (d) => d.origin);
 
   return result;
 };
@@ -191,7 +190,8 @@ const drawCountryBarChart = (data) => {
     .attr('y', (d) => yScale(d[1]))
     .attr('width', xScale.bandwidth())
     .attr('height', (d) => height - yScale(d[1]))
-    .attr('fill', 'salmon');
+    .attr('fill', 'salmon')
+    .attr('aria-label', (d) => `${d[0]} ${d[1]} fans`);
 };
 
 const init = async () => {
