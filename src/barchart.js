@@ -1,5 +1,14 @@
 /* global d3  */
-import { getProcessedData } from './fetchData.mjs';
+
+/**
+ * This example uses `aria-label` to label each bar individually.
+ * Notes:
+ * - All ticks on each axis are read out. There might be a better way
+ *    to have the screen reader read out the axes.
+ *
+ */
+
+import { getTotalFansByCountry } from './fetchData.mjs';
 import { renderCode } from './renderCode.mjs';
 
 const drawCountryBarChart = (data) => {
@@ -67,24 +76,12 @@ const drawCountryBarChart = (data) => {
     .attr('width', xScale.bandwidth())
     .attr('height', (d) => height - yScale(d[1]))
     .attr('fill', 'salmon')
+    /* Each bar has an aria-label for screen readers */
     .attr('aria-label', (d) => `${d[0]} ${d[1]} fans`);
 };
 
-const calculateTotalNumberOfFansByCountry = (data) => {
-  let result = data;
-  result = d3.rollups(
-    result,
-    (v) => d3.sum(v, (d) => d.fans),
-    (d) => d.origin
-  );
-  result.sort((a, b) => a[1] < b[1]);
-  return result;
-};
-
 const initChart = async () => {
-  let data = await getProcessedData();
-  data = calculateTotalNumberOfFansByCountry(data);
-
+  let data = await getTotalFansByCountry();
   drawCountryBarChart(data.slice(0, 29));
 };
 

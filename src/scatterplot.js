@@ -1,4 +1,14 @@
 /* global d3  */
+
+/**
+ * This example is not accessible at all yet, since I have no idea how to
+ * make a scatter plot with 5000 dots screen reader accessible. I doubt
+ * screen reader users want to navigate through 5000 individual labeled
+ * dots. I'm also not sure how to make the tooltips more accessible.
+ * They should be usable via keyboard, but currently they are only
+ * usable via mouse.
+ */
+
 import { getProcessedData } from './fetchData.mjs';
 import { renderCode } from './renderCode.mjs';
 

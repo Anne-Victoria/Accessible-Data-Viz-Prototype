@@ -33,8 +33,25 @@ const processData = (data) => {
   return result;
 };
 
+const calculateTotalNumberOfFansByCountry = (data) => {
+  let result = data;
+  result = d3.rollups(
+    result,
+    (v) => d3.sum(v, (d) => d.fans),
+    (d) => d.origin
+  );
+  result.sort((a, b) => a[1] < b[1]);
+  return result;
+};
+
 export const getProcessedData = async () => {
   let data = await fetchData();
   data = processData(data);
   return data;
 };
+
+export const getTotalFansByCountry = async () => {
+  let data = await getProcessedData();
+  data = calculateTotalNumberOfFansByCountry(data);
+  return data;
+}
