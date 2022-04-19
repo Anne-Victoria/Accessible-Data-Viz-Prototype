@@ -1,12 +1,13 @@
 /* global d3  */
 
 /**
- * This example is not accessible at all yet, since I have no idea how to
- * make a scatter plot with 5000 dots screen reader accessible. I doubt
- * screen reader users want to navigate through 5000 individual labeled
- * dots. I'm also not sure how to make the tooltips more accessible.
- * They should be usable via keyboard, but currently they are only
- * usable via mouse.
+ * This example is a work in progress. The chart is made accessible to screen readers
+ * through a textual description. The content of the SVG is hidden from screen
+ * readers so that they don't read out the axes.
+ *
+ * TODO:
+ * - Write a better image description.
+ * - Make the tooltips accessible or remove them.
  */
 
 import { getProcessedData } from './fetchData.mjs';
@@ -28,11 +29,26 @@ const drawScatterplot = (data) => {
   const maxFans = d3.max(data, (d) => d.fans);
   const yearExtent = d3.extent(data, (d) => d.formed);
 
-  const svg = d3
+  let svg = d3
     .select('#bands-scatterplot')
     .append('svg')
-    .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`)
+    .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`);
+
+  /* Textual description added according to technique 8 in
+        https://www.smashingmagazine.com/2021/05/accessible-svg-patterns-comparison/ */
+  svg
+    .attr('role', 'img')
+    .attr('aria-labelledby', 'chartTitle')
+    .append('title')
+    .attr('id', 'chartTitle')
+    .text(
+      'Top 5000 metal bands as dots marking their founding year on the horizontal x axis and their number of fans on the vertical y axis.'
+    );
+
+  svg = svg
     .append('g')
+    /* Hide the rest of the SVG from the screen reader */
+    .attr('aria-hidden', 'true')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
   const scaleX = d3.scaleLinear().domain(yearExtent).range([0, width]);
