@@ -1,5 +1,6 @@
 /* global d3  */
 import { getProcessedData } from './fetchData.mjs';
+import { renderCode } from './renderCode.mjs';
 
 const drawCountryBarChart = (data) => {
   const margin = {
@@ -88,3 +89,4 @@ const initChart = async () => {
 };
 
 initChart();
+renderCode('/src/barchart.js', '#code');

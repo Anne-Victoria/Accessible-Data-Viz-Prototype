@@ -1,5 +1,6 @@
 /* global d3  */
 import { getProcessedData } from './fetchData.mjs';
+import { renderCode } from './renderCode.mjs';
 
 const drawScatterplot = (data) => {
   const margin = {
@@ -83,10 +84,10 @@ const drawScatterplot = (data) => {
     .on('mouseleave', mouseleave);
 };
 
-
 const initChart = async () => {
-    let data = await getProcessedData();
-    drawScatterplot(data);
-  };
-  
-  initChart();
+  let data = await getProcessedData();
+  drawScatterplot(data);
+};
+
+initChart();
+renderCode('/src/scatterplot.js', '#code');
