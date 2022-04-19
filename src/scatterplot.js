@@ -10,8 +10,10 @@ const drawScatterplot = (data) => {
     left: 100,
   };
 
-  const width = 800 - margin.left - margin.right;
-  const height = 500 - margin.top - margin.bottom;
+  const totalWidth = 800;
+  const totalHeight = 500;
+  const width = totalWidth - margin.left - margin.right;
+  const height = totalHeight - margin.top - margin.bottom;
 
   const maxFans = d3.max(data, (d) => d.fans);
   const yearExtent = d3.extent(data, (d) => d.formed);
@@ -19,8 +21,7 @@ const drawScatterplot = (data) => {
   const svg = d3
     .select('#bands-scatterplot')
     .append('svg')
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom)
+    .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`)
     .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
 

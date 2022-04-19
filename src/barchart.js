@@ -20,8 +20,8 @@ const drawCountryBarChart = (data) => {
   const svg = d3
     .select('#countries-barchart')
     .append('svg')
-    .attr('width', totalWidth)
-    .attr('height', totalHeight)
+    .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`)
+    .attr('preserveAspectRatio', 'xMidYMid meet')
     .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
