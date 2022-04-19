@@ -11,6 +11,7 @@
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
+    "bulma": "^0.9.3",
     "d3": "^7.4.3",
     "highlight.js": "^11.5.1"
   },
