@@ -1,9 +1,5 @@
 # Accessible data visualization prototype
 
-## Dataset
-
-Dataset from [kaggle](https://www.kaggle.com/datasets/mrpantherson/metal-by-nation).
-
 ## Setup
 
 ### Installing dependencies
@@ -23,4 +19,8 @@ Make sure to have the [ESLint](https://marketplace.visualstudio.com/items?itemNa
 ### Starting the dev server
 
 To start the local development server run `npm start`.
+
+## Build
+
+To build the project, run `npm run build`. The result will be in the `build` directory.
 
