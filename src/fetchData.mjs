@@ -41,6 +41,7 @@ const calculateTotalNumberOfFansByCountry = (data) => {
     (d) => d.origin
   );
   result.sort((a, b) => a[1] < b[1]);
+  console.log(result);
   return result;
 };
 
@@ -54,4 +55,4 @@ export const getTotalFansByCountry = async () => {
   let data = await getProcessedData();
   data = calculateTotalNumberOfFansByCountry(data);
   return data;
-}
+};
