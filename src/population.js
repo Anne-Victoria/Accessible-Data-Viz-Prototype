@@ -41,7 +41,7 @@ const drawPopulationByAgeChart = (data) => {
     .call(
       d3.axisBottom(xScale).tickValues(
         xScale.domain().filter((d, i) => {
-          return i % 5 == 0 || d.includes('85');
+          return i % 5 == 0;
         })
       )
     )
@@ -67,7 +67,7 @@ const drawPopulationByAgeChart = (data) => {
     .attr('transform', 'rotate(-90)')
     .attr('x', 0)
     .attr('y', -0.75 * margin.left)
-    .text('Population at this age');
+    .text('Population at this age (in 1000)');
 
   // Render bars
   svg

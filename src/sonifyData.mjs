@@ -10,12 +10,7 @@ export default function sonifiyData(data) {
   const toneScale = d3
     .scaleLinear()
     .domain([smallestValue, largestValue])
-    .range([400, 800]);
-
-  // data.forEach((datapoint, index) => {
-  //   console.log(toneScale(datapoint));
-  //   synth.triggerAttackRelease(toneScale(datapoint), '16n', now + 0.5 * index);
-  // });
+    .range([200, 1000]);
 
   return async () => {
     const synth = new Tone.Synth().toDestination();
@@ -25,12 +20,9 @@ export default function sonifiyData(data) {
       console.log(toneScale(datapoint));
       synth.triggerAttackRelease(
         toneScale(datapoint),
-        '16n',
-        now + 0.5 * index
+        '32n',
+        now + 0.25 * index
       );
     });
   };
-
-  //play a middle 'C' for the duration of an 8th note
-  // synth.triggerAttackRelease('C4', '8n');
 }

@@ -3,4 +3,6 @@ lib/*
 !lib/.gitkeep
 data/*
 !data/.gitkeep
+raw_data/*
+!raw_data/.gitkeep
 build/

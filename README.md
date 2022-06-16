@@ -10,17 +10,9 @@ Run `npm install` in this directory.
 
 ### Getting the population by age dataset
 
-Download the dataset from [Statista](https://de.statista.com/statistik/daten/studie/1351/umfrage/altersstruktur-der-bevoelkerung-deutschlands/), convert the file into CSV and transform it so that it matches the following structure:
+Download the dataset from [Statistisches Bundesamt](https://service.destatis.de/bevoelkerungspyramide/index.html#!y=2018) by clicking on 'Download open data' and place the csv file in `raw_data`. Run `npm run prebuild` to preprocess the data. The output will be in `data/population_by_age.csv`.
 
-```
-age_group,population_size
-Younger than 1 year,769380
-1 year olds,783593
-2 year olds,798366
-...
-```
-
-Then place the resulting file in `data/`.
+Note: this dataset is licensed under the [Data licence Germany - attribution - Version 2.0](https://www.govdata.de/dl-de/by-2-0).
 
 ### Getting the metal bands dataset
 
