@@ -1,6 +1,7 @@
 /* global d3 */
 
 import { renderCode } from './renderCode.mjs';
+import sonifyData from './sonifyData.mjs';
 
 const drawPopulationByAgeChart = (data) => {
   const margin = {
@@ -105,6 +106,11 @@ const main = async () => {
   drawPopulationByAgeChart(data);
   drawTable(data);
   renderCode('/src/population.js', '#code');
+  const dataForSonification = data.map((entry) => entry.population_size);
+
+  const playSonification = sonifyData(dataForSonification);
+  const playButton = document.getElementById('play-population-sonification');
+  playButton.addEventListener('click', playSonification);
 };
 
 main();
