@@ -13,43 +13,42 @@
   </head>
   <body>
     <section class="section">
-      <a href="/">&larr; Back</a>
-      <h1 class="title is-1">Population of Germany by age (2020)</h1>
-      <h2 class="title is-2">Chart</h2>
-      <div id="population-chart"></div>
-      <h2 class="title is-2">Sonification</h2>
-      <p class="block">Listen to the data.</p>
-      <button type="button" id="play-population-sonification" class="button">
-        Play
-      </button>
-      <h2 class="title is-2">Table</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Age</th>
-            <th>Population at this age (in 1000)</th>
-          </tr>
-        </thead>
-        <tbody id="population-table"></tbody>
-      </table>
-      <h2 class="title is-2">Data Source</h2>
-      <p class="block">
-        The data was taken from
-        <a
-          href="https://service.destatis.de/bevoelkerungspyramide/index.html#!y=2018"
-          >Statistisches Bundesamt</a
-        >
-        and is licensed under the
-        <a href="https://www.govdata.de/dl-de/by-2-0"
-          >Data licence Germany - attribution - Version 2.0</a
-        >. The data has been modified in the following way: it was aggregated to
-        a sum for each year and it was visualized.
-      </p>
-      <h2 class="title is-2">Code</h2>
-      <p class="block">This code generated the chart above.</p>
-      <pre>
-      <code id="code" class="language-javascript"></code>
-    </pre>
+      <div class="container">
+        <a href="/">&larr; Back</a>
+        <h1 class="title is-1">Population of Germany by age (2020)</h1>
+        <div id="population-chart"></div>
+        <h2 class="title is-2">Sonification</h2>
+        <p class="block">Listen to the data.</p>
+        <button type="button" id="play-population-sonification" class="button">
+          Play
+        </button>
+        <h2 class="title is-2">Table</h2>
+        <div class="block">
+          <p>The population data as a table</p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Age</th>
+                <th>Population at this age</th>
+              </tr>
+            </thead>
+            <tbody id="population-table"></tbody>
+          </table>
+        </div>
+        <h2 class="title is-2">Data Source</h2>
+        <p class="block">
+          The data was taken from
+          <a
+            href="https://service.destatis.de/bevoelkerungspyramide/index.html#!y=2018"
+            >Statistisches Bundesamt</a
+          >
+          and is licensed under the
+          <a href="https://www.govdata.de/dl-de/by-2-0"
+            >Data licence Germany - attribution - Version 2.0</a
+          >. The data has been modified in the following way: it was aggregated
+          to a sum for each year and it was visualized.
+        </p>
+      </div>
     </section>
     <script src="../lib/d3/dist/d3.js"></script>
     <script type="module" src="./population.js"></script>

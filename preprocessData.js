@@ -13,7 +13,11 @@ const lines = fs
 
 console.log(`Processing ${csvInput}`);
 
-const splitHeader = lines[0].split(';');
+let splitHeader = lines[0].split(';');
+splitHeader = splitHeader.map((header) => {
+  const splitHeader = header.split('_');
+  return `Age ${splitHeader[1]} to ${splitHeader[2]}`;
+});
 
 const female2018 = lines.find((line) => line.startsWith('0;2018;w'));
 const female2018Array = female2018.split(';');
@@ -21,12 +25,13 @@ const female2018Array = female2018.split(';');
 const male2018 = lines.find((line) => line.startsWith('0;2018;m'));
 const male2018Array = male2018.split(';');
 
-outputStream.write('age_group,population_size\n');
+outputStream.write('id,age_group,population_size\n');
 
 for (let i = 4; i < female2018Array.length; i++) {
-  const populationSum =
+  const populationSumInThousands =
     parseInt(female2018Array[i]) + parseInt(male2018Array[i]);
-  outputStream.write(`${splitHeader[i]},${populationSum}\n`);
+  const actualPopulationSum = populationSumInThousands * 1000;
+  outputStream.write(`${i - 4},${splitHeader[i]},${actualPopulationSum}\n`);
 }
 
 outputStream.on('finish', () => {

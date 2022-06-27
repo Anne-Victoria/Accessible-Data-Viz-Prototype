@@ -1,6 +1,4 @@
 /* global d3 */
-
-import { renderCode } from './renderCode.mjs';
 import sonifyData from './sonifyData.mjs';
 
 const drawPopulationByAgeChart = (data) => {
@@ -67,27 +65,48 @@ const drawPopulationByAgeChart = (data) => {
     .attr('transform', 'rotate(-90)')
     .attr('x', 0)
     .attr('y', -0.75 * margin.left)
-    .text('Population at this age (in 1000)');
+    .text('Population at this age');
 
   // Render bars
-  svg
-    .selectAll('mybar')
-    .data(data)
-    .enter()
-    .append('rect')
+  const bars = svg.selectAll('mybar').data(data);
+
+  const rectangles = bars
+    .join('rect')
     .attr('x', (d) => xScale(d.age_group))
     .attr('y', (d) => yScale(d.population_size))
     .attr('width', xScale.bandwidth())
     .attr('height', (d) => height - yScale(d.population_size))
-    .attr('fill', 'salmon')
+    .attr('fill', '#004747')
+    .attr('tabindex', '0')
     /* Each bar has an aria-label for screen readers */
     .attr('aria-label', (d) => `${d.age_group} ${d.population_size}`);
-};
 
+  rectangles.on('mouseover', (event, d) => {
+    const tooltip = d3.select(`#tooltip-${d.id}`);
+    tooltip.attr('display', 'block');
+  });
+
+  rectangles.on('mouseleave', (event, d) => {
+    const tooltip = d3.select(`#tooltip-${d.id}`);
+    tooltip.attr('display', 'none');
+  });
+
+  bars
+    .join('text')
+    .attr('text-anchor', 'middle')
+    .attr('id', (d) => `tooltip-${d.id}`)
+    .attr('x', (d) => xScale(d.age_group))
+    .attr('y', (d) => yScale(d.population_size))
+    .attr('width', 40)
+    .attr('height', 40)
+    .attr('fill', '#000000')
+    .attr('display', 'none')
+    .text((d) => `${d.age_group} ${d.population_size}`);
+};
 const drawTable = (data) => {
   const svg = d3.select('#population-table');
 
-  const rows = svg.selectAll('row').data(data).enter().append('tr');
+  const rows = svg.selectAll('row').data(data).join('tr');
 
   rows.append('td').text((d) => d.age_group);
   rows.append('td').text((d) => d.population_size);
@@ -95,6 +114,7 @@ const drawTable = (data) => {
 
 const fetchData = async () => {
   const data = await d3.csv('../data/population_by_age.csv', (row) => ({
+    id: row.id,
     age_group: row.age_group,
     population_size: +row.population_size,
   }));
@@ -105,7 +125,6 @@ const main = async () => {
   const data = await fetchData();
   drawPopulationByAgeChart(data);
   drawTable(data);
-  renderCode('/src/population.js', '#code');
   const dataForSonification = data.map((entry) => entry.population_size);
 
   const playSonification = sonifyData(dataForSonification);
