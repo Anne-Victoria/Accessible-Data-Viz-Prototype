@@ -79,14 +79,24 @@ const drawPopulationByAgeChart = (data) => {
     .attr('fill', '#004747')
     .attr('tabindex', '0')
     /* Each bar has an aria-label for screen readers */
-    .attr('aria-label', (d) => `${d.age_group} ${d.population_size}`);
+    .attr('aria-labelledby', (d) => `tooltip-${d.id}`);
 
   rectangles.on('mouseover', (event, d) => {
     const tooltip = d3.select(`#tooltip-${d.id}`);
     tooltip.attr('display', 'block');
   });
 
+  rectangles.on('focusin', (event, d) => {
+    const tooltip = d3.select(`#tooltip-${d.id}`);
+    tooltip.attr('display', 'block');
+  });
+
   rectangles.on('mouseleave', (event, d) => {
+    const tooltip = d3.select(`#tooltip-${d.id}`);
+    tooltip.attr('display', 'none');
+  });
+
+  rectangles.on('focusout', (event, d) => {
     const tooltip = d3.select(`#tooltip-${d.id}`);
     tooltip.attr('display', 'none');
   });
