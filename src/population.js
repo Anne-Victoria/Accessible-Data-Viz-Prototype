@@ -3,14 +3,14 @@ import sonifyData from './sonifyData.mjs';
 
 const drawPopulationByAgeChart = (data) => {
   const margin = {
-    top: 50,
+    top: 100,
     right: 50,
     bottom: 100,
     left: 100,
   };
 
   const totalWidth = 800;
-  const totalHeight = 500;
+  const totalHeight = 550;
   const width = totalWidth - margin.left - margin.right;
   const height = totalHeight - margin.top - margin.bottom;
 
@@ -101,17 +101,135 @@ const drawPopulationByAgeChart = (data) => {
     tooltip.attr('display', 'none');
   });
 
-  bars
-    .join('text')
-    .attr('text-anchor', 'middle')
+  const tooltips = bars
+    .join('g')
     .attr('id', (d) => `tooltip-${d.id}`)
-    .attr('x', (d) => xScale(d.age_group))
-    .attr('y', (d) => yScale(d.population_size))
-    .attr('width', 40)
-    .attr('height', 40)
+    .attr('display', 'none');
+
+  const tooltipDimensions = {
+    width: 100,
+    height: 60,
+  };
+
+  const halfBarWidth = xScale.bandwidth() / 2;
+
+  // tooltip background
+  tooltips
+    .append('rect')
+    .attr('text-anchor', 'middle')
+    .attr(
+      'x',
+      (d) => xScale(d.age_group) + halfBarWidth - tooltipDimensions.width / 2
+    )
+    .attr(
+      'y',
+      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
+    )
+    .attr('width', tooltipDimensions.width)
+    .attr('height', tooltipDimensions.height)
+    .attr('fill', '#ffffff');
+
+  // Top border of tooltip
+  tooltips
+    .append('line')
+    .attr(
+      'x1',
+      (d) => xScale(d.age_group) + halfBarWidth - tooltipDimensions.width / 2
+    )
+    .attr(
+      'y1',
+      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
+    )
+    .attr(
+      'x2',
+      (d) => xScale(d.age_group) + halfBarWidth + tooltipDimensions.width / 2
+    )
+    .attr(
+      'y2',
+      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
+    )
+    .attr('stroke-width', '2')
+    .attr('stroke', '#000000');
+
+  // Right border of tooltip
+  tooltips
+    .append('line')
+    .attr(
+      'x1',
+      (d) => xScale(d.age_group) + halfBarWidth + tooltipDimensions.width / 2
+    )
+    .attr(
+      'y1',
+      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
+    )
+    .attr(
+      'x2',
+      (d) => xScale(d.age_group) + halfBarWidth + tooltipDimensions.width / 2
+    )
+    .attr('y2', (d) => yScale(d.population_size) - 15)
+    .attr('stroke-width', '2')
+    .attr('stroke', '#000000');
+
+  // Bottom border of tooltip
+  tooltips
+    .append('line')
+    .attr(
+      'x1',
+      (d) => xScale(d.age_group) + halfBarWidth - tooltipDimensions.width / 2
+    )
+    .attr('y1', (d) => yScale(d.population_size) - 15)
+    .attr(
+      'x2',
+      (d) => xScale(d.age_group) + halfBarWidth + tooltipDimensions.width / 2
+    )
+    .attr('y2', (d) => yScale(d.population_size) - 15)
+    .attr('stroke-width', '2')
+    .attr('stroke', '#000000');
+
+  // Left border of tooltip
+  tooltips
+    .append('line')
+    .attr(
+      'x1',
+      (d) => xScale(d.age_group) + halfBarWidth - tooltipDimensions.width / 2
+    )
+    .attr(
+      'y1',
+      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
+    )
+    .attr(
+      'x2',
+      (d) => xScale(d.age_group) + halfBarWidth - tooltipDimensions.width / 2
+    )
+    .attr('y2', (d) => yScale(d.population_size) - 15)
+    .attr('stroke-width', '2')
+    .attr('stroke', '#000000');
+
+  // Connection between bar and tooltip
+  tooltips
+    .append('line')
+    .attr('x1', (d) => xScale(d.age_group) + halfBarWidth)
+    .attr('y1', (d) => yScale(d.population_size) - 15)
+    .attr('x2', (d) => xScale(d.age_group) + halfBarWidth)
+    .attr('y2', (d) => yScale(d.population_size))
+    .attr('stroke-width', '1')
+    .attr('stroke', '#000000');
+
+  tooltips
+    .append('text')
     .attr('fill', '#000000')
-    .attr('display', 'none')
-    .text((d) => `${d.age_group} ${d.population_size}`);
+    .attr('text-anchor', 'middle')
+    .text((d) => d.age_group)
+    .attr('x', (d) => xScale(d.age_group))
+    .attr('y', (d) => yScale(d.population_size) - 50);
+
+  tooltips
+    .append('text')
+    .attr('fill', '#000000')
+    .attr('text-anchor', 'middle')
+    .text((d) => d.population_size)
+    .attr('x', (d) => xScale(d.age_group))
+    .attr('y', (d) => yScale(d.population_size) - 30);
 };
 const drawTable = (data) => {
   const svg = d3.select('#population-table');
