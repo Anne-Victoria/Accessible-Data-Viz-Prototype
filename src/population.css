@@ -1,3 +1,17 @@
+/* Utilities */
+.skip-link {
+    position: absolute;
+    left: -10000px;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    padding: 1rem;
+}
+
+.skip-link:focus {
+    left: 0;
+}
+
+/* Specific styles */
 #population-table td:nth-child(2) {
 	text-align: right;
 }
