@@ -1,6 +1,8 @@
 /* global d3 */
 import sonifyData from './sonifyData.mjs';
 
+const numberFormatter = Intl.NumberFormat('en-US');
+
 const drawPopulationByAgeChart = (data) => {
   const margin = {
     top: 100,
@@ -61,10 +63,9 @@ const drawPopulationByAgeChart = (data) => {
   //   Render y axis label
   svg
     .append('text')
-    .attr('text-anchor', 'end')
-    .attr('transform', 'rotate(-90)')
+    .attr('text-anchor', 'middle')
     .attr('x', 0)
-    .attr('y', -0.75 * margin.left)
+    .attr('y', -20)
     .text('Population at this age');
 
   // Render bars
@@ -215,6 +216,7 @@ const drawPopulationByAgeChart = (data) => {
     .attr('stroke-width', '1')
     .attr('stroke', '#000000');
 
+  // Tooltip text: age group
   tooltips
     .append('text')
     .attr('fill', '#000000')
@@ -223,21 +225,21 @@ const drawPopulationByAgeChart = (data) => {
     .attr('x', (d) => xScale(d.age_group))
     .attr('y', (d) => yScale(d.population_size) - 50);
 
+  // Tooltip text: population size
   tooltips
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'middle')
-    .text((d) => d.population_size)
+    .text((d) => numberFormatter.format(d.population_size))
     .attr('x', (d) => xScale(d.age_group))
     .attr('y', (d) => yScale(d.population_size) - 30);
 };
+
 const drawTable = (data) => {
   const svg = d3.select('#population-table');
-
   const rows = svg.selectAll('row').data(data).join('tr');
-
   rows.append('td').text((d) => d.age_group);
-  rows.append('td').text((d) => d.population_size);
+  rows.append('td').text((d) => numberFormatter.format(d.population_size));
 };
 
 const fetchData = async () => {
