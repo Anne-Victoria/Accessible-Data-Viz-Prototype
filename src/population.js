@@ -58,7 +58,16 @@ const drawPopulationByAgeChart = (data) => {
     .text('Age');
 
   // Render y axis
-  svg.append('g').call(d3.axisLeft(yScale));
+  svg
+    .append('g')
+    .call(d3.axisLeft(yScale))
+    .call((g) =>
+      g
+        .selectAll('.tick line')
+        .clone()
+        .attr('x2', width)
+        .attr('stroke-opacity', 0.1)
+    );
 
   //   Render y axis label
   svg
