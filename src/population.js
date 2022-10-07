@@ -266,11 +266,11 @@ const main = async () => {
   drawTable(data);
   const dataForSonification = data.map((entry) => entry.population_size);
 
-  const [play, stop] = sonifyData(dataForSonification);
-  const playButton = document.getElementById('play-population-sonification');
-  const stopButton = document.getElementById('stop-population-sonification');
-  playButton.addEventListener('click', play);
-  stopButton.addEventListener('click', stop);
+  const playOrPauseSonification = sonifyData(dataForSonification);
+  const playPauseButton = document.getElementById(
+    'play-pause-population-sonification'
+  );
+  playPauseButton.addEventListener('click', playOrPauseSonification);
 };
 
 main();
