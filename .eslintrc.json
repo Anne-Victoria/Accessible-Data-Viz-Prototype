@@ -3,10 +3,10 @@
     "browser": true,
     "es6": true
   },
-  "sourceType": "module",
   "extends": ["eslint:recommended", "prettier", "plugin:prettier/recommended"],
   "parserOptions": {
-    "ecmaVersion": 2018
+    "ecmaVersion": 2018,
+    "sourceType": "module"
   },
   "plugins": ["prettier"],
   "rules": {
