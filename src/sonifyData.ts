@@ -1,34 +1,43 @@
 /* global d3 */
 import * as Tone from 'tone';
+import * as d3 from 'd3';
 
-export default function sonifiyData(data) {
+type stateChangeAction = 'playPauseButtonPressed' | 'sonificationEnded';
+
+export default function sonifiyData(data: number[]) {
   let playingState = 'initial';
   const playPauseButton = document.getElementById(
     'play-pause-population-sonification'
   );
 
-  let dispatchStateChange = (action) => {
+  const setPlayPauseButtonText = (text: string) => {
+    if (playPauseButton) {
+      playPauseButton.innerText = text;
+    }
+  };
+
+  let dispatchStateChange = (action: stateChangeAction) => {
     console.log(playingState, action);
     if (action === 'playPauseButtonPressed' && playingState === 'initial') {
-      playPauseButton.innerText = 'Pause';
+      setPlayPauseButtonText('Pause');
       playingState = 'playing';
       startPlaying();
     } else if (
       action === 'playPauseButtonPressed' &&
       playingState === 'playing'
     ) {
-      playPauseButton.innerText = 'Resume';
+      setPlayPauseButtonText('Resume');
       playingState = 'paused';
       pausePlaying();
     } else if (
       action === 'playPauseButtonPressed' &&
       playingState === 'paused'
     ) {
-      playPauseButton.innerText = 'Pause';
+      setPlayPauseButtonText('Pause');
       playingState = 'playing';
       resumePlaying();
     } else if (action === 'sonificationEnded') {
-      playPauseButton.innerText = 'Restart';
+      setPlayPauseButtonText('Restart');
       playingState = 'initial';
       resetPlayer();
       console.log('resetting to initial');
@@ -46,10 +55,8 @@ export default function sonifiyData(data) {
   const dataAsNotes = data.map((datapoint) => toneScale(datapoint));
 
   const synth = new Tone.Synth().toDestination();
-  const now = Tone.now();
   let index = 0;
   const sequence = new Tone.Sequence((time, note) => {
-    console.log(index);
     synth.triggerAttackRelease(note, 0.03, time);
     if (index === dataAsNotes.length - 1) {
       dispatchStateChange('sonificationEnded');
@@ -63,7 +70,7 @@ export default function sonifiyData(data) {
     await Tone.start();
     await sequence.start(0);
     await Tone.Transport.start();
-    synth.volume.value = -20;
+    synth.volume.value = -10;
   };
 
   const resumePlaying = async () => {

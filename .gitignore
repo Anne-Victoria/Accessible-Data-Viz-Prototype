@@ -1,8 +1,5 @@
 node_modules/
-lib/*
-!lib/.gitkeep
-data/*
-!data/.gitkeep
+public/population_by_age.csv
 raw_data/*
 !raw_data/.gitkeep
-build/
+dist/

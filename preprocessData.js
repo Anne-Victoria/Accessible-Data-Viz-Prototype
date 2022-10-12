@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const csvInput = './raw_data/14_bevoelkerungsvorausberechnung_daten.csv';
-const csvOutput = 'data/population_by_age.csv';
+const csvOutput = 'public/population_by_age.csv';
 const outputStream = fs.createWriteStream(csvOutput);
 
 // split file into lines
