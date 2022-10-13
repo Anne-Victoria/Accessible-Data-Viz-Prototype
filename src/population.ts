@@ -1,8 +1,7 @@
-/* global d3 */
-import sonifyData from './sonifyData';
 import * as d3 from 'd3';
+import sonifyData from './sonifyData';
 
-interface datapoint {
+interface Datapoint {
   id: string;
   age_group: string;
   population_size: number;
@@ -10,7 +9,7 @@ interface datapoint {
 
 const numberFormatter = Intl.NumberFormat('en-US');
 
-const drawPopulationByAgeChart = (data: datapoint[]) => {
+const drawPopulationByAgeChart = (data: Datapoint[]) => {
   const margin = {
     top: 100,
     right: 50,
@@ -48,7 +47,7 @@ const drawPopulationByAgeChart = (data: datapoint[]) => {
     .call(
       d3.axisBottom(xScale).tickValues(
         xScale.domain().filter((_: any, i) => {
-          return i % 5 == 0;
+          return i % 5 === 0;
         })
       )
     )
@@ -260,7 +259,7 @@ const drawPopulationByAgeChart = (data: datapoint[]) => {
     .attr('y', (d) => yScale(d.population_size) - 30);
 };
 
-const drawTable = (data: datapoint[]) => {
+const drawTable = (data: Datapoint[]) => {
   const svg = d3.select('#population-table');
   const rows = svg.selectAll('row').data(data).join('tr');
   rows.append('td').text((d) => d.age_group);
@@ -282,12 +281,12 @@ const main = async () => {
   drawTable(data);
   const dataForSonification = data.map((entry) => entry.population_size);
 
-  const playOrPauseSonification = sonifyData(dataForSonification);
+  const handlePlayPauseButtonClicked = sonifyData(dataForSonification);
   const playPauseButton = document.getElementById(
     'play-pause-population-sonification'
   );
   if (playPauseButton) {
-    playPauseButton.addEventListener('click', playOrPauseSonification);
+    playPauseButton.addEventListener('click', handlePlayPauseButtonClicked);
   }
 };
 
