@@ -7,7 +7,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        src: resolve(__dirname, 'src/population.html'),
+        population: resolve(__dirname, 'src/population.html'),
+        populationTable: resolve(__dirname, 'src/population-table.html'),
       },
     },
   },

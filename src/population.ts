@@ -1,11 +1,7 @@
 import * as d3 from 'd3';
 import sonifyData from './sonifyData';
-
-interface Datapoint {
-  id: string;
-  age_group: string;
-  population_size: number;
-}
+import accessData from './accessData';
+import { Datapoint } from './commonTypes';
 
 const numberFormatter = Intl.NumberFormat('en-US');
 
@@ -264,36 +260,11 @@ const drawPopulationByAgeChart = (data: Datapoint[]) => {
 };
 
 /**
- * Renders a table with the given population data
- * @param data - the population data
- */
-const drawTable = (data: Datapoint[]) => {
-  const svg = d3.select('#population-table');
-  const rows = svg.selectAll('row').data(data).join('tr');
-  rows.append('td').text((d) => d.age_group);
-  rows.append('td').text((d) => numberFormatter.format(d.population_size));
-};
-
-/**
- * Fetches the population data set
- * @returns A promise that resolves to an array with all data points
- */
-const fetchData = async (): Promise<Datapoint[]> => {
-  const data = await d3.csv('/population_by_age.csv', (row) => ({
-    id: row.id ?? '',
-    age_group: row.age_group ?? '',
-    population_size: row.population_size ? +row.population_size : -1,
-  }));
-  return data;
-};
-
-/**
  * Sets up the d3 visualization and the sonification
  */
 const main = async () => {
-  const data = await fetchData();
+  const data = await accessData();
   drawPopulationByAgeChart(data);
-  drawTable(data);
   const dataForSonification = data.map((entry) => entry.population_size);
 
   const handlePlayPauseButtonClicked = sonifyData(dataForSonification);
