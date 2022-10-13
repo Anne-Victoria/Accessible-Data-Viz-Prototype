@@ -9,6 +9,10 @@ interface Datapoint {
 
 const numberFormatter = Intl.NumberFormat('en-US');
 
+/**
+ * Creates a bar chart for the given population data
+ * @param data - the data with population size per age group
+ */
 const drawPopulationByAgeChart = (data: Datapoint[]) => {
   const margin = {
     top: 100,
@@ -259,6 +263,10 @@ const drawPopulationByAgeChart = (data: Datapoint[]) => {
     .attr('y', (d) => yScale(d.population_size) - 30);
 };
 
+/**
+ * Renders a table with the given population data
+ * @param data - the population data
+ */
 const drawTable = (data: Datapoint[]) => {
   const svg = d3.select('#population-table');
   const rows = svg.selectAll('row').data(data).join('tr');
@@ -266,7 +274,11 @@ const drawTable = (data: Datapoint[]) => {
   rows.append('td').text((d) => numberFormatter.format(d.population_size));
 };
 
-const fetchData = async () => {
+/**
+ * Fetches the population data set
+ * @returns A promise that resolves to an array with all data points
+ */
+const fetchData = async (): Promise<Datapoint[]> => {
   const data = await d3.csv('/population_by_age.csv', (row) => ({
     id: row.id ?? '',
     age_group: row.age_group ?? '',
@@ -275,6 +287,9 @@ const fetchData = async () => {
   return data;
 };
 
+/**
+ * Sets up the d3 visualization and the sonification
+ */
 const main = async () => {
   const data = await fetchData();
   drawPopulationByAgeChart(data);
