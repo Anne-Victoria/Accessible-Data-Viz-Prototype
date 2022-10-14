@@ -1,0 +1,29 @@
+:root {
+  --primary-color: #cfeebb;
+}
+
+.background-primary {
+  background-color: var(--primary-color);
+}
+
+.clickeable-card {
+  display: block;
+  position: relative;
+  transition: all 0.3s ease-out;
+}
+
+.clickeable-card:hover {
+  transform: translate(0, -0.5rem);
+  box-shadow: 0 0.5em 2em -1em rgba(10, 10, 10, 0.1),
+    0 0 0 1px rgba(10, 10, 10, 0.02);
+}
+
+.gradient-shadow::after {
+  box-shadow: inset 0px -33px 25px 0 rgba(0, 0, 0, 0.3);
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}

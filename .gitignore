@@ -3,3 +3,4 @@ public/population_by_age.csv
 raw_data/*
 !raw_data/.gitkeep
 dist/
+*~
