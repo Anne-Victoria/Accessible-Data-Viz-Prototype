@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
-import sonifyData from './sonifyData';
-import accessData from './accessData';
-import { Datapoint } from './commonTypes';
+import sonifyData from '../common/sonifyData';
+import accessData from '../common/accessData';
+import { AgeDatapoint } from '../common/commonTypes';
 
 const numberFormatter = Intl.NumberFormat('en-US');
 
@@ -9,7 +9,7 @@ const numberFormatter = Intl.NumberFormat('en-US');
  * Creates a bar chart for the given population data
  * @param data - the data with population size per age group
  */
-const drawPopulationByAgeChart = (data: Datapoint[]) => {
+const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
   const margin = {
     top: 100,
     right: 50,
@@ -259,11 +259,22 @@ const drawPopulationByAgeChart = (data: Datapoint[]) => {
     .attr('y', (d) => yScale(d.population_size) - 30);
 };
 
+const rowProcessor = (row: any): AgeDatapoint => ({
+  id: row.id ?? '',
+  age_group: row.age_group ?? '',
+  population_size: row.population_size ? +row.population_size : -1,
+});
+
 /**
  * Sets up the d3 visualization and the sonification
  */
 const main = async () => {
-  const data = await accessData();
+  const data = (await accessData(
+    'populationByAgeData',
+    '/population_by_age.csv',
+    rowProcessor
+  )) as AgeDatapoint[];
+
   drawPopulationByAgeChart(data);
   const dataForSonification = data.map((entry) => entry.population_size);
 
@@ -277,3 +288,5 @@ const main = async () => {
 };
 
 main();
+
+export default rowProcessor;

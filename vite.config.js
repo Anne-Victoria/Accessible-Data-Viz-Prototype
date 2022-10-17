@@ -7,8 +7,19 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        population: resolve(__dirname, 'src/population.html'),
-        populationTable: resolve(__dirname, 'src/population-table.html'),
+        populationByAge: resolve(__dirname, 'src/population-by-age/index.html'),
+        populationByAgeTable: resolve(
+          __dirname,
+          'src/population-by-age/table.html'
+        ),
+        populationByYear: resolve(
+          __dirname,
+          'src/population-by-year/index.html'
+        ),
+        populationByYearTable: resolve(
+          __dirname,
+          'src/population-by-year/table.html'
+        ),
       },
     },
   },

@@ -1,5 +1,5 @@
 node_modules/
-public/population_by_age.csv
+public/*.csv
 raw_data/*
 !raw_data/.gitkeep
 dist/

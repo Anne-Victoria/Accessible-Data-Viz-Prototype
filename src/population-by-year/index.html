@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../node_modules/bulma/css/bulma.min.css" />
+    <link rel="stylesheet" href="../common/main.css" />
+    <title>Accessible Data Viz Prototypes</title>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <a href="/">&larr; Back</a>
+        <h1 class="title is-1">Population of Germany by year</h1>
+        <a href="#sonification-title" class="skip-link">Skip to sonification</a>
+        <div id="population-chart"></div>
+        <h2 id="sonification-title" class="title is-2">Sonification</h2>
+        <p class="block">Listen to the data.</p>
+        <p class="block">
+          <button
+            type="button"
+            id="play-pause-population-sonification"
+            class="button"
+          >
+            Play
+          </button>
+        </p>
+        <h2 class="title is-2">Download</h2>
+        <p class="block">
+          Download the
+          <a download href="/population_by_year.csv">data as CSV file</a>.
+        </p>
+        <h2 class="title is-2">Table</h2>
+        <a href="#source-title" class="skip-link">Skip to data source</a>
+        <div class="block">
+          <p>
+            View population data
+            <a href="/src/population-by-year/table.html">as a table</a>.
+          </p>
+        </div>
+        <h2 id="source-title" class="title is-2">Data Source</h2>
+        <p class="block">
+          The data was taken from
+          <a
+            href="https://www-genesis.destatis.de/genesis//online?operation=table&code=12411-0001&bypass=true&levelindex=0&levelid=1665860931032"
+            >Statistisches Bundesamt</a
+          >
+          and is licensed under the
+          <a href="https://www.govdata.de/dl-de/by-2-0"
+            >Data licence Germany - attribution - Version 2.0</a
+          >.
+        </p>
+      </div>
+    </section>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

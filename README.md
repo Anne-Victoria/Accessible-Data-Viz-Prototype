@@ -6,11 +6,17 @@
 
 Run `npm install` in this directory.
 
-### Getting the population by age dataset
+### Getting the datasets
 
-Download the dataset from [Statistisches Bundesamt](https://service.destatis.de/bevoelkerungspyramide/index.html#!y=2018) by clicking on 'Download open data' and place the csv file in `raw_data`. Run `npm run prebuild` to preprocess the data. The output will be in `data/population_by_age.csv`.
+#### Population by age data
 
-Note: this dataset is licensed under the [Data licence Germany - attribution - Version 2.0](https://www.govdata.de/dl-de/by-2-0).
+Download the dataset from [Statistisches Bundesamt](https://service.destatis.de/bevoelkerungspyramide/index.html#!y=2018) by clicking on 'Download open data' and place the csv file in `raw_data`.
+
+#### Population by year data
+
+The second dataset is also taken from [Statistisches Bundesamt](https://www-genesis.destatis.de/genesis//online?operation=table&code=12411-0001&bypass=true&levelindex=0&levelid=1665860931032). Download the data and place the csv file in `raw_data`.
+
+Note: both datasets are licensed under the [Data licence Germany - attribution - Version 2.0](https://www.govdata.de/dl-de/by-2-0).
 
 ### VS Code extensions
 

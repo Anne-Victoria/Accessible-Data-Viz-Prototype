@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.ts",
-    "prebuild": "node preprocessData.js"
+    "prebuild": "node preprocessPopulationByAge.js && node preprocessPopulationByYear.js"
   },
   "author": "",
   "license": "UNLICENSED",
