@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { DatapointArray, ToAgeDatapoint, ToYearDatapoint } from './commonTypes';
+import { DatapointArray, ToDatapoint } from './commonTypes';
 /**
  * Fetches the population data set and parses it into a JS array
  * @returns A promise that resolves to an array with all data points
@@ -7,7 +7,7 @@ import { DatapointArray, ToAgeDatapoint, ToYearDatapoint } from './commonTypes';
 const fetchData = async (
   name: string,
   url: string,
-  rowProcessor: ToAgeDatapoint | ToYearDatapoint
+  rowProcessor: ToDatapoint
 ): Promise<DatapointArray> => {
   const response = await d3.csv(url);
   const data = response.map((row) => rowProcessor(row)) as DatapointArray;
@@ -22,13 +22,15 @@ const fetchData = async (
 const readPopulationByAgeFromStorage = (name: string): DatapointArray => {
   const sessionStorageContent = sessionStorage.getItem(name);
   let data = [];
-  try {
-    data = JSON.parse(sessionStorageContent ?? '');
-  } catch {
-    // eslint-disable-next-line no-console
-    console.error(
-      `Failed to parse data "${name}" from local storage: ${sessionStorageContent}`
-    );
+  if (sessionStorageContent !== '') {
+    try {
+      data = JSON.parse(sessionStorageContent ?? '');
+    } catch {
+      // eslint-disable-next-line no-console
+      console.error(
+        `Failed to parse data "${name}" from local storage: ${sessionStorageContent}`
+      );
+    }
   }
   return data;
 };
@@ -41,7 +43,7 @@ const readPopulationByAgeFromStorage = (name: string): DatapointArray => {
 const accessData = async (
   name: string,
   url: string,
-  rowProcessor: ToAgeDatapoint | ToYearDatapoint
+  rowProcessor: ToDatapoint
 ): Promise<DatapointArray> => {
   let data: DatapointArray = readPopulationByAgeFromStorage(name);
   if (data.length > 0) {

@@ -10,8 +10,25 @@ export interface YearDatapoint {
   population_size: number;
 }
 
-export type ToAgeDatapoint = (row: any) => AgeDatapoint;
-export type ToYearDatapoint = (row: any) => YearDatapoint;
+export interface BirthsDeathsDatapoint {
+  id: string;
+  year: string;
+  births: number;
+  deaths: number;
+}
 
-export type Datapoint = AgeDatapoint | YearDatapoint;
-export type DatapointArray = AgeDatapoint[] | YearDatapoint[];
+type ToAgeDatapoint = (row: any) => AgeDatapoint;
+type ToYearDatapoint = (row: any) => YearDatapoint;
+type ToBirthsDeathsDatapoint = (row: any) => BirthsDeathsDatapoint;
+
+export type ToDatapoint =
+  | ToAgeDatapoint
+  | ToYearDatapoint
+  | ToBirthsDeathsDatapoint;
+
+export type Datapoint = AgeDatapoint | YearDatapoint | BirthsDeathsDatapoint;
+
+export type DatapointArray =
+  | AgeDatapoint[]
+  | YearDatapoint[]
+  | BirthsDeathsDatapoint[];

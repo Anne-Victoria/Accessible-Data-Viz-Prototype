@@ -16,7 +16,13 @@ Download the dataset from [Statistisches Bundesamt](https://service.destatis.de/
 
 The second dataset is also taken from [Statistisches Bundesamt](https://www-genesis.destatis.de/genesis//online?operation=table&code=12411-0001&bypass=true&levelindex=0&levelid=1665860931032). Download the data and place the csv file in `raw_data`.
 
-Note: both datasets are licensed under the [Data licence Germany - attribution - Version 2.0](https://www.govdata.de/dl-de/by-2-0).
+#### Birth and death rate data
+
+The data on [births](https://www-genesis.destatis.de/genesis//online?operation=table&code=12612-0001) and [deaths](https://www-genesis.destatis.de/genesis//online?operation=table&code=12613-0002) are also taken from Statistisches Bundesamt.
+
+#### Dataset license
+
+Note: all datasets are licensed under the [Data licence Germany - attribution - Version 2.0](https://www.govdata.de/dl-de/by-2-0). Download the data and place the csv file in `raw_data`.
 
 ### VS Code extensions
 

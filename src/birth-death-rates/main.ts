@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import sonifyData from '../common/sonifyData';
 import accessData from '../common/accessData';
-import { YearDatapoint } from '../common/commonTypes';
+import { BirthsDeathsDatapoint } from '../common/commonTypes';
 
 const numberFormatter = Intl.NumberFormat('en-US');
 
@@ -9,7 +9,7 @@ const numberFormatter = Intl.NumberFormat('en-US');
  * Creates a bar chart for the given population data
  * @param data - the data with population size per age group
  */
-const drawPopulationByYearChart = (data: YearDatapoint[]) => {
+const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   const margin = {
     top: 100,
     right: 50,
@@ -26,9 +26,17 @@ const drawPopulationByYearChart = (data: YearDatapoint[]) => {
 
   const xScale = d3.scaleBand().domain(xDomain).range([0, width]).padding(0.2);
 
+  const largestValueInBirths = d3.max(data, (d) => d.births) ?? 0;
+  const largestValueInDeaths = d3.max(data, (d) => d.deaths) ?? 0;
+
+  const largestValueAcrossData = Math.max(
+    largestValueInBirths,
+    largestValueInDeaths
+  );
+
   const yScale = d3
     .scaleLinear()
-    .domain([0, d3.max(data, (d) => d.population_size) ?? 0])
+    .domain([0, largestValueAcrossData])
     .range([height, 0]);
 
   // Render chart base
@@ -83,41 +91,103 @@ const drawPopulationByYearChart = (data: YearDatapoint[]) => {
     .attr('y', -20)
     .text('Population at this age');
 
-  // Render bars
-  const bars = svg.selectAll('mybar').data(data);
+  // Render data points
+  const line = svg.selectAll('mybar').data(data);
 
-  const rectangles = bars
-    .join('rect')
-    .attr('x', (d) => `${xScale(d.year)}`)
-    .attr('y', (d) => yScale(d.population_size))
-    .attr('width', xScale.bandwidth())
-    .attr('height', (d) => height - yScale(d.population_size))
-    .attr('fill', '#004747')
+  // Note: something seems to be wrong with the type definitions of d3.line,
+  // therefore we need to broaden the type to "Function"
+  const d3Line = d3.line as Function;
+
+  // line connecting birth rate dots
+  svg
+    .append('path')
+    .datum(data)
+    .attr('fill', 'none')
+    .attr('stroke', 'black')
+    .attr('stroke-width', 1.5)
+    .attr(
+      'd',
+      d3Line()
+        .x((d: BirthsDeathsDatapoint) => {
+          return xScale(d.year);
+        })
+        .y((d: BirthsDeathsDatapoint) => {
+          return yScale(d.births);
+        })
+    );
+
+  // birth rate circles
+  const linePoints = line
+    .join('circle')
+    .attr('cx', (d) => `${xScale(d.year)}`)
+    .attr('cy', (d) => yScale(d.births))
+    .attr('r', '2')
+    .attr('fill', 'black')
     .attr('tabindex', '0')
     /* Each bar has an aria-label for screen readers */
     .attr('aria-labelledby', (d) => `tooltip-${d.id}`);
 
-  rectangles.on('mouseover', (_, d) => {
+  // death rate line
+  svg
+    .append('path')
+    .datum(data)
+    .attr('fill', 'none')
+    .attr('stroke', 'red')
+    .attr('stroke-width', '1.5')
+    .attr(
+      'd',
+      d3Line()
+        .x((d: BirthsDeathsDatapoint) => {
+          return xScale(d.year);
+        })
+        .y((d: BirthsDeathsDatapoint) => {
+          return yScale(d.deaths);
+        })
+    );
+
+  // death rate circles
+  line
+    .join('circle')
+    .attr('cx', (d) => `${xScale(d.year)}`)
+    .attr('cy', (d) => yScale(d.deaths))
+    .attr('r', '2')
+    .attr('fill', 'red')
+    .attr('tabindex', '0')
+    /* Each bar has an aria-label for screen readers */
+    .attr('aria-labelledby', (d) => `tooltip-${d.id}`);
+
+  // vertical line from bottom to point
+  line
+    .join('line')
+    .attr('x1', (d) => xScale(d.year) ?? 0)
+    .attr('y1', totalHeight - margin.bottom - margin.top)
+    .attr('x2', (d) => xScale(d.year) ?? 0)
+    .attr('y2', (d) => yScale(Math.max(d.births, d.deaths)))
+    .attr('stroke-width', '1')
+    .attr('stroke', '#000000')
+    .attr('id', (d) => `line-${d.id}`);
+
+  linePoints.on('mouseover', (_, d) => {
     const tooltip = d3.select(`#tooltip-${d.id}`);
     tooltip.attr('display', 'block');
   });
 
-  rectangles.on('focusin', (_, d) => {
+  linePoints.on('focusin', (_, d) => {
     const tooltip = d3.select(`#tooltip-${d.id}`);
     tooltip.attr('display', 'block');
   });
 
-  rectangles.on('mouseleave', (_, d) => {
+  linePoints.on('mouseleave', (_, d) => {
     const tooltip = d3.select(`#tooltip-${d.id}`);
     tooltip.attr('display', 'none');
   });
 
-  rectangles.on('focusout', (_, d) => {
+  linePoints.on('focusout', (_, d) => {
     const tooltip = d3.select(`#tooltip-${d.id}`);
     tooltip.attr('display', 'none');
   });
 
-  const tooltips = bars
+  const tooltips = line
     .join('g')
     .attr('id', (d) => `tooltip-${d.id}`)
     .attr('display', 'none');
@@ -137,10 +207,7 @@ const drawPopulationByYearChart = (data: YearDatapoint[]) => {
       'x',
       (d) => (xScale(d.year) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
     )
-    .attr(
-      'y',
-      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
-    )
+    .attr('y', (d) => yScale(d.births) - (tooltipDimensions.height + 15))
     .attr('width', tooltipDimensions.width)
     .attr('height', tooltipDimensions.height)
     .attr('fill', '#ffffff');
@@ -152,18 +219,12 @@ const drawPopulationByYearChart = (data: YearDatapoint[]) => {
       'x1',
       (d) => (xScale(d.year) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
     )
-    .attr(
-      'y1',
-      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
-    )
+    .attr('y1', (d) => yScale(d.births) - (tooltipDimensions.height + 15))
     .attr(
       'x2',
       (d) => (xScale(d.year) ?? 0) + halfBarWidth + tooltipDimensions.width / 2
     )
-    .attr(
-      'y2',
-      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
-    )
+    .attr('y2', (d) => yScale(d.births) - (tooltipDimensions.height + 15))
     .attr('stroke-width', '2')
     .attr('stroke', '#000000');
 
@@ -174,15 +235,12 @@ const drawPopulationByYearChart = (data: YearDatapoint[]) => {
       'x1',
       (d) => (xScale(d.year) ?? 0) + halfBarWidth + tooltipDimensions.width / 2
     )
-    .attr(
-      'y1',
-      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
-    )
+    .attr('y1', (d) => yScale(d.births) - (tooltipDimensions.height + 15))
     .attr(
       'x2',
       (d) => (xScale(d.year) ?? 0) + halfBarWidth + tooltipDimensions.width / 2
     )
-    .attr('y2', (d) => yScale(d.population_size) - 15)
+    .attr('y2', (d) => yScale(d.births) - 15)
     .attr('stroke-width', '2')
     .attr('stroke', '#000000');
 
@@ -193,12 +251,12 @@ const drawPopulationByYearChart = (data: YearDatapoint[]) => {
       'x1',
       (d) => (xScale(d.year) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
     )
-    .attr('y1', (d) => yScale(d.population_size) - 15)
+    .attr('y1', (d) => yScale(d.births) - 15)
     .attr(
       'x2',
       (d) => (xScale(d.year) ?? 0) + halfBarWidth + tooltipDimensions.width / 2
     )
-    .attr('y2', (d) => yScale(d.population_size) - 15)
+    .attr('y2', (d) => yScale(d.births) - 15)
     .attr('stroke-width', '2')
     .attr('stroke', '#000000');
 
@@ -209,15 +267,12 @@ const drawPopulationByYearChart = (data: YearDatapoint[]) => {
       'x1',
       (d) => (xScale(d.year) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
     )
-    .attr(
-      'y1',
-      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
-    )
+    .attr('y1', (d) => yScale(d.births) - (tooltipDimensions.height + 15))
     .attr(
       'x2',
       (d) => (xScale(d.year) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
     )
-    .attr('y2', (d) => yScale(d.population_size) - 15)
+    .attr('y2', (d) => yScale(d.births) - 15)
     .attr('stroke-width', '2')
     .attr('stroke', '#000000');
 
@@ -225,9 +280,9 @@ const drawPopulationByYearChart = (data: YearDatapoint[]) => {
   tooltips
     .append('line')
     .attr('x1', (d) => (xScale(d.year) ?? 0) + halfBarWidth)
-    .attr('y1', (d) => yScale(d.population_size) - 15)
+    .attr('y1', (d) => yScale(d.births) - 15)
     .attr('x2', (d) => (xScale(d.year) ?? 0) + halfBarWidth)
-    .attr('y2', (d) => yScale(d.population_size))
+    .attr('y2', (d) => yScale(d.births))
     .attr('stroke-width', '1')
     .attr('stroke', '#000000');
 
@@ -238,22 +293,23 @@ const drawPopulationByYearChart = (data: YearDatapoint[]) => {
     .attr('text-anchor', 'middle')
     .text((d) => d.year)
     .attr('x', (d) => xScale(d.year) ?? 0)
-    .attr('y', (d) => yScale(d.population_size) - 50);
+    .attr('y', (d) => yScale(d.births) - 50);
 
   // Tooltip text: population size
   tooltips
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'middle')
-    .text((d) => numberFormatter.format(d.population_size))
+    .text((d) => numberFormatter.format(d.births))
     .attr('x', (d) => xScale(d.year) ?? 0)
-    .attr('y', (d) => yScale(d.population_size) - 30);
+    .attr('y', (d) => yScale(d.births) - 30);
 };
 
-const rowProcessor = (row: any): YearDatapoint => ({
+const rowProcessor = (row: any): BirthsDeathsDatapoint => ({
   id: row.id ?? '',
   year: row.year ?? '',
-  population_size: row.population_size ? +row.population_size : -1,
+  births: row.births ? +row.births : -1,
+  deaths: row.deaths ? +row.deaths : -1,
 });
 
 /**
@@ -261,13 +317,13 @@ const rowProcessor = (row: any): YearDatapoint => ({
  */
 const main = async () => {
   const data = (await accessData(
-    'populationByYearData',
-    '/population_by_year.csv',
+    'birthsDeathsData',
+    '/birth_death_rate.csv',
     rowProcessor
-  )) as YearDatapoint[];
+  )) as BirthsDeathsDatapoint[];
 
   drawPopulationByYearChart(data);
-  const dataForSonification = data.map((entry) => entry.population_size);
+  const dataForSonification = data.map((entry) => entry.births);
 
   const handlePlayPauseButtonClicked = sonifyData(dataForSonification);
   const playPauseButton = document.getElementById(
