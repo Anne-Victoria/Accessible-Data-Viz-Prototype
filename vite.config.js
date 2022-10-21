@@ -20,10 +20,10 @@ export default defineConfig({
           __dirname,
           'src/population-by-year/table.html'
         ),
-        birthDeathRate: resolve(__dirname, 'src/birth-death-rate/index.html'),
+        birthDeathRate: resolve(__dirname, 'src/birth-death-rates/index.html'),
         birthDeathRateTable: resolve(
           __dirname,
-          'src/birth-death-rate/table.html'
+          'src/birth-death-rates/table.html'
         ),
       },
     },
