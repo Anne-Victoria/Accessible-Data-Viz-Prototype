@@ -44,13 +44,7 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
   svg
     .append('g')
     .attr('transform', `translate(0, ${height})`)
-    .call(
-      d3.axisBottom(xScale).tickValues(
-        xScale.domain().filter((_: any, i) => {
-          return i % 5 === 0;
-        })
-      )
-    )
+    .call(d3.axisBottom(xScale))
     .selectAll('text')
     .attr('transform', 'translate(-10,0) rotate(-45)')
     .style('text-anchor', 'end');

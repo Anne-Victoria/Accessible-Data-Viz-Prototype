@@ -3,6 +3,8 @@ const fs = require('fs');
 const csvInput = './raw_data/14_bevoelkerungsvorausberechnung_daten.csv';
 const csvOutput = 'public/population_by_age.csv';
 const outputStream = fs.createWriteStream(csvOutput);
+// Define how many size of the bins to group the ages into
+const agesPerGroup = 5;
 
 // split file into lines
 const lines = fs
@@ -19,19 +21,40 @@ splitHeader = splitHeader.map((header) => {
   return `Age ${splitHeader[1]} to ${splitHeader[2]}`;
 });
 
+// this line contains the data for women in all age groups in 2018
 const female2018 = lines.find((line) => line.startsWith('0;2018;w'));
 const female2018Array = female2018.split(';');
 
+// this line contains the data for men in all age groups in 2018
 const male2018 = lines.find((line) => line.startsWith('0;2018;m'));
 const male2018Array = male2018.split(';');
 
 outputStream.write('id,age_group,population_size\n');
 
-for (let i = 4; i < female2018Array.length; i++) {
-  const populationSumInThousands =
-    parseInt(female2018Array[i]) + parseInt(male2018Array[i]);
-  const actualPopulationSum = populationSumInThousands * 1000;
-  outputStream.write(`${i - 4},${splitHeader[i]},${actualPopulationSum}\n`);
+// the data by age groups start at index 4 in the line
+for (let i = 4; i < female2018Array.length; i += agesPerGroup) {
+  let populationWithinGroup = 0;
+  let isGroupIncomplete = false;
+  for (let j = 0; j < agesPerGroup; j += 1) {
+    if (female2018Array[i + j] && male2018Array[i + j]) {
+      populationWithinGroup =
+        populationWithinGroup +
+        parseInt(female2018Array[i + j]) +
+        parseInt(male2018Array[i + j]);
+    } else {
+      console.error('Error: Incomplete age group.');
+      populationWithinGroup = 0;
+      isGroupIncomplete = true;
+    }
+  }
+  const startingAgeOfGroup = splitHeader[i].split(' ')[1];
+  const endingAgeOfGroup = splitHeader[i + agesPerGroup - 1]
+    ? splitHeader[i + agesPerGroup - 1].split(' ')[1]
+    : 'incomplete';
+  const actualPopulationSum = populationWithinGroup * 1000;
+  const groupLabel = `${startingAgeOfGroup}–${endingAgeOfGroup}`;
+
+  outputStream.write(`${i - 4},${groupLabel},${actualPopulationSum}\n`);
 }
 
 outputStream.on('finish', () => {
