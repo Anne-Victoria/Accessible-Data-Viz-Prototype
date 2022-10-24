@@ -240,7 +240,7 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
     .attr('fill', '#000000')
     .attr('text-anchor', 'middle')
     .text((d) => d.age_group)
-    .attr('x', (d) => xScale(d.age_group) ?? 0)
+    .attr('x', (d) => (xScale(d.age_group) ?? 0) + halfBarWidth)
     .attr('y', (d) => yScale(d.population_size) - 50);
 
   // Tooltip text: population size
@@ -249,7 +249,7 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
     .attr('fill', '#000000')
     .attr('text-anchor', 'middle')
     .text((d) => numberFormatter.format(d.population_size))
-    .attr('x', (d) => xScale(d.age_group) ?? 0)
+    .attr('x', (d) => (xScale(d.age_group) ?? 0) + halfBarWidth)
     .attr('y', (d) => yScale(d.population_size) - 30);
 };
 
