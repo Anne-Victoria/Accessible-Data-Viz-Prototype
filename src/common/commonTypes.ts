@@ -12,7 +12,7 @@ export interface YearDatapoint {
 
 export interface BirthsDeathsDatapoint {
   id: string;
-  year: string;
+  year: number;
   births: number;
   deaths: number;
 }

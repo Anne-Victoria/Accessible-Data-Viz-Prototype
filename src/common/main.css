@@ -1,17 +1,27 @@
 /* Utilities */
 .skip-link {
-    position: absolute;
-    left: -10000px;
-    background-color: #ffffff;
-    border: 2px solid #000000;
-    padding: 1rem;
+  position: absolute;
+  left: -10000px;
+  background-color: #ffffff;
+  border: 2px solid #000000;
+  padding: 1rem;
 }
 
 .skip-link:focus {
-    left: 0;
+  left: 0;
 }
 
 /* Specific styles */
 #population-table td:nth-child(2) {
-	text-align: right;
+  text-align: right;
+}
+
+svg text {
+  font-size: 1rem;
+  color: #000000;
+}
+
+.axis-label {
+  font-weight: bold;
+  font-size: 1.2rem;
 }

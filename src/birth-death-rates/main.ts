@@ -22,9 +22,9 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   const width = totalWidth - margin.left - margin.right;
   const height = totalHeight - margin.top - margin.bottom;
 
-  const xDomain = data.map((d) => d.year);
+  const xDomain = [data[0].year, data[data.length - 1].year];
 
-  const xScale = d3.scaleBand().domain(xDomain).range([0, width]).padding(0.2);
+  const xScale = d3.scaleLinear().domain(xDomain).range([0, width]);
 
   const largestValueInBirths = d3.max(data, (d) => d.births) ?? 0;
   const largestValueInDeaths = d3.max(data, (d) => d.deaths) ?? 0;
@@ -52,13 +52,7 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   svg
     .append('g')
     .attr('transform', `translate(0, ${height})`)
-    .call(
-      d3.axisBottom(xScale).tickValues(
-        xScale.domain().filter((_: any, i) => {
-          return i % 5 === 0;
-        })
-      )
-    )
+    .call(d3.axisBottom(xScale).tickFormat((tick) => `${tick}`))
     .selectAll('text')
     .attr('transform', 'translate(-10,0) rotate(-45)')
     .style('text-anchor', 'end');
@@ -69,6 +63,7 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     .attr('text-anchor', 'end')
     .attr('x', width)
     .attr('y', height + margin.bottom - 10)
+    .attr('class', 'axis-label')
     .text('Age');
 
   // Render y axis
@@ -89,7 +84,8 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     .attr('text-anchor', 'middle')
     .attr('x', 0)
     .attr('y', -20)
-    .text('Population at this age');
+    .attr('class', 'axis-label')
+    .text('Population');
 
   // Render data points
   const line = svg.selectAll('mybar').data(data);
@@ -104,7 +100,7 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     .datum(data)
     .attr('fill', 'none')
     .attr('stroke', 'black')
-    .attr('stroke-width', 1.5)
+    .attr('stroke-width', 5)
     .attr(
       'd',
       d3Line()
@@ -133,7 +129,7 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     .datum(data)
     .attr('fill', 'none')
     .attr('stroke', 'red')
-    .attr('stroke-width', '1.5')
+    .attr('stroke-width', '5')
     .attr(
       'd',
       d3Line()
@@ -155,17 +151,6 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     .attr('tabindex', '0')
     /* Each bar has an aria-label for screen readers */
     .attr('aria-labelledby', (d) => `tooltip-${d.id}`);
-
-  // vertical line from bottom to point
-  line
-    .join('line')
-    .attr('x1', (d) => xScale(d.year) ?? 0)
-    .attr('y1', totalHeight - margin.bottom - margin.top)
-    .attr('x2', (d) => xScale(d.year) ?? 0)
-    .attr('y2', (d) => yScale(Math.max(d.births, d.deaths)))
-    .attr('stroke-width', '1')
-    .attr('stroke', '#000000')
-    .attr('id', (d) => `line-${d.id}`);
 
   linePoints.on('mouseover', (_, d) => {
     const tooltip = d3.select(`#tooltip-${d.id}`);
@@ -197,16 +182,11 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     height: 60,
   };
 
-  const halfBarWidth = xScale.bandwidth() / 2;
-
   // tooltip background
   tooltips
     .append('rect')
     .attr('text-anchor', 'middle')
-    .attr(
-      'x',
-      (d) => (xScale(d.year) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
-    )
+    .attr('x', (d) => (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
     .attr('y', (d) => yScale(d.births) - (tooltipDimensions.height + 15))
     .attr('width', tooltipDimensions.width)
     .attr('height', tooltipDimensions.height)
@@ -215,15 +195,9 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   // Top border of tooltip
   tooltips
     .append('line')
-    .attr(
-      'x1',
-      (d) => (xScale(d.year) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
-    )
+    .attr('x1', (d) => (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
     .attr('y1', (d) => yScale(d.births) - (tooltipDimensions.height + 15))
-    .attr(
-      'x2',
-      (d) => (xScale(d.year) ?? 0) + halfBarWidth + tooltipDimensions.width / 2
-    )
+    .attr('x2', (d) => (xScale(d.year) ?? 0) + tooltipDimensions.width / 2)
     .attr('y2', (d) => yScale(d.births) - (tooltipDimensions.height + 15))
     .attr('stroke-width', '2')
     .attr('stroke', '#000000');
@@ -231,15 +205,9 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   // Right border of tooltip
   tooltips
     .append('line')
-    .attr(
-      'x1',
-      (d) => (xScale(d.year) ?? 0) + halfBarWidth + tooltipDimensions.width / 2
-    )
+    .attr('x1', (d) => (xScale(d.year) ?? 0) + tooltipDimensions.width / 2)
     .attr('y1', (d) => yScale(d.births) - (tooltipDimensions.height + 15))
-    .attr(
-      'x2',
-      (d) => (xScale(d.year) ?? 0) + halfBarWidth + tooltipDimensions.width / 2
-    )
+    .attr('x2', (d) => (xScale(d.year) ?? 0) + tooltipDimensions.width / 2)
     .attr('y2', (d) => yScale(d.births) - 15)
     .attr('stroke-width', '2')
     .attr('stroke', '#000000');
@@ -247,15 +215,9 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   // Bottom border of tooltip
   tooltips
     .append('line')
-    .attr(
-      'x1',
-      (d) => (xScale(d.year) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
-    )
+    .attr('x1', (d) => (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
     .attr('y1', (d) => yScale(d.births) - 15)
-    .attr(
-      'x2',
-      (d) => (xScale(d.year) ?? 0) + halfBarWidth + tooltipDimensions.width / 2
-    )
+    .attr('x2', (d) => (xScale(d.year) ?? 0) + tooltipDimensions.width / 2)
     .attr('y2', (d) => yScale(d.births) - 15)
     .attr('stroke-width', '2')
     .attr('stroke', '#000000');
@@ -263,15 +225,9 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   // Left border of tooltip
   tooltips
     .append('line')
-    .attr(
-      'x1',
-      (d) => (xScale(d.year) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
-    )
+    .attr('x1', (d) => (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
     .attr('y1', (d) => yScale(d.births) - (tooltipDimensions.height + 15))
-    .attr(
-      'x2',
-      (d) => (xScale(d.year) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
-    )
+    .attr('x2', (d) => (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
     .attr('y2', (d) => yScale(d.births) - 15)
     .attr('stroke-width', '2')
     .attr('stroke', '#000000');
@@ -279,9 +235,9 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   // Connection between bar and tooltip
   tooltips
     .append('line')
-    .attr('x1', (d) => (xScale(d.year) ?? 0) + halfBarWidth)
+    .attr('x1', (d) => xScale(d.year) ?? 0)
     .attr('y1', (d) => yScale(d.births) - 15)
-    .attr('x2', (d) => (xScale(d.year) ?? 0) + halfBarWidth)
+    .attr('x2', (d) => xScale(d.year) ?? 0)
     .attr('y2', (d) => yScale(d.births))
     .attr('stroke-width', '1')
     .attr('stroke', '#000000');
@@ -307,7 +263,7 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
 
 const rowProcessor = (row: any): BirthsDeathsDatapoint => ({
   id: row.id ?? '',
-  year: row.year ?? '',
+  year: row.year ? parseInt(row.year, 10) : -1,
   births: row.births ? +row.births : -1,
   deaths: row.deaths ? +row.deaths : -1,
 });
