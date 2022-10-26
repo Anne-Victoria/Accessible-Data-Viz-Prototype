@@ -26,6 +26,9 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
 
   const xScale = d3.scaleLinear().domain(xDomain).range([0, width]);
 
+  // Note: We assume that the time between the data points is the same everywhere (1 year)
+  const distanceBetweenPoints = xScale(data[1].year) - xScale(data[0].year);
+
   const largestValueInBirths = d3.max(data, (d) => d.births) ?? 0;
   const largestValueInDeaths = d3.max(data, (d) => d.deaths) ?? 0;
 
@@ -88,7 +91,7 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     .text('Population');
 
   // Render data points
-  const line = svg.selectAll('mybar').data(data);
+  const svgWithData = svg.selectAll('mybar').data(data);
 
   // Note: something seems to be wrong with the type definitions of d3.line,
   // therefore we need to broaden the type to "Function"
@@ -113,13 +116,12 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     );
 
   // birth rate circles
-  const linePoints = line
+  svgWithData
     .join('circle')
     .attr('cx', (d) => `${xScale(d.year)}`)
     .attr('cy', (d) => yScale(d.births))
-    .attr('r', '2')
+    .attr('r', '5')
     .attr('fill', 'black')
-    .attr('tabindex', '0')
     /* Each bar has an aria-label for screen readers */
     .attr('aria-labelledby', (d) => `tooltip-${d.id}`);
 
@@ -142,45 +144,34 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     );
 
   // death rate circles
-  line
+  svgWithData
     .join('circle')
     .attr('cx', (d) => `${xScale(d.year)}`)
     .attr('cy', (d) => yScale(d.deaths))
     .attr('r', '2')
     .attr('fill', 'red')
-    .attr('tabindex', '0')
     /* Each bar has an aria-label for screen readers */
     .attr('aria-labelledby', (d) => `tooltip-${d.id}`);
-
-  linePoints.on('mouseover', (_, d) => {
-    const tooltip = d3.select(`#tooltip-${d.id}`);
-    tooltip.attr('display', 'block');
-  });
-
-  linePoints.on('focusin', (_, d) => {
-    const tooltip = d3.select(`#tooltip-${d.id}`);
-    tooltip.attr('display', 'block');
-  });
-
-  linePoints.on('mouseleave', (_, d) => {
-    const tooltip = d3.select(`#tooltip-${d.id}`);
-    tooltip.attr('display', 'none');
-  });
-
-  linePoints.on('focusout', (_, d) => {
-    const tooltip = d3.select(`#tooltip-${d.id}`);
-    tooltip.attr('display', 'none');
-  });
-
-  const tooltips = line
-    .join('g')
-    .attr('id', (d) => `tooltip-${d.id}`)
-    .attr('display', 'none');
 
   const tooltipDimensions = {
     width: 100,
     height: 60,
   };
+
+  const tooltips = svgWithData
+    .join('g')
+    .attr('id', (d) => `tooltip-${d.id}`)
+    .attr('display', 'none');
+
+  // grey background of the selected year slice
+  tooltips
+    .append('rect')
+
+    .attr('x', (d) => xScale(d.year) - distanceBetweenPoints / 2)
+    .attr('y', '0')
+    .attr('width', distanceBetweenPoints)
+    .attr('height', height)
+    .style('fill', 'rgba(0,0,0,0.1)');
 
   // tooltip background
   tooltips
@@ -259,6 +250,39 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     .text((d) => numberFormatter.format(d.births))
     .attr('x', (d) => xScale(d.year) ?? 0)
     .attr('y', (d) => yScale(d.births) - 30);
+
+  // Invisible rectangles: when focused or hovered, tooltip becomes visible
+  const focusArea = svg
+    .selectAll('focusArea')
+    .data(data)
+    .join('rect')
+    .attr('x', (d) => xScale(d.year) - distanceBetweenPoints / 2)
+    .attr('y', '0')
+    .attr('width', distanceBetweenPoints)
+    .attr('height', height)
+    .attr('tabindex', '0')
+    .style('outline', 'none')
+    .style('fill', 'rgba(0,0,0,0)');
+
+  focusArea.on('mouseover', (_, d) => {
+    const tooltip = d3.select(`#tooltip-${d.id}`);
+    tooltip.attr('display', 'block');
+  });
+
+  focusArea.on('focusin', (_, d) => {
+    const tooltip = d3.select(`#tooltip-${d.id}`);
+    tooltip.attr('display', 'block');
+  });
+
+  focusArea.on('mouseleave', (_, d) => {
+    const tooltip = d3.select(`#tooltip-${d.id}`);
+    tooltip.attr('display', 'none');
+  });
+
+  focusArea.on('focusout', (_, d) => {
+    const tooltip = d3.select(`#tooltip-${d.id}`);
+    tooltip.attr('display', 'none');
+  });
 };
 
 const rowProcessor = (row: any): BirthsDeathsDatapoint => ({
