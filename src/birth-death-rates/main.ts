@@ -115,16 +115,6 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
         })
     );
 
-  // birth rate circles
-  svgWithData
-    .join('circle')
-    .attr('cx', (d) => `${xScale(d.year)}`)
-    .attr('cy', (d) => yScale(d.births))
-    .attr('r', '5')
-    .attr('fill', 'black')
-    /* Each bar has an aria-label for screen readers */
-    .attr('aria-labelledby', (d) => `tooltip-${d.id}`);
-
   // death rate line
   svg
     .append('path')
@@ -142,16 +132,6 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
           return yScale(d.deaths);
         })
     );
-
-  // death rate circles
-  svgWithData
-    .join('circle')
-    .attr('cx', (d) => `${xScale(d.year)}`)
-    .attr('cy', (d) => yScale(d.deaths))
-    .attr('r', '2')
-    .attr('fill', 'red')
-    /* Each bar has an aria-label for screen readers */
-    .attr('aria-labelledby', (d) => `tooltip-${d.id}`);
 
   const tooltipDimensions = {
     width: 100,
