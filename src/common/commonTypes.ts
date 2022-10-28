@@ -4,12 +4,6 @@ export interface AgeDatapoint {
   population_size: number;
 }
 
-export interface YearDatapoint {
-  id: string;
-  year: string;
-  population_size: number;
-}
-
 export interface BirthsDeathsDatapoint {
   id: string;
   year: number;
@@ -18,17 +12,10 @@ export interface BirthsDeathsDatapoint {
 }
 
 type ToAgeDatapoint = (row: any) => AgeDatapoint;
-type ToYearDatapoint = (row: any) => YearDatapoint;
 type ToBirthsDeathsDatapoint = (row: any) => BirthsDeathsDatapoint;
 
-export type ToDatapoint =
-  | ToAgeDatapoint
-  | ToYearDatapoint
-  | ToBirthsDeathsDatapoint;
+export type ToDatapoint = ToAgeDatapoint | ToBirthsDeathsDatapoint;
 
-export type Datapoint = AgeDatapoint | YearDatapoint | BirthsDeathsDatapoint;
+export type Datapoint = AgeDatapoint | BirthsDeathsDatapoint;
 
-export type DatapointArray =
-  | AgeDatapoint[]
-  | YearDatapoint[]
-  | BirthsDeathsDatapoint[];
+export type DatapointArray = AgeDatapoint[] | BirthsDeathsDatapoint[];

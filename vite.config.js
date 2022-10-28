@@ -12,14 +12,6 @@ export default defineConfig({
           __dirname,
           'src/population-by-age/table.html'
         ),
-        populationByYear: resolve(
-          __dirname,
-          'src/population-by-year/index.html'
-        ),
-        populationByYearTable: resolve(
-          __dirname,
-          'src/population-by-year/table.html'
-        ),
         birthDeathRate: resolve(__dirname, 'src/birth-death-rates/index.html'),
         birthDeathRateTable: resolve(
           __dirname,
