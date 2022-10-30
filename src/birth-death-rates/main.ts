@@ -21,7 +21,7 @@ const getHighestNumber = (datapoint: BirthsDeathsDatapoint): number => {
 const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   const margin = {
     top: 100,
-    right: 50,
+    right: 80,
     bottom: 100,
     left: 100,
   };
@@ -30,6 +30,11 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   const totalHeight = 550;
   const width = totalWidth - margin.left - margin.right;
   const height = totalHeight - margin.top - margin.bottom;
+
+  const tooltipDimensions = {
+    width: 150,
+    height: 80,
+  };
 
   const xDomain = [data[0].year, data[data.length - 1].year];
 
@@ -76,7 +81,7 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     .attr('x', width)
     .attr('y', height + margin.bottom - 10)
     .attr('class', 'axis-label')
-    .text('Age');
+    .text('Year');
 
   // Render y axis
   svg
@@ -142,11 +147,6 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
         })
     );
 
-  const tooltipDimensions = {
-    width: 100,
-    height: 60,
-  };
-
   const tooltips = svgWithData
     .join('g')
     .attr('id', (d) => `tooltip-${d.id}`)
@@ -162,10 +162,9 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     .attr('height', height)
     .style('fill', 'rgba(0,0,0,0.1)');
 
-  // tooltip background
+  // tooltip border
   tooltips
     .append('rect')
-    .attr('text-anchor', 'middle')
     .attr('x', (d) => (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
     .attr(
       'y',
@@ -173,59 +172,20 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     )
     .attr('width', tooltipDimensions.width)
     .attr('height', tooltipDimensions.height)
+    .attr('fill', '#000000');
+
+  // tooltip background
+  tooltips
+    .append('rect')
+    .attr('text-anchor', 'middle')
+    .attr('x', (d) => 2 + (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
+    .attr(
+      'y',
+      (d) => 2 + yScale(getHighestNumber(d)) - (tooltipDimensions.height + 15)
+    )
+    .attr('width', tooltipDimensions.width - 4)
+    .attr('height', tooltipDimensions.height - 4)
     .attr('fill', '#ffffff');
-
-  // Top border of tooltip
-  tooltips
-    .append('line')
-    .attr('x1', (d) => (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
-    .attr(
-      'y1',
-      (d) => yScale(getHighestNumber(d)) - (tooltipDimensions.height + 15)
-    )
-    .attr('x2', (d) => (xScale(d.year) ?? 0) + tooltipDimensions.width / 2)
-    .attr(
-      'y2',
-      (d) => yScale(getHighestNumber(d)) - (tooltipDimensions.height + 15)
-    )
-    .attr('stroke-width', '2')
-    .attr('stroke', '#000000');
-
-  // Right border of tooltip
-  tooltips
-    .append('line')
-    .attr('x1', (d) => (xScale(d.year) ?? 0) + tooltipDimensions.width / 2)
-    .attr(
-      'y1',
-      (d) => yScale(getHighestNumber(d)) - (tooltipDimensions.height + 15)
-    )
-    .attr('x2', (d) => (xScale(d.year) ?? 0) + tooltipDimensions.width / 2)
-    .attr('y2', (d) => yScale(getHighestNumber(d)) - 15)
-    .attr('stroke-width', '2')
-    .attr('stroke', '#000000');
-
-  // Bottom border of tooltip
-  tooltips
-    .append('line')
-    .attr('x1', (d) => (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
-    .attr('y1', (d) => yScale(getHighestNumber(d)) - 15)
-    .attr('x2', (d) => (xScale(d.year) ?? 0) + tooltipDimensions.width / 2)
-    .attr('y2', (d) => yScale(getHighestNumber(d)) - 15)
-    .attr('stroke-width', '2')
-    .attr('stroke', '#000000');
-
-  // Left border of tooltip
-  tooltips
-    .append('line')
-    .attr('x1', (d) => (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
-    .attr(
-      'y1',
-      (d) => yScale(getHighestNumber(d)) - (tooltipDimensions.height + 15)
-    )
-    .attr('x2', (d) => (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
-    .attr('y2', (d) => yScale(getHighestNumber(d)) - 15)
-    .attr('stroke-width', '2')
-    .attr('stroke', '#000000');
 
   // Tooltip text: age group
   tooltips
@@ -234,16 +194,25 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     .attr('text-anchor', 'middle')
     .text((d) => d.year)
     .attr('x', (d) => xScale(d.year) ?? 0)
-    .attr('y', (d) => yScale(getHighestNumber(d)) - 50);
+    .attr('y', (d) => yScale(getHighestNumber(d)) - 70);
 
   // Tooltip text: population size
   tooltips
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'middle')
-    .text((d) => numberFormatter.format(d.births))
+    .text((d) => `Births: ${numberFormatter.format(d.births)}`)
     .attr('x', (d) => xScale(d.year) ?? 0)
     .attr('y', (d) => yScale(getHighestNumber(d)) - 30);
+
+  // Tooltip text: population size
+  tooltips
+    .append('text')
+    .attr('fill', '#000000')
+    .attr('text-anchor', 'middle')
+    .text((d) => `Deaths: ${numberFormatter.format(d.deaths)}`)
+    .attr('x', (d) => xScale(d.year) ?? 0)
+    .attr('y', (d) => yScale(getHighestNumber(d)) - 50);
 
   // Deaths data circle
   tooltips
