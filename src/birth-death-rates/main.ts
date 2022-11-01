@@ -14,6 +14,17 @@ const getHighestNumber = (datapoint: BirthsDeathsDatapoint): number => {
   return Math.max(datapoint.births, datapoint.deaths);
 };
 
+const showTooltip = (id: string, data: BirthsDeathsDatapoint[]) => {
+  data.forEach((datapoint) => {
+    const tooltip = d3.select(`#tooltip-${datapoint.id}`);
+    if (datapoint.id === id) {
+      tooltip.attr('display', 'block');
+    } else {
+      tooltip.attr('display', 'none');
+    }
+  });
+};
+
 /**
  * Creates a bar chart for the given population data
  * @param data - the data with population size per age group
@@ -260,13 +271,11 @@ const drawBirthDeathRateViz = (data: BirthsDeathsDatapoint[]) => {
     .style('fill', 'rgba(0,0,0,0)');
 
   focusArea.on('mouseover', (_, d) => {
-    const tooltip = d3.select(`#tooltip-${d.id}`);
-    tooltip.attr('display', 'block');
+    showTooltip(d.id, data);
   });
 
   focusArea.on('focusin', (_, d) => {
-    const tooltip = d3.select(`#tooltip-${d.id}`);
-    tooltip.attr('display', 'block');
+    showTooltip(d.id, data);
   });
 
   focusArea.on('mouseleave', (_, d) => {

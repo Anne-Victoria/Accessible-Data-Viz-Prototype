@@ -5,6 +5,17 @@ import { AgeDatapoint } from '../common/commonTypes';
 
 const numberFormatter = Intl.NumberFormat('en-US');
 
+const showTooltip = (id: string, data: AgeDatapoint[]) => {
+  data.forEach((datapoint) => {
+    const tooltip = d3.select(`#tooltip-${datapoint.id}`);
+    if (datapoint.id === id) {
+      tooltip.attr('display', 'block');
+    } else {
+      tooltip.attr('display', 'none');
+    }
+  });
+};
+
 /**
  * Creates a bar chart for the given population data
  * @param data - the data with population size per age group
@@ -108,13 +119,11 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
     .attr('aria-labelledby', (d) => `tooltip-${d.id}`);
 
   rectangles.on('mouseover', (_, d) => {
-    const tooltip = d3.select(`#tooltip-${d.id}`);
-    tooltip.attr('display', 'block');
+    showTooltip(d.id, data);
   });
 
   rectangles.on('focusin', (_, d) => {
-    const tooltip = d3.select(`#tooltip-${d.id}`);
-    tooltip.attr('display', 'block');
+    showTooltip(d.id, data);
   });
 
   rectangles.on('mouseleave', (_, d) => {
