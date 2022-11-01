@@ -1,3 +1,41 @@
+/* Reset */
+
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Utilities */
 .skip-link {
   position: absolute;
@@ -12,6 +50,19 @@
 }
 
 /* Specific styles */
+
+.viz-container {
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  background-color: #eeeeee;
+  overflow: auto;
+}
+
+.viz-container svg {
+  width: 100%;
+  min-width: 700px;
+}
+
 #population-table td:nth-child(2) {
   text-align: right;
 }

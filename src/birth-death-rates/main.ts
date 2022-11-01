@@ -21,7 +21,7 @@ const getHighestNumber = (datapoint: BirthsDeathsDatapoint): number => {
 const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   const margin = {
     top: 100,
-    right: 80,
+    right: 100,
     bottom: 100,
     left: 100,
   };
@@ -53,7 +53,7 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
 
   const yScale = d3
     .scaleLinear()
-    .domain([0, largestValueAcrossData])
+    .domain([0, largestValueAcrossData * 1.1])
     .range([height, 0]);
 
   // Render chart base
@@ -64,6 +64,15 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     .attr('preserveAspectRatio', 'xMidYMid meet')
     .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+  // White chart background
+  svg
+    .append('rect')
+    .attr('x', '0 ')
+    .attr('y', '0')
+    .attr('width', width)
+    .attr('height', height)
+    .attr('fill', '#ffffff');
 
   // Render x axis
   svg

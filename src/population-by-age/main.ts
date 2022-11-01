@@ -26,9 +26,11 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
 
   const xScale = d3.scaleBand().domain(xDomain).range([0, width]).padding(0.2);
 
+  const largestValueInData = d3.max(data, (d) => d.population_size) ?? 0;
+
   const yScale = d3
     .scaleLinear()
-    .domain([0, d3.max(data, (d) => d.population_size) ?? 0])
+    .domain([0, largestValueInData * 1.1])
     .range([height, 0]);
 
   // Render chart base
@@ -39,6 +41,15 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
     .attr('preserveAspectRatio', 'xMidYMid meet')
     .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+  // White chart background
+  svg
+    .append('rect')
+    .attr('x', '0 ')
+    .attr('y', '0')
+    .attr('width', width)
+    .attr('height', height)
+    .attr('fill', '#ffffff');
 
   // Render x axis
   svg
