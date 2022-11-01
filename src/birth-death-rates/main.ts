@@ -18,7 +18,7 @@ const getHighestNumber = (datapoint: BirthsDeathsDatapoint): number => {
  * Creates a bar chart for the given population data
  * @param data - the data with population size per age group
  */
-const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
+const drawBirthDeathRateViz = (data: BirthsDeathsDatapoint[]) => {
   const margin = {
     top: 100,
     right: 100,
@@ -58,7 +58,7 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
 
   // Render chart base
   const svg = d3
-    .select('#population-chart')
+    .select('#births-deaths-viz')
     .append('svg')
     .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`)
     .attr('preserveAspectRatio', 'xMidYMid meet')
@@ -77,6 +77,7 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   // Render x axis
   svg
     .append('g')
+    .attr('aria-hidden', 'true')
     .attr('transform', `translate(0, ${height})`)
     .call(d3.axisBottom(xScale).tickFormat((tick) => `${tick}`))
     .selectAll('text')
@@ -95,6 +96,7 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   // Render y axis
   svg
     .append('g')
+    .attr('aria-hidden', 'true')
     .call(d3.axisLeft(yScale))
     .call((g) =>
       g
@@ -107,11 +109,11 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   //   Render y axis label
   svg
     .append('text')
-    .attr('text-anchor', 'middle')
-    .attr('x', 0)
-    .attr('y', -20)
+    .attr('text-anchor', 'left')
+    .attr('x', '-80')
+    .attr('y', '-20')
     .attr('class', 'axis-label')
-    .text('Population');
+    .text('Number of births and deaths');
 
   // Render data points
   const svgWithData = svg.selectAll('mybar').data(data);
@@ -200,28 +202,28 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
   tooltips
     .append('text')
     .attr('fill', '#000000')
-    .attr('text-anchor', 'middle')
-    .text((d) => d.year)
-    .attr('x', (d) => xScale(d.year) ?? 0)
+    .attr('text-anchor', 'left')
+    .text((d) => `Year: ${d.year}`)
+    .attr('x', (d) => xScale(d.year) - 60)
     .attr('y', (d) => yScale(getHighestNumber(d)) - 70);
 
-  // Tooltip text: population size
+  // Tooltip text: births size
   tooltips
     .append('text')
     .attr('fill', '#000000')
-    .attr('text-anchor', 'middle')
+    .attr('text-anchor', 'left')
     .text((d) => `Births: ${numberFormatter.format(d.births)}`)
-    .attr('x', (d) => xScale(d.year) ?? 0)
-    .attr('y', (d) => yScale(getHighestNumber(d)) - 30);
+    .attr('x', (d) => xScale(d.year) - 60)
+    .attr('y', (d) => yScale(getHighestNumber(d)) - 50);
 
-  // Tooltip text: population size
+  // Tooltip text: deaths size
   tooltips
     .append('text')
     .attr('fill', '#000000')
-    .attr('text-anchor', 'middle')
+    .attr('text-anchor', 'left')
     .text((d) => `Deaths: ${numberFormatter.format(d.deaths)}`)
-    .attr('x', (d) => xScale(d.year) ?? 0)
-    .attr('y', (d) => yScale(getHighestNumber(d)) - 50);
+    .attr('x', (d) => xScale(d.year) - 60)
+    .attr('y', (d) => yScale(getHighestNumber(d)) - 30);
 
   // Deaths data circle
   tooltips
@@ -253,6 +255,7 @@ const drawPopulationByYearChart = (data: BirthsDeathsDatapoint[]) => {
     .attr('width', distanceBetweenPoints)
     .attr('height', height)
     .attr('tabindex', '0')
+    .attr('aria-labelledby', (d) => `tooltip-${d.id}`)
     .style('outline', 'none')
     .style('fill', 'rgba(0,0,0,0)');
 
@@ -299,7 +302,7 @@ const main = async () => {
     rowProcessor
   )) as BirthsDeathsDatapoint[];
 
-  drawPopulationByYearChart(data);
+  drawBirthDeathRateViz(data);
   const dataForSonification = data.map((entry) => entry.births);
 
   const handlePlayPauseButtonClicked = sonifyData(dataForSonification);

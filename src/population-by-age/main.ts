@@ -22,6 +22,11 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
   const width = totalWidth - margin.left - margin.right;
   const height = totalHeight - margin.top - margin.bottom;
 
+  const tooltipDimensions = {
+    width: 200,
+    height: 60,
+  };
+
   const xDomain = data.map((d) => d.age_group);
 
   const xScale = d3.scaleBand().domain(xDomain).range([0, width]).padding(0.2);
@@ -127,14 +132,9 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
     .attr('id', (d) => `tooltip-${d.id}`)
     .attr('display', 'none');
 
-  const tooltipDimensions = {
-    width: 100,
-    height: 60,
-  };
-
   const halfBarWidth = xScale.bandwidth() / 2;
 
-  // tooltip background
+  // tooltip border
   tooltips
     .append('rect')
     .attr('text-anchor', 'middle')
@@ -149,91 +149,27 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
     )
     .attr('width', tooltipDimensions.width)
     .attr('height', tooltipDimensions.height)
+    .attr('fill', '#000000');
+
+  // tooltip background
+  tooltips
+    .append('rect')
+    .attr('text-anchor', 'middle')
+    .attr(
+      'x',
+      (d) =>
+        2 +
+        (xScale(d.age_group) ?? 0) +
+        halfBarWidth -
+        tooltipDimensions.width / 2
+    )
+    .attr(
+      'y',
+      (d) => 2 + yScale(d.population_size) - (tooltipDimensions.height + 15)
+    )
+    .attr('width', tooltipDimensions.width - 4)
+    .attr('height', tooltipDimensions.height - 4)
     .attr('fill', '#ffffff');
-
-  // Top border of tooltip
-  tooltips
-    .append('line')
-    .attr(
-      'x1',
-      (d) =>
-        (xScale(d.age_group) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
-    )
-    .attr(
-      'y1',
-      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
-    )
-    .attr(
-      'x2',
-      (d) =>
-        (xScale(d.age_group) ?? 0) + halfBarWidth + tooltipDimensions.width / 2
-    )
-    .attr(
-      'y2',
-      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
-    )
-    .attr('stroke-width', '2')
-    .attr('stroke', '#000000');
-
-  // Right border of tooltip
-  tooltips
-    .append('line')
-    .attr(
-      'x1',
-      (d) =>
-        (xScale(d.age_group) ?? 0) + halfBarWidth + tooltipDimensions.width / 2
-    )
-    .attr(
-      'y1',
-      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
-    )
-    .attr(
-      'x2',
-      (d) =>
-        (xScale(d.age_group) ?? 0) + halfBarWidth + tooltipDimensions.width / 2
-    )
-    .attr('y2', (d) => yScale(d.population_size) - 15)
-    .attr('stroke-width', '2')
-    .attr('stroke', '#000000');
-
-  // Bottom border of tooltip
-  tooltips
-    .append('line')
-    .attr(
-      'x1',
-      (d) =>
-        (xScale(d.age_group) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
-    )
-    .attr('y1', (d) => yScale(d.population_size) - 15)
-    .attr(
-      'x2',
-      (d) =>
-        (xScale(d.age_group) ?? 0) + halfBarWidth + tooltipDimensions.width / 2
-    )
-    .attr('y2', (d) => yScale(d.population_size) - 15)
-    .attr('stroke-width', '2')
-    .attr('stroke', '#000000');
-
-  // Left border of tooltip
-  tooltips
-    .append('line')
-    .attr(
-      'x1',
-      (d) =>
-        (xScale(d.age_group) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
-    )
-    .attr(
-      'y1',
-      (d) => yScale(d.population_size) - (tooltipDimensions.height + 15)
-    )
-    .attr(
-      'x2',
-      (d) =>
-        (xScale(d.age_group) ?? 0) + halfBarWidth - tooltipDimensions.width / 2
-    )
-    .attr('y2', (d) => yScale(d.population_size) - 15)
-    .attr('stroke-width', '2')
-    .attr('stroke', '#000000');
 
   // Connection between bar and tooltip
   tooltips
@@ -249,18 +185,32 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
   tooltips
     .append('text')
     .attr('fill', '#000000')
-    .attr('text-anchor', 'middle')
-    .text((d) => d.age_group)
-    .attr('x', (d) => (xScale(d.age_group) ?? 0) + halfBarWidth)
+    .attr('text-anchor', 'left')
+    .text((d) => `Age: ${d.age_group}`)
+    .attr(
+      'x',
+      (d) =>
+        10 +
+        (xScale(d.age_group) ?? 0) +
+        halfBarWidth -
+        tooltipDimensions.width / 2
+    )
     .attr('y', (d) => yScale(d.population_size) - 50);
 
   // Tooltip text: population size
   tooltips
     .append('text')
     .attr('fill', '#000000')
-    .attr('text-anchor', 'middle')
-    .text((d) => numberFormatter.format(d.population_size))
-    .attr('x', (d) => (xScale(d.age_group) ?? 0) + halfBarWidth)
+    .attr('text-anchor', 'left')
+    .text((d) => `Population: ${numberFormatter.format(d.population_size)}`)
+    .attr(
+      'x',
+      (d) =>
+        10 +
+        (xScale(d.age_group) ?? 0) +
+        halfBarWidth -
+        tooltipDimensions.width / 2
+    )
     .attr('y', (d) => yScale(d.population_size) - 30);
 };
 
