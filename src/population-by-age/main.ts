@@ -70,6 +70,7 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
   // Render x axis
   svg
     .append('g')
+    .attr('aria-hidden', 'true')
     .attr('transform', `translate(0, ${height})`)
     .call(d3.axisBottom(xScale))
     .selectAll('text')
@@ -87,6 +88,7 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
   // Render y axis
   svg
     .append('g')
+    .attr('aria-hidden', 'true')
     .call(d3.axisLeft(yScale))
     .call((g) =>
       g
