@@ -151,6 +151,16 @@ const drawBirthDeathRateViz = (data: BirthsDeathsDatapoint[]) => {
         })
     );
 
+  // Births line label
+  svg
+    .append('text')
+    .attr('fill', '#000000')
+    .attr('text-anchor', 'left')
+    .text('Births')
+    .attr('aria-hidden', 'true')
+    .attr('x', xScale(data[data.length - 1].year) + 10)
+    .attr('y', yScale(data[data.length - 1].births));
+
   // death rate line
   svg
     .append('path')
@@ -169,6 +179,16 @@ const drawBirthDeathRateViz = (data: BirthsDeathsDatapoint[]) => {
         })
     );
 
+  // Deaths line label
+  svg
+    .append('text')
+    .attr('fill', '#000000')
+    .attr('text-anchor', 'left')
+    .text('Deaths')
+    .attr('aria-hidden', 'true')
+    .attr('x', xScale(data[data.length - 1].year) + 10)
+    .attr('y', yScale(data[data.length - 1].deaths));
+
   const tooltips = svgWithData
     .join('g')
     .attr('id', (d) => `tooltip-${d.id}`)
@@ -177,7 +197,6 @@ const drawBirthDeathRateViz = (data: BirthsDeathsDatapoint[]) => {
   // grey background of the selected year slice
   tooltips
     .append('rect')
-
     .attr('x', (d) => xScale(d.year) - distanceBetweenPoints / 2)
     .attr('y', '0')
     .attr('width', distanceBetweenPoints)
