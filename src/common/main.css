@@ -50,16 +50,18 @@ body {
 }
 
 h1 {
-  font-size: 1.5em;
+  font-size: 1.5rem;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 h2 {
-  font-size: 1.3104em;
+  font-size: 1.3104rem;
 }
 h3 {
-  font-size: 1.1447em;
+  font-size: 1.1447rem;
 }
 small {
-  font-size: 0.8736em;
+  font-size: 0.8736rem;
 }
 
 /* Variables */
@@ -71,13 +73,9 @@ small {
   --text-color: #000000;
   --primary-color: #cfeebb;
 
-  --margin-small: 1rem;
-}
+  --border-width: 2px;
 
-@media all and (min-width: 550px) {
-  :root {
-    --margin-small: 3rem;
-  }
+  --margin-small: 1rem;
 }
 
 /* Utilities */
@@ -85,7 +83,7 @@ small {
   position: absolute;
   left: -10000px;
   background-color: var(--bg-color);
-  border: 2px solid var(--text-color);
+  border: var(--border-width) solid var(--text-color);
   padding: 1rem;
 }
 
@@ -100,9 +98,15 @@ small {
 
 /* Specific styles */
 
+main {
+  max-width: 1200px;
+  margin-left: var(--margin-small);
+  margin-right: var(--margin-small);
+}
+
 .viz-container {
-  border-top: 1px solid var(--light-color);
-  border-bottom: 1px solid var(--light-color);
+  border-top: var(--border-width) solid var(--light-color);
+  border-bottom: var(--border-width) solid var(--light-color);
   background-color: var(--bg-alternative-color);
   overflow: auto;
 }
@@ -124,4 +128,20 @@ svg text {
 .axis-label {
   font-weight: bold;
   font-size: 1.2rem;
+}
+
+/* Media queries for larger screens */
+
+@media all and (min-width: 550px) {
+  :root {
+    --margin-small: 3rem;
+  }
+}
+
+@media all and (min-width: 1000px) {
+  main {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90vw;
+  }
 }
