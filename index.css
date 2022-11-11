@@ -1,24 +1,47 @@
-:root {
-  --primary-color: #cfeebb;
-}
-
 .background-primary {
   background-color: var(--primary-color);
+}
+
+.card {
+  margin-left: calc(-1 * var(--margin-small));
+  margin-right: calc(-1 * var(--margin-small));
+  margin-bottom: var(--margin-small);
+}
+
+.card * {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+@media all and (min-width: 550px) {
+  .card {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 .clickeable-card {
   display: block;
   position: relative;
   transition: all 0.3s ease-out;
+  border-top: 2px solid var(--text-color);
+  border-bottom: 2px solid var(--text-color);
+  background-color: var(--bg-color);
+}
+
+@media all and (min-width: 550px) {
+  .clickeable-card {
+    border: 2px solid var(--text-color);
+  }
 }
 
 .clickeable-card:hover {
-  transform: translate(0, -0.5rem);
-  box-shadow: 0 0.5em 2em -1em rgba(10, 10, 10, 0.1),
-    0 0 0 1px rgba(10, 10, 10, 0.02);
+  /* transform: translate(0, -0.5rem); */
+  /* box-shadow: 0 0.5em 2em -1em rgba(10, 10, 10, 0.1), */
+  /* 0 0 0 1px rgba(10, 10, 10, 0.02); */
 }
 
-.gradient-shadow::after {
+/* .gradient-shadow::after {
   box-shadow: inset 0px -33px 25px 0 rgba(0, 0, 0, 0.3);
   content: '';
   display: block;
@@ -26,4 +49,12 @@
   position: absolute;
   top: 0;
   width: 100%;
+} */
+
+@media all and (min-width: 1000px) {
+  .cards {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
 }
