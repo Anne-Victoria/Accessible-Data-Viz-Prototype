@@ -99,12 +99,13 @@ small {
 /* Specific styles */
 
 main {
-  max-width: 1200px;
   margin-left: var(--margin-small);
   margin-right: var(--margin-small);
 }
 
 .viz-container {
+  margin-left: calc(-1 * var(--margin-small));
+  margin-right: calc(-1 * var(--margin-small));
   border-top: var(--border-width) solid var(--light-color);
   border-bottom: var(--border-width) solid var(--light-color);
   background-color: var(--bg-alternative-color);
@@ -140,8 +141,38 @@ svg text {
 
 @media all and (min-width: 1000px) {
   main {
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
-    width: 90vw;
+  }
+
+  .viz-container {
+    width: 100vw;
+    margin-left: calc(-1 * (100vw - 900px) / 2);
+    margin-right: calc(-1 * (100vw - 900px) / 2);
+  }
+
+  .viz-container svg {
+    max-width: 900px;
+    width: auto;
+    margin-left: calc((100vw - 900px) / 2);
+    margin-right: calc((100vw - 900px) / 2);
+  }
+}
+
+@media all and (min-width: 1200px) {
+  main {
+    max-width: 1200px;
+  }
+
+  .viz-container {
+    margin-left: calc(-1 * (100vw - 1200px) / 2);
+    margin-right: calc(-1 * (100vw - 1200px) / 2);
+  }
+
+  .viz-container svg {
+    max-width: 1200px;
+    margin-left: calc((100vw - 1200px) / 2);
+    margin-right: calc((100vw - 1200px) / 2);
   }
 }
