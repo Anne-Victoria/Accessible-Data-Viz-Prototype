@@ -73,6 +73,12 @@ small {
   --text-color: #000000;
   --primary-color: #cfeebb;
 
+  /* todo: does this color have enough contrast? */
+  --focus-indicator-color: rgba(41, 184, 255, 0.5);
+
+  /* todo: does this color have enough contrast? */
+  --link-color: rgb(0, 95, 189);
+
   --border-width: 2px;
 
   --margin-small: 1rem;
@@ -96,12 +102,46 @@ small {
   margin-right: var(--margin-small);
 }
 
-/* Specific styles */
+/* General styles */
 
 main {
   margin-left: var(--margin-small);
   margin-right: var(--margin-small);
 }
+
+a {
+  color: var(--link-color);
+}
+
+button {
+  position: relative;
+  border: 1px solid var(--text-color);
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  padding: 1em 2em;
+  background-color: var(--bg-color);
+  font-size: 1rem;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:hover,
+button:focus {
+  outline: 5px solid var(--focus-indicator-color);
+}
+
+button:active {
+  left: 1px;
+  top: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  /* Prevent subsequent elements from shifting up 1px */
+  margin-bottom: 1px;
+}
+
+/* Specific styles */
 
 .viz-container {
   margin-left: calc(-1 * var(--margin-small));
