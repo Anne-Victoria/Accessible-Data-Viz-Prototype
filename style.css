@@ -16,6 +16,8 @@
   --border-width: 2px;
 
   --margin-small: 1rem;
+
+  --viz-min-width: 700px;
 }
 
 @media all and (min-width: 550px) {
@@ -28,6 +30,8 @@
 
 html {
   box-sizing: border-box;
+  margin: 0;
+  height: 100%;
 }
 
 *,
@@ -91,7 +95,6 @@ a {
   color: var(--link-color);
 }
 
-button,
 .button {
   display: inline-block;
   color: var(--text-color);
@@ -103,28 +106,26 @@ button,
   padding: 1em 2em;
   background-color: var(--bg-color);
   font-size: 1rem;
+  text-align: center;
 }
 
-button:hover,
 .button:hover {
   cursor: pointer;
 }
 
-button:hover,
 .button:hover,
-button:focus,
 .button:focus {
   outline: 5px solid var(--focus-indicator-color);
 }
 
-button:active,
 .button:active {
   left: 1px;
   top: 1px;
   border-right-width: 1px;
   border-bottom-width: 1px;
-  /* Prevent subsequent elements from shifting up 1px */
+  /* Prevent subsequent elements from shifting up or left 1px */
   margin-bottom: 1px;
+  margin-right: 1px;
 }
 
 .skip-link {
@@ -245,7 +246,7 @@ button:active,
 
 .viz-container svg {
   width: 100%;
-  min-width: 700px;
+  min-width: var(--viz-min-width);
 }
 
 svg text {
@@ -284,6 +285,55 @@ svg text {
     max-width: 1200px;
     margin-left: calc((100vw - 1200px) / 2);
     margin-right: calc((100vw - 1200px) / 2);
+  }
+}
+
+/* || Fullscreen viz page || */
+
+.fullscreen {
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-alternative-color);
+}
+
+.fullscreen-main {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.fullscreen-controls {
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 1rem;
+}
+
+.fullscreen-controls .button {
+  margin: 0.25rem;
+}
+
+.fullscreen-controls .button:last-child {
+  margin-top: 1rem;
+}
+
+.fullscreen-viz-container {
+  overflow: scroll;
+  flex-grow: 1;
+}
+
+.fullscreen-viz-container svg {
+  width: 100%;
+  min-width: var(--viz-min-width);
+}
+
+@media all and (min-width: 550px) {
+  .fullscreen-controls {
+    flex-flow: row wrap;
+  }
+  .fullscreen-controls .button:last-child {
+    margin-top: 0.25rem;
+    margin-left: auto;
   }
 }
 
