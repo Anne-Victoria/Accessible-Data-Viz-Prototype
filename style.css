@@ -1,0 +1,294 @@
+/* || Variables || */
+
+:root {
+  --bg-color: #ffffff;
+  --bg-alternative-color: #eeeeee;
+  --light-color: #cccccc;
+  --text-color: #000000;
+  --primary-color: #cfeebb;
+
+  /* todo: does this color have enough contrast? */
+  --focus-indicator-color: rgba(41, 184, 255, 0.5);
+
+  /* todo: does this color have enough contrast? */
+  --link-color: rgb(0, 95, 189);
+
+  --border-width: 2px;
+
+  --margin-small: 1rem;
+}
+
+@media all and (min-width: 550px) {
+  :root {
+    --margin-small: 3rem;
+  }
+}
+
+/* || General || */
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body,
+figure {
+  margin: 0;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+svg {
+  display: block;
+}
+
+/* || Typography || */
+
+body {
+  font-family: system-ui, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+    'Helvetica Neue', sans-serif;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+h2 {
+  font-size: 1.3104rem;
+}
+h3 {
+  font-size: 1.1447rem;
+}
+small {
+  font-size: 0.8736rem;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
+  font-weight: normal;
+}
+
+/* || Buttons and links || */
+
+a {
+  color: var(--link-color);
+}
+
+button,
+.button {
+  display: inline-block;
+  color: var(--text-color);
+  text-decoration: none;
+  position: relative;
+  border: 1px solid var(--text-color);
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  padding: 1em 2em;
+  background-color: var(--bg-color);
+  font-size: 1rem;
+}
+
+button:hover,
+.button:hover {
+  cursor: pointer;
+}
+
+button:hover,
+.button:hover,
+button:focus,
+.button:focus {
+  outline: 5px solid var(--focus-indicator-color);
+}
+
+button:active,
+.button:active {
+  left: 1px;
+  top: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  /* Prevent subsequent elements from shifting up 1px */
+  margin-bottom: 1px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -10000px;
+  background-color: var(--bg-color);
+  border: var(--border-width) solid var(--text-color);
+  padding: 1rem;
+}
+
+.skip-link:focus {
+  position: initial;
+  left: 0;
+}
+
+/* || Utilities || */
+
+.margin-small-x {
+  margin-left: var(--margin-small);
+  margin-right: var(--margin-small);
+}
+
+/* || Site-wide layout || */
+
+.main {
+  margin-left: var(--margin-small);
+  margin-right: var(--margin-small);
+}
+
+@media all and (min-width: 1000px) {
+  .main {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media all and (min-width: 1300px) {
+  .main {
+    max-width: 1200px;
+  }
+}
+
+/* || Start page || */
+
+.card {
+  margin-left: calc(-1 * var(--margin-small));
+  margin-right: calc(-1 * var(--margin-small));
+  margin-bottom: var(--margin-small);
+  position: relative;
+  transition: all 0.3s ease-out;
+  border-top: var(--border-width) solid var(--text-color);
+  border-bottom: var(--border-width) solid var(--text-color);
+  background-color: var(--bg-color);
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translate(0, -0.5rem);
+}
+
+.card:hover a,
+.card a:focus {
+  outline: 10px solid var(--focus-indicator-color);
+}
+
+.card * {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.card h2,
+.card p {
+  margin: 1rem;
+}
+
+.card a {
+  display: block;
+  height: 100%;
+}
+
+@media all and (min-width: 550px) {
+  .card {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .card {
+    border: var(--border-width) solid var(--text-color);
+  }
+  .card h2,
+  .card p {
+    margin: 2rem;
+  }
+}
+
+@media all and (min-width: 1000px) {
+  .cards {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
+
+  .card:not(:last-child) {
+    margin-right: 1rem;
+  }
+}
+
+/* || Visualization page || */
+
+.viz-container {
+  margin-left: calc(-1 * var(--margin-small));
+  margin-right: calc(-1 * var(--margin-small));
+  border-top: var(--border-width) solid var(--light-color);
+  border-bottom: var(--border-width) solid var(--light-color);
+  background-color: var(--bg-alternative-color);
+  overflow: auto;
+}
+
+.viz-container svg {
+  width: 100%;
+  min-width: 700px;
+}
+
+svg text {
+  /* We need to hardcode the font size in pixels here. If we would set this to 1rem,
+  the text would break out of the SVG elements when the user has set a larger font size. */
+  font-size: 16px;
+  color: var(--text-color);
+}
+
+.axis-label {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+@media all and (min-width: 1000px) {
+  .viz-container {
+    width: 100vw;
+    margin-left: calc(-1 * (100vw - 900px) / 2);
+    margin-right: calc(-1 * (100vw - 900px) / 2);
+  }
+
+  .viz-container svg {
+    max-width: 900px;
+    margin-left: calc((100vw - 900px) / 2);
+    margin-right: calc((100vw - 900px) / 2);
+  }
+}
+
+@media all and (min-width: 1300px) {
+  .viz-container {
+    margin-left: calc(-1 * (100vw - 1200px) / 2);
+    margin-right: calc(-1 * (100vw - 1200px) / 2);
+  }
+
+  .viz-container svg {
+    max-width: 1200px;
+    margin-left: calc((100vw - 1200px) / 2);
+    margin-right: calc((100vw - 1200px) / 2);
+  }
+}
+
+/* || Data table page || */
+
+#data-table td:nth-child(2) {
+  text-align: right;
+}

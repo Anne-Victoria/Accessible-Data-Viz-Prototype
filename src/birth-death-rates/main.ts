@@ -28,8 +28,12 @@ const showTooltip = (id: string, data: BirthsDeathsDatapoint[]) => {
 /**
  * Creates a bar chart for the given population data
  * @param data - the data with population size per age group
+ * @param vizElement - the id of the DOM element to render the viz to
  */
-const drawBirthDeathRateViz = (data: BirthsDeathsDatapoint[]) => {
+const drawBirthDeathRateViz = (
+  data: BirthsDeathsDatapoint[],
+  vizElement: string
+) => {
   const margin = {
     top: 100,
     right: 100,
@@ -69,7 +73,7 @@ const drawBirthDeathRateViz = (data: BirthsDeathsDatapoint[]) => {
 
   // Render chart base
   const svg = d3
-    .select('#births-deaths-viz')
+    .select(`#${vizElement}`)
     .append('svg')
     .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`)
     .attr('preserveAspectRatio', 'xMidYMid meet')
@@ -324,13 +328,16 @@ const rowProcessor = (row: any): BirthsDeathsDatapoint => ({
  * Sets up the d3 visualization and the sonification
  */
 const main = async () => {
+  const vizElement = 'births-deaths-viz';
+
   const data = (await accessData(
     'birthsDeathsData',
     '/birth_death_rate.csv',
     rowProcessor
   )) as BirthsDeathsDatapoint[];
 
-  drawBirthDeathRateViz(data);
+  drawBirthDeathRateViz(data, vizElement);
+
   const dataForSonification = data.map((entry) => entry.births);
 
   const handlePlayPauseButtonClicked = sonifyData(dataForSonification);

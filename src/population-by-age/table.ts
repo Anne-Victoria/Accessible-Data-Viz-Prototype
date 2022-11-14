@@ -10,7 +10,7 @@ const numberFormatter = Intl.NumberFormat('en-US');
  * @param data - the population data
  */
 const drawTable = (data: AgeDatapoint[]) => {
-  const svg = d3.select('#population-table');
+  const svg = d3.select('#data-table');
   const rows = svg.selectAll('row').data(data).join('tr');
   rows.append('td').text((d) => d.age_group);
   rows.append('td').text((d) => numberFormatter.format(d.population_size));
