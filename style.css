@@ -324,7 +324,11 @@ svg text {
 
 .fullscreen-viz-container svg {
   width: 100%;
+  /* Note: make sure to keep min and max width in sync with the values in zoom.ts */
   min-width: var(--viz-min-width);
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media all and (min-width: 550px) {

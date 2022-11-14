@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import sonifyData from '../common/sonifyData';
 import accessData from '../common/accessData';
 import { AgeDatapoint } from '../common/commonTypes';
+import setUpZooming from '../common/zoom';
 
 const numberFormatter = Intl.NumberFormat('en-US');
 
@@ -53,6 +54,7 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
   const svg = d3
     .select('#population-chart')
     .append('svg')
+    .attr('id', 'vizRoot')
     .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`)
     .attr('preserveAspectRatio', 'xMidYMid meet')
     .append('g')
@@ -251,6 +253,7 @@ const main = async () => {
   if (playPauseButton) {
     playPauseButton.addEventListener('click', handlePlayPauseButtonClicked);
   }
+  setUpZooming();
 };
 
 main();

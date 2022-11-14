@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import sonifyData from '../common/sonifyData';
 import accessData from '../common/accessData';
+import setUpZooming from '../common/zoom';
 import { BirthsDeathsDatapoint } from '../common/commonTypes';
 
 const numberFormatter = Intl.NumberFormat('en-US');
@@ -75,6 +76,7 @@ const drawBirthDeathRateViz = (
   const svg = d3
     .select(`#${vizElement}`)
     .append('svg')
+    .attr('id', 'vizRoot')
     .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`)
     .attr('preserveAspectRatio', 'xMidYMid meet')
     .append('g')
@@ -347,6 +349,8 @@ const main = async () => {
   if (playPauseButton) {
     playPauseButton.addEventListener('click', handlePlayPauseButtonClicked);
   }
+
+  setUpZooming();
 };
 
 main();
