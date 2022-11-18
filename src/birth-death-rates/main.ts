@@ -15,13 +15,21 @@ const getHighestNumber = (datapoint: BirthsDeathsDatapoint): number => {
   return Math.max(datapoint.births, datapoint.deaths);
 };
 
+/**
+ * Shows the tooltip for one datapoint and hides any previously displayed tooltips
+ * @param id - the id of the active datapoint
+ * @param data - the entire dataset
+ */
 const showTooltip = (id: string, data: BirthsDeathsDatapoint[]) => {
   data.forEach((datapoint) => {
     const tooltip = d3.select(`#tooltip-${datapoint.id}`);
+    const mouseLeaveArea = d3.select(`#mouseLeaveArea-${datapoint.id}`);
     if (datapoint.id === id) {
-      tooltip.attr('display', 'block');
+      tooltip.style('display', 'block');
+      mouseLeaveArea.style('display', 'block');
     } else {
-      tooltip.attr('display', 'none');
+      tooltip.style('display', 'none');
+      mouseLeaveArea.style('display', 'none');
     }
   });
 };
@@ -71,6 +79,85 @@ const drawBirthDeathRateViz = (
     .scaleLinear()
     .domain([0, largestValueAcrossData * 1.1])
     .range([height, 0]);
+
+  const tooltipProperties = data.map((d) => {
+    const properties = {
+      outerBox: {
+        startX: (xScale(d.year) ?? 0) - tooltipDimensions.width / 2,
+        startY: yScale(getHighestNumber(d)) - (tooltipDimensions.height + 15),
+        width: tooltipDimensions.width,
+        height: tooltipDimensions.height,
+      },
+      innerBox: {
+        startX: 2 + (xScale(d.year) ?? 0) - tooltipDimensions.width / 2,
+        startY:
+          2 + yScale(getHighestNumber(d)) - (tooltipDimensions.height + 15),
+        width: tooltipDimensions.width - 4,
+        height: tooltipDimensions.height - 4,
+      },
+      showTooltipTriggerArea: {
+        startX: xScale(d.year) - distanceBetweenPoints / 2,
+        startY: 0,
+        width: distanceBetweenPoints,
+        height,
+      },
+      hideToolTipTriggerArea: {
+        points: [] as string[],
+      },
+    };
+
+    properties.hideToolTipTriggerArea = {
+      points: [
+        `${properties.showTooltipTriggerArea.startX},${Math.min(
+          properties.showTooltipTriggerArea.startY,
+          properties.outerBox.startY
+        )}`,
+        `${properties.showTooltipTriggerArea.startX},${properties.outerBox.startY}`,
+        `${properties.outerBox.startX},${properties.outerBox.startY}`,
+        `${properties.outerBox.startX},${
+          properties.outerBox.startY + properties.outerBox.height
+        }`,
+        `${properties.showTooltipTriggerArea.startX},${
+          properties.outerBox.startY + properties.outerBox.height
+        }`,
+        `${properties.showTooltipTriggerArea.startX},${
+          properties.showTooltipTriggerArea.startY +
+          properties.showTooltipTriggerArea.height
+        }`,
+        `${
+          properties.showTooltipTriggerArea.startX +
+          properties.showTooltipTriggerArea.width
+        },${
+          properties.showTooltipTriggerArea.startY +
+          properties.showTooltipTriggerArea.height
+        }`,
+        `${
+          properties.showTooltipTriggerArea.startX +
+          properties.showTooltipTriggerArea.width
+        },${properties.outerBox.startY + properties.outerBox.height}`,
+        `${properties.outerBox.startX + properties.outerBox.width},${
+          properties.outerBox.startY + properties.outerBox.height
+        }`,
+        `${properties.outerBox.startX + properties.outerBox.width},${
+          properties.outerBox.startY
+        }`,
+
+        `${
+          properties.showTooltipTriggerArea.startX +
+          properties.showTooltipTriggerArea.width
+        },${properties.outerBox.startY}`,
+
+        `${
+          properties.showTooltipTriggerArea.startX +
+          properties.showTooltipTriggerArea.width
+        },${Math.min(
+          properties.showTooltipTriggerArea.startY,
+          properties.outerBox.startY
+        )}`,
+      ],
+    };
+    return properties;
+  });
 
   // Render chart base
   const svg = d3
@@ -123,7 +210,7 @@ const drawBirthDeathRateViz = (
         .attr('stroke-opacity', 0.1)
     );
 
-  //   Render y axis label
+  // Render y axis label
   svg
     .append('text')
     .attr('text-anchor', 'left')
@@ -203,35 +290,32 @@ const drawBirthDeathRateViz = (
   // grey background of the selected year slice
   tooltips
     .append('rect')
-    .attr('x', (d) => xScale(d.year) - distanceBetweenPoints / 2)
-    .attr('y', '0')
-    .attr('width', distanceBetweenPoints)
-    .attr('height', height)
+    .attr('x', (_, i) => tooltipProperties[i].showTooltipTriggerArea.startX)
+    .attr('y', (_, i) => tooltipProperties[i].showTooltipTriggerArea.startY)
+    .attr('width', (_, i) => tooltipProperties[i].showTooltipTriggerArea.width)
+    .attr(
+      'height',
+      (_, i) => tooltipProperties[i].showTooltipTriggerArea.height
+    )
     .style('fill', 'rgba(0,0,0,0.1)');
 
   // tooltip border
   tooltips
     .append('rect')
-    .attr('x', (d) => (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
-    .attr(
-      'y',
-      (d) => yScale(getHighestNumber(d)) - (tooltipDimensions.height + 15)
-    )
-    .attr('width', tooltipDimensions.width)
-    .attr('height', tooltipDimensions.height)
+    .attr('x', (_, i) => tooltipProperties[i].outerBox.startX)
+    .attr('y', (_, i) => tooltipProperties[i].outerBox.startY)
+    .attr('width', (_, i) => tooltipProperties[i].outerBox.width)
+    .attr('height', (_, i) => tooltipProperties[i].outerBox.height)
     .attr('fill', '#000000');
 
-  // tooltip background
+  // tooltip inner area
   tooltips
     .append('rect')
     .attr('text-anchor', 'middle')
-    .attr('x', (d) => 2 + (xScale(d.year) ?? 0) - tooltipDimensions.width / 2)
-    .attr(
-      'y',
-      (d) => 2 + yScale(getHighestNumber(d)) - (tooltipDimensions.height + 15)
-    )
-    .attr('width', tooltipDimensions.width - 4)
-    .attr('height', tooltipDimensions.height - 4)
+    .attr('x', (_, i) => tooltipProperties[i].innerBox.startX)
+    .attr('y', (_, i) => tooltipProperties[i].innerBox.startY)
+    .attr('width', (_, i) => tooltipProperties[i].innerBox.width)
+    .attr('height', (_, i) => tooltipProperties[i].innerBox.height)
     .attr('fill', '#ffffff');
 
   // Tooltip text: age group
@@ -282,35 +366,54 @@ const drawBirthDeathRateViz = (
     .attr('fill', '#fff');
 
   // Invisible rectangles: when focused or hovered, tooltip becomes visible
-  const focusArea = svg
+  const focusAreas = svg
     .selectAll('focusArea')
     .data(data)
     .join('rect')
-    .attr('x', (d) => xScale(d.year) - distanceBetweenPoints / 2)
-    .attr('y', '0')
-    .attr('width', distanceBetweenPoints)
-    .attr('height', height)
+    .attr('x', (_, i) => tooltipProperties[i].showTooltipTriggerArea.startX)
+    .attr('y', (_, i) => tooltipProperties[i].showTooltipTriggerArea.startY)
+    .attr('width', (_, i) => tooltipProperties[i].showTooltipTriggerArea.width)
+    .attr(
+      'height',
+      (_, i) => tooltipProperties[i].showTooltipTriggerArea.height
+    )
     .attr('tabindex', '0')
     .attr('aria-labelledby', (d) => `tooltip-${d.id}`)
     .style('outline', 'none')
     .style('fill', 'rgba(0,0,0,0)');
 
-  focusArea.on('mouseover', (_, d) => {
+  // Tooltip will only hide, once the cursor leaves this area
+  const keepShowingTooltipAreas = svg
+    .selectAll('focusArea')
+    .data(data)
+    .join('polygon')
+    .attr('points', (_, i) =>
+      tooltipProperties[i].hideToolTipTriggerArea.points.join(' ')
+    )
+    .attr('id', (d) => `mouseLeaveArea-${d.id}`)
+    .style('display', 'none')
+    .style('fill', 'rgba(255,0,0,0)');
+
+  focusAreas.on('mouseover', (_, d) => {
     showTooltip(d.id, data);
   });
 
-  focusArea.on('focusin', (_, d) => {
+  focusAreas.on('focusin', (_, d) => {
     showTooltip(d.id, data);
   });
 
-  focusArea.on('mouseleave', (_, d) => {
+  keepShowingTooltipAreas.on('mouseleave', (_, d) => {
     const tooltip = d3.select(`#tooltip-${d.id}`);
-    tooltip.attr('display', 'none');
+    const mouseLeave = d3.select(`#mouseLeaveArea-${d.id}`);
+    tooltip.style('display', 'none');
+    mouseLeave.style('display', 'none');
   });
 
-  focusArea.on('focusout', (_, d) => {
+  focusAreas.on('focusout', (_, d) => {
     const tooltip = d3.select(`#tooltip-${d.id}`);
-    tooltip.attr('display', 'none');
+    const mouseLeave = d3.select(`#mouseLeaveArea-${d.id}`);
+    tooltip.style('display', 'none');
+    mouseLeave.style('display', 'none');
   });
 };
 
