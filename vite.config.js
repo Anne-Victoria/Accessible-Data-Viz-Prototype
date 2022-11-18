@@ -12,10 +12,18 @@ export default defineConfig({
           __dirname,
           'src/population-by-age/table.html'
         ),
+        populationByAgeFullscreen: resolve(
+          __dirname,
+          'src/population-by-age/fullscreen.html'
+        ),
         birthDeathRate: resolve(__dirname, 'src/birth-death-rates/index.html'),
         birthDeathRateTable: resolve(
           __dirname,
           'src/birth-death-rates/table.html'
+        ),
+        birthDeathRateFullscreen: resolve(
+          __dirname,
+          'src/birth-death-rates/fullscreen.html'
         ),
       },
     },
