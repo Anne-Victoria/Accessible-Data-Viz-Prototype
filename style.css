@@ -310,7 +310,7 @@ svg text {
 }
 
 .fullscreen-controls .button {
-  margin: 0.25rem;
+  margin-left: 0.5rem;
 }
 
 .fullscreen-controls .button:last-child {
