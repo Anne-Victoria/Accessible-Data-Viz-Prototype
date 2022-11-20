@@ -38,7 +38,7 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
     .domain([0, largestValueInData * 1.1])
     .range([heightWithoutMargins, 0]);
 
-  const { bars, rectangles } = setupChart(
+  const { svg, bars, rectangles } = setupChart(
     data,
     xScale,
     yScale,
@@ -49,7 +49,15 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
     margins
   );
 
-  setupTooltips(data, rectangles, bars, xScale, yScale);
+  setupTooltips(
+    data,
+    svg,
+    rectangles,
+    bars,
+    xScale,
+    yScale,
+    heightWithoutMargins
+  );
 };
 
 const rowProcessor = (row: any): AgeDatapoint => ({

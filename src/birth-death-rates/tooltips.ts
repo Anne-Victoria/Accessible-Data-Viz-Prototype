@@ -266,7 +266,7 @@ const setupTooltips = (
     )
     .attr('id', (d) => `mouseLeaveArea-${d.id}`)
     .style('display', 'none')
-    .style('fill', 'rgba(255,0,0,0)');
+    .style('fill', 'rgba(0,0,0,0)');
 
   focusAreas.on('mouseover', (_, d) => {
     showTooltip(d.id, data);

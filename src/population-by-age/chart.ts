@@ -16,6 +16,7 @@ const setupChart = (
     left: number;
   }
 ): {
+  svg: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
   rectangles: d3.Selection<
     d3.BaseType | SVGRectElement,
     AgeDatapoint,
@@ -99,7 +100,7 @@ const setupChart = (
     /* Each bar has an aria-label for screen readers */
     .attr('aria-labelledby', (d) => `tooltip-${d.id}`);
 
-  return { bars, rectangles };
+  return { svg, bars, rectangles };
 };
 
 export default setupChart;
