@@ -1,6 +1,17 @@
 import * as d3 from 'd3';
 import { BirthsDeathsDatapoint } from '../common/commonTypes';
 
+/**
+ * Renders the birth-death-rate chart
+ *
+ * @param data - the births-deaths data set
+ * @param svg - the element that the chart will be rendered in
+ * @param xScale - the d3 scale for determining positions on the x axis
+ * @param yScale - the d3 scale for determining positions on the y axis
+ * @param heightWithoutMargins - the height of the chart excl. margins
+ * @param widthWithoutMargins - the width of the chart excl. margins
+ * @param bottomMargin - the size of the chart's bottom margin
+ */
 const setupChart = (
   data: BirthsDeathsDatapoint[],
   svg: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
@@ -9,7 +20,7 @@ const setupChart = (
   heightWithoutMargins: number,
   widthWithoutMargins: number,
   bottomMargin: number
-) => {
+): void => {
   const lastDatapoint: BirthsDeathsDatapoint = data[data.length - 1];
   const lastDatapointCoordinates = {
     x: xScale(lastDatapoint.year),

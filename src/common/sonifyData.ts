@@ -8,14 +8,20 @@ type ButtonLabel = 'Play' | 'Pause' | 'Resume' | 'Restart';
 /**
  * Sets up a sonification of the given data and returns a function
  * for starting and stopping the sonification.
+ *
  * @param data - the population data to sonify
  * @returns a function that will start, stop, restart the sonification depending on
  * the current playing state
  */
-export default function setupDataSonification(data: number[]) {
+export default function setupDataSonification(data: number[]): Function {
   let playingState: PlayingState = 'initial';
 
-  const setPlayingState = (newState: PlayingState) => {
+  /**
+   * Changes the playing state
+   *
+   * @param newState - the state to change to
+   */
+  const setPlayingState = (newState: PlayingState): void => {
     playingState = newState;
   };
 
@@ -23,7 +29,12 @@ export default function setupDataSonification(data: number[]) {
     'play-pause-population-sonification'
   );
 
-  const setPlayPauseButtonText = (text: ButtonLabel) => {
+  /**
+   * Change the text of the button that controls the playing state
+   *
+   * @param text - the new text for the button
+   */
+  const setPlayPauseButtonText = (text: ButtonLabel): void => {
     if (playPauseButton) {
       playPauseButton.innerText = text;
     }
@@ -52,7 +63,10 @@ export default function setupDataSonification(data: number[]) {
   Tone.Transport.loop = false;
   sequence.loop = false;
 
-  const resetPlayer = async () => {
+  /**
+   * Resets the player to the initial state from before anything started playing
+   */
+  const resetPlayer = async (): Promise<void> => {
     await sequence.start(0);
     await Tone.Transport.start();
     Tone.Transport.pause();
@@ -60,7 +74,10 @@ export default function setupDataSonification(data: number[]) {
     setPlayingState('initial');
   };
 
-  const startPlaying = async () => {
+  /**
+   * Start playing the sonification (from the start)
+   */
+  const startPlaying = async (): Promise<void> => {
     await Tone.start();
     await sequence.start(0);
     await Tone.Transport.start();
@@ -69,20 +86,30 @@ export default function setupDataSonification(data: number[]) {
     setPlayingState('playing');
   };
 
-  const resumePlaying = async () => {
+  /**
+   * Resume playing from wherever the sonification was stopped
+   */
+  const resumePlaying = async (): Promise<void> => {
     await sequence.start(0);
     await Tone.Transport.start();
     setPlayPauseButtonText('Pause');
     setPlayingState('playing');
   };
 
-  const pausePlaying = () => {
+  /**
+   * Pause the sonification
+   */
+  const pausePlaying = (): void => {
     Tone.Transport.pause();
     setPlayPauseButtonText('Resume');
     setPlayingState('paused');
   };
 
-  const handlePlayPauseButtonClicked = () => {
+  /**
+   * Call the needed action when the play/pause/resume button is clicked,
+   * depending on the current playing state
+   */
+  const handlePlayPauseButtonClicked = (): void => {
     if (playingState === 'initial') {
       startPlaying();
     } else if (playingState === 'playing') {

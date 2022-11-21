@@ -8,9 +8,10 @@ import { setupTooltips } from './tooltips';
 
 /**
  * Creates a bar chart for the given population data
+ *
  * @param data - the data with population size per age group
  */
-const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
+const drawPopulationByAgeChart = (data: AgeDatapoint[]): void => {
   const margins = {
     top: 100,
     right: 50,
@@ -60,6 +61,12 @@ const drawPopulationByAgeChart = (data: AgeDatapoint[]) => {
   );
 };
 
+/**
+ * Creates an array of AgeDatapoint objects from the data read by d3
+ *
+ * @param row - A data entry read from the CSV by d3
+ * @returns The created AgeDatapoint
+ */
 const rowProcessor = (row: any): AgeDatapoint => ({
   id: row.id ?? '',
   age_group: row.age_group ?? '',
@@ -69,7 +76,7 @@ const rowProcessor = (row: any): AgeDatapoint => ({
 /**
  * Sets up the d3 visualization and the sonification
  */
-const main = async () => {
+const main = async (): Promise<void> => {
   const data = (await accessData(
     'populationByAgeData',
     '/population_by_age.csv',

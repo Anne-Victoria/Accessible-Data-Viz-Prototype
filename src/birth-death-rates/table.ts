@@ -7,9 +7,10 @@ const numberFormatter = Intl.NumberFormat('en-US');
 
 /**
  * Renders a table with the given population data
+ *
  * @param data - the population data
  */
-const drawTable = (data: BirthsDeathsDatapoint[]) => {
+const drawTable = (data: BirthsDeathsDatapoint[]): void => {
   const svg = d3.select('#data-table');
   const rows = svg.selectAll('row').data(data).join('tr');
   rows.append('td').text((d) => d.year);
@@ -17,7 +18,10 @@ const drawTable = (data: BirthsDeathsDatapoint[]) => {
   rows.append('td').text((d) => numberFormatter.format(d.deaths));
 };
 
-const main = async () => {
+/**
+ * Fetches the data and renders it into the table
+ */
+const main = async (): Promise<void> => {
   const data = (await accessData(
     'birthsDeathsData',
     '/birth_death_rate.csv',

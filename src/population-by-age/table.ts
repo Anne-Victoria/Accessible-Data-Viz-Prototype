@@ -7,16 +7,20 @@ const numberFormatter = Intl.NumberFormat('en-US');
 
 /**
  * Renders a table with the given population data
+ *
  * @param data - the population data
  */
-const drawTable = (data: AgeDatapoint[]) => {
+const drawTable = (data: AgeDatapoint[]): void => {
   const svg = d3.select('#data-table');
   const rows = svg.selectAll('row').data(data).join('tr');
   rows.append('td').text((d) => d.age_group);
   rows.append('td').text((d) => numberFormatter.format(d.population_size));
 };
 
-const main = async () => {
+/**
+ * Fetches the data and renders it into the table
+ */
+const main = async (): Promise<void> => {
   const data = (await accessData(
     'populationByAgeData',
     '/population_by_age.csv',

@@ -5,13 +5,47 @@ let timeOfLastForceHide = Date.now();
 
 const numberFormatter = Intl.NumberFormat('en-US');
 
+/**
+ * Calculates the positions and dimensions needed for rendering the tooltip for every data point
+ *
+ * @param data - the entire data set
+ * @param xScale - the d3 scale for determining positions on the x axis
+ * @param yScale - the d3 scale for determining positions on the y axis
+ * @param heightWithoutMargins - the height of the chart excl. margins
+ * @param tooltipDimensions - the dimenstions of the box with the tooltip text
+ * @param tooltipDimensions.width - the width of the tooltip box
+ * @param tooltipDimensions.height - the height of the tooltip box
+ * @returns - an array with the positions and dimensions of the tooltip for every data point
+ */
 const getTooltipParameters = (
   data: AgeDatapoint[],
   xScale: d3.ScaleBand<string>,
   yScale: d3.AxisScale<number>,
   heightWithoutMargins: number,
   tooltipDimensions: { width: number; height: number }
-) => {
+): Array<{
+  outerBox: {
+    startX: number;
+    startY: number;
+    width: number;
+    height: number;
+  };
+  innerBox: {
+    startX: number;
+    startY: number;
+    width: number;
+    height: number;
+  };
+  showTooltipTriggerArea: {
+    startX: number;
+    startY: number;
+    width: number;
+    height: number;
+  };
+  hideToolTipTriggerArea: {
+    points: string[];
+  };
+}> => {
   const halfBarWidth = xScale.bandwidth() / 2;
 
   return data.map((d) => {
@@ -93,7 +127,13 @@ const getTooltipParameters = (
   });
 };
 
-const showTooltip = (id: string, data: AgeDatapoint[]) => {
+/**
+ * Show the tooltip for the given datapoint
+ *
+ * @param id - the datapoint's id
+ * @param data - the entire data set
+ */
+const showTooltip = (id: string, data: AgeDatapoint[]): void => {
   // Hack to circumvent a bug where the tooltip immediately shows up again
   if (Date.now() - timeOfLastForceHide < 500) {
     return;
@@ -111,14 +151,25 @@ const showTooltip = (id: string, data: AgeDatapoint[]) => {
   });
 };
 
-const hideTooltip = (id: string) => {
+/**
+ * Hides the tooltip for the given data point
+ *
+ * @param id - the id of the data point
+ */
+const hideTooltip = (id: string): void => {
   const tooltip = d3.select(`#tooltip-${id}`);
   const mouseLeave = d3.select(`#mouseLeaveArea-${id}`);
   tooltip.style('display', 'none');
   mouseLeave.style('display', 'none');
 };
 
-const forceHideTooltips = (data: AgeDatapoint[]) => {
+/**
+ * Hide any tooltips that might currently be open,
+ * even when the user currently has their cursor on a data point
+ *
+ * @param data - the entire data set
+ */
+const forceHideTooltips = (data: AgeDatapoint[]): void => {
   timeOfLastForceHide = Date.now();
   data.forEach((datapoint) => {
     const tooltip = d3.select(`#tooltip-${datapoint.id}`);
@@ -128,6 +179,18 @@ const forceHideTooltips = (data: AgeDatapoint[]) => {
   });
 };
 
+/**
+ * Renders the tooltips (invisible at first) and sets up event listeners
+ * for displaying and hiding them.
+ *
+ * @param data - the entire data set
+ * @param svg - the chart element selected by d3
+ * @param rectangles - the <rect> elements of the bars selected by d3
+ * @param bars - the bars selected by d3
+ * @param xScale - the d3 scale for determining positions on the x axis
+ * @param yScale - the d3 scale for determining positions on the y axis
+ * @param heightWithoutMargins - the height of the chart excl. margins
+ */
 const setupTooltips = (
   data: AgeDatapoint[],
   svg: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
@@ -141,7 +204,7 @@ const setupTooltips = (
   xScale: d3.ScaleBand<string>,
   yScale: d3.AxisScale<number>,
   heightWithoutMargins: number
-) => {
+): void => {
   const tooltipDimensions = {
     width: 200,
     height: 60,

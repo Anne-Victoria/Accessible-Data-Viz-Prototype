@@ -1,6 +1,23 @@
 import * as d3 from 'd3';
 import { AgeDatapoint } from '../common/commonTypes';
 
+/**
+ * Renders the population-by-age chart
+ *
+ * @param data - the births-deaths data set
+ * @param xScale - the d3 scale for determining positions on the x axis
+ * @param yScale - the d3 scale for determining positions on the y axis
+ * @param totalWidth - the width of the chart incl. margins
+ * @param totalHeight - the height of the chart incl. margins
+ * @param widthWithoutMargins - the width of the chart excl. margins
+ * @param heightWithoutMargins - the height of the chart incl. margins
+ * @param margins - the margins of the chart
+ * @param margins.top - the top margin of the chart
+ * @param margins.right - the right margin of the chart
+ * @param margins.left - the left margin of the chart
+ * @param margins.bottom - the bottom margin of the chart
+ * @returns - the svg, rectangles and bars elements after setting the chart up
+ */
 const setupChart = (
   data: AgeDatapoint[],
   xScale: d3.ScaleBand<string>,

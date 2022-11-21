@@ -8,13 +8,14 @@ import { BirthsDeathsDatapoint } from '../common/commonTypes';
 
 /**
  * Creates a bar chart for the given population data
+ *
  * @param data - the data with population size per age group
  * @param vizElement - the id of the DOM element to render the viz to
  */
 const drawBirthDeathRateViz = (
   data: BirthsDeathsDatapoint[],
   vizElement: string
-) => {
+): void => {
   const margin = {
     top: 100,
     right: 100,
@@ -72,8 +73,9 @@ const drawBirthDeathRateViz = (
 
 /**
  * Creates an array of BirthsDeathsDatapoint objects from the data read by d3
+ *
  * @param row - A data entry read from the CSV by d3
- * @returns The array of parsed data
+ * @returns The created BirthsDeathsDatapoint
  */
 const rowProcessor = (row: any): BirthsDeathsDatapoint => ({
   id: row.id ?? '',
@@ -85,7 +87,7 @@ const rowProcessor = (row: any): BirthsDeathsDatapoint => ({
 /**
  * Sets up the d3 visualization and the sonification
  */
-const main = async () => {
+const main = async (): Promise<void> => {
   const vizElement = 'births-deaths-viz';
 
   const data = (await accessData(

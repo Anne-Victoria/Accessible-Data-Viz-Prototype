@@ -9,6 +9,7 @@ interface ZoomState {
  * would have, if the visualization was in reset state. We need to measure this every time,
  * since the user might change the width of the browser, which results in the default width
  * having a different value.
+ *
  * @param visualizationElement - the SVG root element
  * @returns - the width as number (in pixels)
  */
@@ -24,6 +25,7 @@ function measureDefaultWidth(visualizationElement: HTMLElement): number {
   const currentWidthInPx = parseInt(currentWidth.slice(0, -1), 10);
 
   if (Number.isNaN(currentWidthInPx)) {
+    // eslint-disable-next-line no-console
     console.error('Failed to parse current width of visualization SVG root.');
     return 800;
   }
@@ -38,6 +40,7 @@ function measureDefaultWidth(visualizationElement: HTMLElement): number {
   const defaultSizeInPx = parseInt(defaultSize.slice(0, -1), 10);
 
   if (Number.isNaN(defaultSizeInPx)) {
+    // eslint-disable-next-line no-console
     console.error('Failed to parse default width of visualization SVG root.');
     return 800;
   }
@@ -50,12 +53,16 @@ function measureDefaultWidth(visualizationElement: HTMLElement): number {
   return defaultSizeInPx;
 }
 
+/**
+ * Zoom the viz elements so that it corresponds with the current zoom state.
+ *
+ * @param zoomState - the current zoom state
+ * @param visualizationElement - the element that needs to be zoomed to match the state
+ */
 function updateZoomLevel(
   zoomState: ZoomState,
   visualizationElement: HTMLElement
-) {
-  console.log(zoomState);
-
+): void {
   if (zoomState.isReset) {
     visualizationElement.style.minWidth = '';
     visualizationElement.style.maxWidth = '';
@@ -70,7 +77,10 @@ function updateZoomLevel(
   }
 }
 
-function setUpZooming() {
+/**
+ * Set up everything for making zooming the viz possible.
+ */
+function setUpZooming(): void {
   const zoomOutButton = document.getElementById('zoom-out');
   const zoomInButton = document.getElementById('zoom-in');
   const resetZoomButton = document.getElementById('reset-zoom');
@@ -89,6 +99,7 @@ function setUpZooming() {
     !resetZoomButton ||
     !visualizationElement
   ) {
+    // eslint-disable-next-line no-console
     console.error(
       "Setting up zooming failed. Couldn't find all needed HTML elements."
     );
