@@ -343,6 +343,25 @@ svg text {
 
 /* || Data table page || */
 
-#data-table td:nth-child(2) {
+table {
+  border-collapse: collapse;
+}
+
+td,
+th {
+  padding: 0.5rem;
   text-align: right;
+}
+
+td:first-child,
+th:first-child {
+  padding-left: 2rem;
+}
+td:last-child,
+th:last-child {
+  padding-right: 2rem;
+}
+
+tr:nth-child(2n) {
+  background-color: var(--bg-alternative-color);
 }
