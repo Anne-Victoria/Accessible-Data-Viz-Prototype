@@ -1,6 +1,8 @@
 import * as d3 from 'd3';
 import { AgeDatapoint } from '../common/commonTypes';
 
+let timeOfLastForceHide = Date.now();
+
 const numberFormatter = Intl.NumberFormat('en-US');
 
 const getTooltipParameters = (
@@ -92,6 +94,10 @@ const getTooltipParameters = (
 };
 
 const showTooltip = (id: string, data: AgeDatapoint[]) => {
+  // Hack to circumvent a bug where the tooltip immediately shows up again
+  if (Date.now() - timeOfLastForceHide < 500) {
+    return;
+  }
   data.forEach((datapoint) => {
     const tooltip = d3.select(`#tooltip-${datapoint.id}`);
     const mouseLeaveArea = d3.select(`#mouseLeaveArea-${datapoint.id}`);
@@ -110,6 +116,16 @@ const hideTooltip = (id: string) => {
   const mouseLeave = d3.select(`#mouseLeaveArea-${id}`);
   tooltip.style('display', 'none');
   mouseLeave.style('display', 'none');
+};
+
+const forceHideTooltips = (data: AgeDatapoint[]) => {
+  timeOfLastForceHide = Date.now();
+  data.forEach((datapoint) => {
+    const tooltip = d3.select(`#tooltip-${datapoint.id}`);
+    const mouseLeaveArea = d3.select(`#mouseLeaveArea-${datapoint.id}`);
+    tooltip.style('display', 'none');
+    mouseLeaveArea.style('display', 'none');
+  });
 };
 
 const setupTooltips = (
@@ -234,6 +250,12 @@ const setupTooltips = (
 
   rectangles.on('focusout', (_, d) => {
     hideTooltip(d.id);
+  });
+
+  document.addEventListener('keyup', (event) => {
+    if (event.key === 'Escape') {
+      forceHideTooltips(data);
+    }
   });
 };
 
