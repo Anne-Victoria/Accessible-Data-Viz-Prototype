@@ -96,6 +96,7 @@ const main = async (): Promise<void> => {
 
   const handlePlayPauseButtonClicked = sonifyData(
     dataForSonification,
+    null,
     'play-pause-population-sonification',
     toneScale
   );

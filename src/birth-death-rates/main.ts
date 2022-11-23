@@ -115,36 +115,17 @@ const main = async (): Promise<void> => {
     .domain([smallestValue, largestValue])
     .range([200, 1000]);
 
-  const handleBirthsPlayPauseButtonClicked = sonifyData(
+  const handlePlayPauseButtonClicked = sonifyData(
     birthDataForSonification,
-    'play-pause-births-sonification',
-    toneScale
-  );
-  const handleDeathsPlayPauseButtonClicked = sonifyData(
     deathDataForSonification,
-    'play-pause-deaths-sonification',
+    'play-pause-sonification',
     toneScale
   );
-  const birthsPlayPauseButton = document.getElementById(
-    'play-pause-births-sonification'
-  );
 
-  const deathsPlayPauseButton = document.getElementById(
-    'play-pause-deaths-sonification'
-  );
+  const playPauseButton = document.getElementById('play-pause-sonification');
 
-  if (birthsPlayPauseButton) {
-    birthsPlayPauseButton.addEventListener(
-      'click',
-      handleBirthsPlayPauseButtonClicked
-    );
-  }
-
-  if (deathsPlayPauseButton) {
-    deathsPlayPauseButton.addEventListener(
-      'click',
-      handleDeathsPlayPauseButtonClicked
-    );
+  if (playPauseButton) {
+    playPauseButton.addEventListener('click', handlePlayPauseButtonClicked);
   }
 
   setUpZooming();
