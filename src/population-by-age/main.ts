@@ -86,7 +86,19 @@ const main = async (): Promise<void> => {
   drawPopulationByAgeChart(data);
   const dataForSonification = data.map((entry) => entry.population_size);
 
-  const handlePlayPauseButtonClicked = sonifyData(dataForSonification);
+  const smallestValue = Math.min(...dataForSonification);
+  const largestValue = Math.max(...dataForSonification);
+
+  const toneScale = d3
+    .scaleLinear()
+    .domain([smallestValue, largestValue])
+    .range([200, 1000]);
+
+  const handlePlayPauseButtonClicked = sonifyData(
+    dataForSonification,
+    'play-pause-population-sonification',
+    toneScale
+  );
   const playPauseButton = document.getElementById(
     'play-pause-population-sonification'
   );

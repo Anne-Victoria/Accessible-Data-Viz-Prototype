@@ -6,15 +6,58 @@ type PlayingState = 'initial' | 'playing' | 'paused';
 type ButtonLabel = 'Play' | 'Pause' | 'Resume' | 'Restart';
 
 /**
+ * Creates the sequence that determines when which note will be played
+ *
+ * @param data - the data to create the sequence from
+ * @param toneScale - the scale for mapping data points to notes
+ * @param resetPlayer - function for resetting the player at the end of the sequence
+ * @returns sequence - the created sequence
+ */
+const createSequence = (
+  data: number[],
+  toneScale: d3.ScaleLinear<number, number, never>,
+  resetPlayer: () => Promise<void>
+): Tone.Sequence<any> => {
+  const dataAsNotes = data.map((datapoint) => toneScale(datapoint));
+
+  const synth = new Tone.Synth().toDestination();
+  let index = 0;
+  const sequence = new Tone.Sequence((time, note) => {
+    console.log(index, time, note);
+    console.log('now', Tone.Transport.now());
+
+    synth.triggerAttackRelease(note, 0.03, time);
+    if (index === dataAsNotes.length - 1) {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      resetPlayer();
+    }
+    index += 1;
+  }, dataAsNotes);
+
+  Tone.Transport.loop = false;
+  sequence.loop = false;
+
+  return sequence;
+};
+
+/**
  * Sets up a sonification of the given data and returns a function
  * for starting and stopping the sonification.
  *
- * @param data - the population data to sonify
+ * @param data - the data to sonify
+ * @param buttonId - the id of the play/pause button
+ * @param toneScale - the scale for mapping data points to notes
  * @returns a function that will start, stop, restart the sonification depending on
  * the current playing state
  */
-export default function setupDataSonification(data: number[]): Function {
+export default function setupDataSonification(
+  data: number[],
+  buttonId: string,
+  toneScale: d3.ScaleLinear<number, number, never>
+): () => void {
   let playingState: PlayingState = 'initial';
+  const playPauseButton = document.getElementById(buttonId);
+  let sequence: Tone.Sequence<any> = new Tone.Sequence();
 
   /**
    * Changes the playing state
@@ -24,10 +67,6 @@ export default function setupDataSonification(data: number[]): Function {
   const setPlayingState = (newState: PlayingState): void => {
     playingState = newState;
   };
-
-  const playPauseButton = document.getElementById(
-    'play-pause-population-sonification'
-  );
 
   /**
    * Change the text of the button that controls the playing state
@@ -40,48 +79,38 @@ export default function setupDataSonification(data: number[]): Function {
     }
   };
 
-  const largestValue = Math.max(...data);
-  const smallestValue = Math.min(...data);
-
-  const toneScale = d3
-    .scaleLinear()
-    .domain([smallestValue, largestValue])
-    .range([200, 1000]);
-
-  const dataAsNotes = data.map((datapoint) => toneScale(datapoint));
-
-  const synth = new Tone.Synth().toDestination();
-  let index = 0;
-  const sequence = new Tone.Sequence((time, note) => {
-    synth.triggerAttackRelease(note, 0.03, time);
-    if (index === dataAsNotes.length - 1) {
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      resetPlayer();
-    }
-    index += 1;
-  }, dataAsNotes);
-  Tone.Transport.loop = false;
-  sequence.loop = false;
-
   /**
    * Resets the player to the initial state from before anything started playing
    */
   const resetPlayer = async (): Promise<void> => {
-    await sequence.start(0);
-    await Tone.Transport.start();
+    console.log('resetting');
+    console.log('progress of sequence', sequence.progress);
+    sequence.dispose();
+    sequence = createSequence(data, toneScale, resetPlayer);
+    console.log(
+      'progress of sequence after new seq creation',
+      sequence.progress
+    );
+
+    sequence.start(0);
+    Tone.Transport.seconds = 0;
+    Tone.Transport.start();
     Tone.Transport.pause();
     setPlayPauseButtonText('Restart');
     setPlayingState('initial');
   };
 
+  sequence = createSequence(data, toneScale, resetPlayer);
   /**
    * Start playing the sonification (from the start)
    */
   const startPlaying = async (): Promise<void> => {
     await Tone.start();
-    await sequence.start(0);
-    await Tone.Transport.start();
-    synth.volume.value = -10;
+    sequence.start(0);
+    Tone.Transport.start();
+    console.log('now', Tone.Transport.now());
+    console.log('progress of sequence', sequence.progress);
+    // synth.volume.value = -10;
     setPlayPauseButtonText('Pause');
     setPlayingState('playing');
   };
@@ -90,8 +119,8 @@ export default function setupDataSonification(data: number[]): Function {
    * Resume playing from wherever the sonification was stopped
    */
   const resumePlaying = async (): Promise<void> => {
-    await sequence.start(0);
-    await Tone.Transport.start();
+    sequence.start(0);
+    Tone.Transport.start();
     setPlayPauseButtonText('Pause');
     setPlayingState('playing');
   };

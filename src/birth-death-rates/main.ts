@@ -98,14 +98,53 @@ const main = async (): Promise<void> => {
 
   drawBirthDeathRateViz(data, vizElement);
 
-  const dataForSonification = data.map((entry) => entry.births);
+  const birthDataForSonification = data.map((entry) => entry.births);
+  const deathDataForSonification = data.map((entry) => entry.deaths);
 
-  const handlePlayPauseButtonClicked = sonifyData(dataForSonification);
-  const playPauseButton = document.getElementById(
-    'play-pause-population-sonification'
+  const largestValue = Math.max(
+    ...birthDataForSonification,
+    ...deathDataForSonification
   );
-  if (playPauseButton) {
-    playPauseButton.addEventListener('click', handlePlayPauseButtonClicked);
+  const smallestValue = Math.min(
+    ...birthDataForSonification,
+    ...deathDataForSonification
+  );
+
+  const toneScale = d3
+    .scaleLinear()
+    .domain([smallestValue, largestValue])
+    .range([200, 1000]);
+
+  const handleBirthsPlayPauseButtonClicked = sonifyData(
+    birthDataForSonification,
+    'play-pause-births-sonification',
+    toneScale
+  );
+  const handleDeathsPlayPauseButtonClicked = sonifyData(
+    deathDataForSonification,
+    'play-pause-deaths-sonification',
+    toneScale
+  );
+  const birthsPlayPauseButton = document.getElementById(
+    'play-pause-births-sonification'
+  );
+
+  const deathsPlayPauseButton = document.getElementById(
+    'play-pause-deaths-sonification'
+  );
+
+  if (birthsPlayPauseButton) {
+    birthsPlayPauseButton.addEventListener(
+      'click',
+      handleBirthsPlayPauseButtonClicked
+    );
+  }
+
+  if (deathsPlayPauseButton) {
+    deathsPlayPauseButton.addEventListener(
+      'click',
+      handleDeathsPlayPauseButtonClicked
+    );
   }
 
   setUpZooming();
