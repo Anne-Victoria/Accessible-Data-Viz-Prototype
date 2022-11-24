@@ -18,7 +18,28 @@
           >Enlarge visualization</a
         >
         <h2 id="sonification-title">Sonification</h2>
-        <p>Listen to the data.</p>
+        <p>
+          Listen to the data. Use the radio buttons to choose which data series
+          to play. Use the button to play and pause the sonification.
+        </p>
+        <fieldset>
+          <legend>Data series</legend>
+          <div>
+            <input type="radio" name="data-series" id="radio-births" checked />
+            <label for="radio-births">Only births by year</label>
+          </div>
+          <div>
+            <input type="radio" name="data-series" id="radio-deaths" />
+            <label for="radio-deaths">Only deaths by year</label>
+          </div>
+          <div>
+            <input type="radio" name="data-series" id="radio-both" />
+            <label for="radio-both"
+              >Births and deaths by year (the first sound is for births, the
+              second for deaths)</label
+            >
+          </div>
+        </fieldset>
         <p>
           <button id="play-pause-sonification" class="button" type="button">
             Play

@@ -37,13 +37,13 @@ const createSequence = (
         count: 3,
         spread: 10,
       },
-      // envelope: {
-      //   attack: 0.01,
-      //   decay: 0.1,
-      //   sustain: 0.5,
-      //   release: 0.4,
-      //   attackCurve: 'exponential',
-      // },
+      envelope: {
+        attack: 0.01,
+        decay: 0.1,
+        sustain: 0.5,
+        release: 0.4,
+        attackCurve: 'exponential',
+      },
     }).toDestination();
   }
   const durationOfOneUnit = secondDataSeries ? 1 : 0.5;

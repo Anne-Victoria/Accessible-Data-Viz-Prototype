@@ -72,6 +72,34 @@ const drawBirthDeathRateViz = (
 };
 
 /**
+ * Set up the sonification for the chosen data series (births, deaths or both)
+ *
+ * @param firstDataSeries - birth or death data series
+ * @param secondDataSeries - death data series, if both births and deaths are sonified
+ * @param toneScale - the scale for mapping data to sound
+ */
+const setupSonificationForSelectedSeries = (
+  firstDataSeries: number[],
+  secondDataSeries: number[] | null,
+  toneScale: d3.ScaleLinear<number, number, never>
+): void => {
+  const playPauseButton = document.getElementById('play-pause-sonification');
+  if (!playPauseButton) return;
+
+  const handlePlayPauseButtonClicked = sonifyData(
+    firstDataSeries,
+    secondDataSeries,
+    'play-pause-sonification',
+    toneScale
+  );
+  if (playPauseButton) {
+    playPauseButton.onclick = handlePlayPauseButtonClicked;
+  }
+
+  // playPauseButton?.removeEventListener('click');
+};
+
+/**
  * Creates an array of BirthsDeathsDatapoint objects from the data read by d3
  *
  * @param row - A data entry read from the CSV by d3
@@ -115,18 +143,33 @@ const main = async (): Promise<void> => {
     .domain([smallestValue, largestValue])
     .range([200, 1000]);
 
-  const handlePlayPauseButtonClicked = sonifyData(
-    birthDataForSonification,
-    deathDataForSonification,
-    'play-pause-sonification',
-    toneScale
-  );
+  // default sonification: birth rate only
+  setupSonificationForSelectedSeries(birthDataForSonification, null, toneScale);
 
-  const playPauseButton = document.getElementById('play-pause-sonification');
-
-  if (playPauseButton) {
-    playPauseButton.addEventListener('click', handlePlayPauseButtonClicked);
-  }
+  const radioButtonBirths = document.getElementById('radio-births');
+  radioButtonBirths?.addEventListener('click', () => {
+    setupSonificationForSelectedSeries(
+      birthDataForSonification,
+      null,
+      toneScale
+    );
+  });
+  const radioButtonDeaths = document.getElementById('radio-deaths');
+  radioButtonDeaths?.addEventListener('click', () => {
+    setupSonificationForSelectedSeries(
+      deathDataForSonification,
+      null,
+      toneScale
+    );
+  });
+  const radioButtonBoth = document.getElementById('radio-both');
+  radioButtonBoth?.addEventListener('click', () => {
+    setupSonificationForSelectedSeries(
+      birthDataForSonification,
+      deathDataForSonification,
+      toneScale
+    );
+  });
 
   setUpZooming();
 };
