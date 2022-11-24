@@ -21,30 +21,14 @@ const createSequence = (
   resetPlayer: () => Promise<void>
 ): Tone.Sequence<any> => {
   const dataAsNotes = data.map((datapoint) => toneScale(datapoint));
-  // const synth = new Tone.Synth().toDestination();
   const synth = new Tone.Synth().toDestination();
 
-  let secondSynth: Tone.PluckSynth;
   // synth.volume.value = -10;
   let secondDataAsNotes: number[];
   if (secondDataSeries) {
     secondDataAsNotes = secondDataSeries.map((datapoint) =>
       toneScale(datapoint)
     );
-    secondSynth = new Tone.PolySynth(Tone.Synth, {
-      oscillator: {
-        type: 'fatsawtooth',
-        count: 3,
-        spread: 10,
-      },
-      envelope: {
-        attack: 0.01,
-        decay: 0.1,
-        sustain: 0.5,
-        release: 0.4,
-        attackCurve: 'exponential',
-      },
-    }).toDestination();
   }
   const durationOfOneUnit = secondDataSeries ? 1 : 0.5;
 
@@ -118,12 +102,7 @@ export default function setupDataSonification(
   const resetPlayer = async (): Promise<void> => {
     sequence.dispose();
     Tone.Transport.cancel(0);
-    // sequence = createSequence(data, toneScale, resetPlayer);
-
-    // sequence.start(0);
     Tone.Transport.seconds = 0;
-    // Tone.Transport.start();
-    // Tone.Transport.pause();
     setPlayPauseButtonText('Restart');
     setPlayingState('initial');
   };
