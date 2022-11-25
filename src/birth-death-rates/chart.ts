@@ -44,15 +44,14 @@ const setupChart = (
     .attr('transform', `translate(0, ${heightWithoutMargins})`)
     .call(d3.axisBottom(xScale).tickFormat((tick) => `${tick}`))
     .selectAll('text')
-    .attr('transform', 'translate(-10,0) rotate(-45)')
-    .style('text-anchor', 'end');
+    .style('text-anchor', 'middle');
 
   // Render x axis label
   svg
     .append('text')
     .attr('text-anchor', 'end')
-    .attr('x', widthWithoutMargins)
-    .attr('y', heightWithoutMargins + bottomMargin - 10)
+    .attr('x', widthWithoutMargins + 20)
+    .attr('y', heightWithoutMargins + bottomMargin - 30)
     .attr('class', 'axis-label')
     .text('Year');
 
@@ -76,7 +75,7 @@ const setupChart = (
     .attr('x', '-80')
     .attr('y', '-20')
     .attr('class', 'axis-label')
-    .text('Number of births and deaths');
+    .text('Number of births, deaths');
 
   // Render data points
 

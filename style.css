@@ -171,6 +171,10 @@ a {
 
 /* || Start page || */
 
+.introtext {
+  margin-bottom: 3rem;
+}
+
 .card {
   margin-left: calc(-1 * var(--margin-small));
   margin-right: calc(-1 * var(--margin-small));
@@ -185,11 +189,12 @@ a {
 .card:hover,
 .card:focus-within {
   transform: translate(0, -0.5rem);
+  outline: 10px solid var(--focus-indicator-color);
 }
 
-.card:hover a,
 .card a:focus {
-  outline: 10px solid var(--focus-indicator-color);
+  /* The card has the focus outline, so we can safely remove it from the link */
+  outline: none;
 }
 
 .card * {
@@ -228,12 +233,21 @@ a {
     justify-content: space-between;
   }
 
+  .card {
+    flex: 1 1 0px;
+  }
+
   .card:not(:last-child) {
     margin-right: 1rem;
   }
 }
 
 /* || Visualization page || */
+
+.back-button,
+.enlarge-button {
+  margin-top: 1rem;
+}
 
 .viz-container {
   margin-left: calc(-1 * var(--margin-small));
