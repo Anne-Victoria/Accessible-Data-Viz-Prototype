@@ -95,8 +95,6 @@ const setupSonificationForSelectedSeries = (
   if (playPauseButton) {
     playPauseButton.onclick = handlePlayPauseButtonClicked;
   }
-
-  // playPauseButton?.removeEventListener('click');
 };
 
 /**

@@ -156,6 +156,11 @@ export default function setupDataSonification(
     }
   };
 
+  // Make sure any previously running sound is cleared. This is important for when the user switches
+  // between data series.
+  resetPlayer();
+  setPlayPauseButtonText('Play');
+
   return () => {
     handlePlayPauseButtonClicked();
   };
