@@ -59,6 +59,7 @@ svg {
 body {
   font-family: system-ui, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
     'Helvetica Neue', sans-serif;
+  line-height: 1.5;
 }
 
 h1 {
@@ -139,6 +140,14 @@ a {
 .skip-link:focus {
   position: initial;
   left: 0;
+}
+
+/* || Input Elements || */
+
+.radio-button-wrapper {
+  display: block;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
 }
 
 /* || Utilities || */
