@@ -359,6 +359,7 @@ svg text {
 
 table {
   border-collapse: collapse;
+  margin-bottom: 1rem;
 }
 
 caption {
