@@ -1,14 +1,14 @@
 /* || Variables || */
 
 :root {
-  --bg-color: #ffffff;
+  --bg-color: #fffff;
   --bg-alternative-color: #eeeeee;
   --light-color: #cccccc;
-  --text-color: #000000;
+  --text-color: #222222;
   --primary-color: #cfeebb;
 
-  /* todo: does this color have enough contrast? */
-  --focus-indicator-color: rgba(41, 184, 255, 0.5);
+  --hover-indicator-color: rgba(41, 184, 255, 0.5);
+  --focus-indicator-color: #008fd6;
 
   /* todo: does this color have enough contrast? */
   --link-color: rgb(0, 95, 189);
@@ -16,6 +16,7 @@
   --border-width: 2px;
 
   --margin-small: 1rem;
+  --secondary-font: monospace;
 
   --viz-min-width: 700px;
 }
@@ -43,6 +44,11 @@ html {
 body,
 figure {
   margin: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 img {
@@ -77,13 +83,22 @@ small {
   font-size: 0.8736rem;
 }
 
-body,
 h1,
 h2,
 h3,
 h4,
 h5,
-h6,
+h6 {
+  font-weight: bold;
+  font-family: var(--secondary-font);
+}
+
+h2,
+h3 {
+  margin-top: 2rem;
+}
+
+body,
 p,
 ol,
 ul {
@@ -114,7 +129,9 @@ a {
   cursor: pointer;
 }
 
-.button:hover,
+.button:hover {
+  outline: 5px solid var(--hover-indicator-color);
+}
 .button:focus {
   outline: 5px solid var(--focus-indicator-color);
 }
@@ -132,9 +149,6 @@ a {
 .skip-link {
   position: absolute;
   left: -10000px;
-  background-color: var(--bg-color);
-  border: var(--border-width) solid var(--text-color);
-  padding: 1rem;
 }
 
 .skip-link:focus {
@@ -143,6 +157,14 @@ a {
 }
 
 /* || Input Elements || */
+
+legend {
+  font-family: var(--secondary-font);
+  font-size: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-weight: bold;
+}
 
 .radio-button-wrapper {
   display: block;
@@ -157,7 +179,7 @@ a {
   margin-right: var(--margin-small);
 }
 
-/* || Site-wide layout || */
+/* || General layout || */
 
 .main {
   margin-left: var(--margin-small);
@@ -198,6 +220,13 @@ a {
 .card:hover,
 .card:focus-within {
   transform: translate(0, -0.5rem);
+}
+
+.card:hover {
+  outline: 10px solid var(--hover-indicator-color);
+}
+
+.card:focus-within {
   outline: 10px solid var(--focus-indicator-color);
 }
 
@@ -229,9 +258,12 @@ a {
   .card {
     border: var(--border-width) solid var(--text-color);
   }
-  .card h2,
+
   .card p {
-    margin: 2rem;
+    margin: 1rem 2rem 2rem 2rem;
+  }
+  .card h2 {
+    margin: 2rem 2rem 1rem 2rem;
   }
 }
 

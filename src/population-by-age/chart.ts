@@ -75,8 +75,9 @@ const setupChart = (
   svg
     .append('text')
     .attr('text-anchor', 'end')
-    .attr('x', widthWithoutMargins)
-    .attr('y', heightWithoutMargins + margins.bottom - 10)
+    .attr('x', widthWithoutMargins + 20)
+    .attr('y', heightWithoutMargins + margins.bottom - 30)
+    .attr('class', 'axis-label')
     .text('Age');
 
   // Render y axis
@@ -98,6 +99,7 @@ const setupChart = (
     .attr('text-anchor', 'middle')
     .attr('x', 0)
     .attr('y', -20)
+    .attr('class', 'axis-label')
     .text('Population at this age');
 
   // Render bars

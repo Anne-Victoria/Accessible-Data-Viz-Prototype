@@ -88,7 +88,7 @@ const setupChart = (
     .append('path')
     .datum(data)
     .attr('fill', 'none')
-    .attr('stroke', 'darkblue')
+    .attr('stroke', '#ff0000')
     .attr('stroke-width', 5)
     .attr(
       'd',
@@ -118,7 +118,7 @@ const setupChart = (
     .append('path')
     .datum(data)
     .attr('fill', 'none')
-    .attr('stroke', 'red')
+    .attr('stroke', '#0000aa')
     .attr('stroke-width', '5')
     .attr(
       'd',
