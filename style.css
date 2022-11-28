@@ -149,6 +149,7 @@ a {
 .icon-button-content {
   display: flex;
   align-items: center;
+  height: 1rem;
 }
 
 .button-icon {
@@ -377,7 +378,12 @@ svg text {
 }
 
 .fullscreen-controls .button {
-  margin-left: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.fullscreen-controls .button:active {
+  /* Prevent subsequent elements from shifting up 1px */
+  margin-bottom: calc(0.5rem + 1px);
 }
 
 .fullscreen-controls .button:last-child {
@@ -398,12 +404,23 @@ svg text {
   margin-right: auto;
 }
 
-@media all and (min-width: 550px) {
+@media all and (min-width: 650px) {
   .fullscreen-controls {
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
+    align-items: center;
   }
+
+  .fullscreen-controls .button:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+
+  .fullscreen-controls .button:not(:last-child):active {
+    /* Prevent subsequent elements from shifting left 1px */
+    margin-right: calc(0.5rem + 1px);
+  }
+
   .fullscreen-controls .button:last-child {
-    margin-top: 0.25rem;
+    margin-top: 0;
     margin-left: auto;
   }
 }
