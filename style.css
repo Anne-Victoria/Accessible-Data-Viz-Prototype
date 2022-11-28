@@ -1,7 +1,7 @@
 /* || Variables || */
 
 :root {
-  --bg-color: #fffff;
+  --bg-color: #ffffff;
   --bg-alternative-color: #eeeeee;
   --light-color: #cccccc;
   --text-color: #222222;
@@ -144,6 +144,18 @@ a {
   /* Prevent subsequent elements from shifting up or left 1px */
   margin-bottom: 1px;
   margin-right: 1px;
+}
+
+.icon-button-content {
+  display: flex;
+  align-items: center;
+}
+
+.button-icon {
+  width: 1em;
+  height: 1em;
+  fill: var(--text-color);
+  margin-right: 1em;
 }
 
 .skip-link {
