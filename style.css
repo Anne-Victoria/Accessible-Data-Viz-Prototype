@@ -335,6 +335,10 @@ svg text {
   color: var(--text-color);
 }
 
+.tick text {
+  font-family: var(--secondary-font);
+}
+
 .axis-label {
   font-weight: bold;
   font-size: 1.2rem;
@@ -452,6 +456,8 @@ td,
 th {
   padding: 0.5rem;
   text-align: right;
+  font-family: var(--secondary-font);
+  font-size: 1rem;
 }
 
 td:first-child,
