@@ -405,15 +405,6 @@ svg text {
   margin-top: 1rem;
 }
 
-.fullscreen-controls .close-button {
-  padding: 0.5rem;
-  border-radius: 100%;
-}
-
-.fullscreen-controls .close-button svg {
-  margin: 0;
-}
-
 .fullscreen-viz-container {
   overflow: scroll;
   flex-grow: 1;
