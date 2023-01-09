@@ -78,6 +78,7 @@ const setupChart = (
     .attr('x', widthWithoutMargins + 20)
     .attr('y', heightWithoutMargins + margins.bottom - 30)
     .attr('class', 'axis-label')
+    .attr('fill', 'currentColor')
     .text('Age');
 
   // Render y axis
@@ -100,6 +101,7 @@ const setupChart = (
     .attr('x', 0)
     .attr('y', -20)
     .attr('class', 'axis-label')
+    .attr('fill', 'currentColor')
     .text('Population at this age');
 
   // Render bars

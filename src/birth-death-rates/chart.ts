@@ -53,6 +53,7 @@ const setupChart = (
     .attr('x', widthWithoutMargins + 20)
     .attr('y', heightWithoutMargins + bottomMargin - 30)
     .attr('class', 'axis-label')
+    .attr('fill', 'currentColor')
     .text('Year');
 
   // Render y axis
@@ -75,6 +76,7 @@ const setupChart = (
     .attr('x', '-80')
     .attr('y', '-20')
     .attr('class', 'axis-label')
+    .attr('fill', 'currentColor')
     .text('Number of births, deaths');
 
   // Render data points
@@ -109,6 +111,7 @@ const setupChart = (
       .attr('text-anchor', 'left')
       .text('Births')
       .attr('aria-hidden', 'true')
+      .attr('fill', 'currentColor')
       .attr('x', lastDatapointCoordinates.x + 10)
       .attr('y', lastDatapointCoordinates.yBirths);
   }
@@ -139,6 +142,7 @@ const setupChart = (
       .attr('text-anchor', 'left')
       .text('Deaths')
       .attr('aria-hidden', 'true')
+      .attr('fill', 'currentColor')
       .attr('x', lastDatapointCoordinates.x + 10)
       .attr('y', lastDatapointCoordinates.yDeaths);
   }
