@@ -264,6 +264,13 @@ const setupTooltips = (
     .attr('height', (_, i) => tooltipParameters[i].innerBox.height)
     .attr('fill', '#ffffff');
 
+  // Hidden toooltip text: Datapoint
+  tooltips
+    .append('text')
+    .attr('fill', '#00000000')
+    .attr('class', 'screen-reader-only')
+    .text('Datapoint.');
+
   // Tooltip text: age group
   tooltips
     .append('text')
