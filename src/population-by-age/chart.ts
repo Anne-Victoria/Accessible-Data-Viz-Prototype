@@ -64,12 +64,22 @@ const setupChart = (
   // Render x axis
   svg
     .append('g')
+    // Hide the individual tick marks from screen readers
     .attr('aria-hidden', 'true')
     .attr('transform', `translate(0, ${heightWithoutMargins})`)
     .call(d3.axisBottom(xScale))
     .selectAll('text')
     .attr('transform', 'translate(-10,0) rotate(-45)')
     .style('text-anchor', 'end');
+
+  // Render x axis screen reader text
+  svg
+    .append('text')
+    .attr('fill', '#00000000')
+    .attr('class', 'screen-reader-only')
+    .text(
+      'X axis. Age, divided into 20 age groups, ranging from 0–4 to 95–99.'
+    );
 
   // Render x axis label
   svg
@@ -84,6 +94,7 @@ const setupChart = (
   // Render y axis
   svg
     .append('g')
+    // Hide the individual tick marks from screen readers
     .attr('aria-hidden', 'true')
     .call(d3.axisLeft(yScale))
     .call((g) =>
@@ -92,6 +103,15 @@ const setupChart = (
         .clone()
         .attr('x2', widthWithoutMargins)
         .attr('stroke-opacity', 0.1)
+    );
+
+  // Render y axis screen reader text
+  svg
+    .append('text')
+    .attr('fill', '#00000000')
+    .attr('class', 'screen-reader-only')
+    .text(
+      'Y axis. Size of population at this age, ranging from 0 to 7,000,000.'
     );
 
   //   Render y axis label

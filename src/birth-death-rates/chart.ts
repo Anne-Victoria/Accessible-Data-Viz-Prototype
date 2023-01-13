@@ -40,6 +40,7 @@ const setupChart = (
   // Render x axis
   svg
     .append('g')
+    // Hide the individual tick marks from screen readers
     .attr('aria-hidden', 'true')
     .attr('transform', `translate(0, ${heightWithoutMargins})`)
     .call(d3.axisBottom(xScale).tickFormat((tick) => `${tick}`))
@@ -56,9 +57,17 @@ const setupChart = (
     .attr('fill', 'currentColor')
     .text('Year');
 
+  // Render x axis screen reader text
+  svg
+    .append('text')
+    .attr('fill', '#00000000')
+    .attr('class', 'screen-reader-only')
+    .text('X axis. Year, ranging from 1950 to 2021.');
+
   // Render y axis
   svg
     .append('g')
+    // Hide the individual tick marks from screen readers
     .attr('aria-hidden', 'true')
     .call(d3.axisLeft(yScale))
     .call((g) =>
@@ -78,6 +87,15 @@ const setupChart = (
     .attr('class', 'axis-label')
     .attr('fill', 'currentColor')
     .text('Number of births, deaths');
+
+  // Render x axis screen reader text
+  svg
+    .append('text')
+    .attr('fill', '#00000000')
+    .attr('class', 'screen-reader-only')
+    .text(
+      'Y axis. Absolule number of births and of deaths in that year, ranging from 0 to 1,400,000.'
+    );
 
   // Render data points
 
