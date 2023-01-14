@@ -326,6 +326,7 @@ legend {
 .viz-container svg {
   width: 100%;
   min-width: var(--viz-min-width);
+  /* Needed for windows high contrast mode legibility */
   background-color: var(--bg-alternative-color);
 }
 
@@ -418,6 +419,8 @@ svg text {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  /* Needed for windows high contrast mode legibility */
+  background-color: var(--bg-alternative-color);
 }
 
 @media all and (min-width: 650px) {
