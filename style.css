@@ -326,6 +326,7 @@ legend {
 .viz-container svg {
   width: 100%;
   min-width: var(--viz-min-width);
+  background-color: var(--bg-alternative-color);
 }
 
 svg text {
