@@ -55,14 +55,14 @@ const setupChart = (
     .attr('y', heightWithoutMargins + bottomMargin - 30)
     .attr('class', 'axis-label')
     .attr('fill', 'currentColor')
-    .text('Year');
+    .text('Jahr');
 
   // Render x axis screen reader text
   svg
     .append('text')
     .attr('fill', '#00000000')
     .attr('class', 'screen-reader-only')
-    .text('X axis. Year, ranging from 1950 to 2021.');
+    .text('X-Achse, zeigt Jahr von 1950 bis 2021.');
 
   // Render y axis
   svg
@@ -86,7 +86,7 @@ const setupChart = (
     .attr('y', '-20')
     .attr('class', 'axis-label')
     .attr('fill', 'currentColor')
-    .text('Number of births, deaths');
+    .text('Zahl der Geburten, Sterbefälle');
 
   // Render x axis screen reader text
   svg
@@ -94,7 +94,7 @@ const setupChart = (
     .attr('fill', '#00000000')
     .attr('class', 'screen-reader-only')
     .text(
-      'Y axis. Absolule number of births and of deaths in that year, ranging from 0 to 1,400,000.'
+      'Y-Achse, zeigt die absolute Zahl der Geburten und Sterbefälle im jeweiligen Jahr auf einer Skala von 0 bis 1.400.000.'
     );
 
   // Render data points
@@ -127,7 +127,7 @@ const setupChart = (
       .append('text')
       .attr('fill', '#000000')
       .attr('text-anchor', 'left')
-      .text('Births')
+      .text('Geburten')
       .attr('aria-hidden', 'true')
       .attr('fill', 'currentColor')
       .attr('x', lastDatapointCoordinates.x + 10)
@@ -158,7 +158,7 @@ const setupChart = (
       .append('text')
       .attr('fill', '#000000')
       .attr('text-anchor', 'left')
-      .text('Deaths')
+      .text('Sterbefälle')
       .attr('aria-hidden', 'true')
       .attr('fill', 'currentColor')
       .attr('x', lastDatapointCoordinates.x + 10)

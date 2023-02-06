@@ -211,7 +211,7 @@ const setupTooltips = (
     return Math.max(datapoint.births, datapoint.deaths);
   };
 
-  const numberFormatter = Intl.NumberFormat('en-US');
+  const numberFormatter = Intl.NumberFormat('de-DE');
 
   // Note: We assume that the time between the data points is the same everywhere (1 year)
   const distanceBetweenPoints =

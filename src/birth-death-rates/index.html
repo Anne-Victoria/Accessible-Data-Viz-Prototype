@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css" />
-    <title>Prototype 2 | Data Viz Prototypes</title>
+    <title>Prototyp 2 | Diagramm-Prototypen</title>
   </head>
   <body>
     <main class="main">
@@ -22,46 +22,54 @@
                 d="M109.3 288L480 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-370.7 0 73.4-73.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288z"
               />
             </svg>
-            Return to Home
+            Zurück zum Start
           </div>
         </a>
         <h1>
-          Prototype 2 &mdash; Yearly total number of births and deaths in the
-          fictional country Loremland from 1950 to 2021
+          Prototyp 2 &mdash; Zahl der Geburten und Sterbefälle pro Jahr in dem
+          fiktiven Land Loremland von 1950 bis 2021
         </h1>
         <p>
-          Usage: Use tab or mouse hover over the lines to see the tooltips of
-          the individual data points. Use the escape key or move the mouse away
-          from the the visualization to close the tooltip. When using a screen
-          reader, use the tab key to access the individual data points in the
-          visualization.
+          Benutzung: Nutzen Sie die Tabulator-Taste oder fahren Sie mit der Maus
+          über das Diagramm, um die Tooltips der einzelnen Datenpunkte
+          anzuzeigen. Verwenden Sie die Escape-Taste oder entfernen Sie die Maus
+          vom Diagramm, um den Tooltip zu schließen. Wenn Sie einen Screenreader
+          benutzen, verwenden Sie die Tabulator-Taste, um die einzelnen
+          Datenpunkte im Diagramm auszulesen.
         </p>
         <a href="#sonification-title" class="skip-link button"
-          >Skip to sonification</a
+          >Springe zur Sonification</a
         >
         <div
           id="births-deaths-viz"
           class="viz-container"
           role="figure"
-          aria-label="Visualization"
+          aria-label="Diagramm"
         >
           <p class="screen-reader-only">
-            A line chart showing the number of births and deaths per year in
-            Loremland. X axis shows the year from 1950 to 2021. Y axis shows the
-            absolute number of births and of deaths in that year from 0 to
-            1,400,000. One line represents births. Maximum at 1,357,304 in 1964.
-            Minimum at 662,685 in 2011. Average 906,972. Second line represents
-            deaths. Maximum at 1,023,687 in 2021. Minimum at 748,329 in 1950.
-            Average 890,155.
+            Überblick: Ein Liniendiagramm, das die Zahl der Geburten und
+            Sterbefälle pro Jahr in Loremland darstellt. Auf der x-Achse sind
+            von links nach rechts die Jahre 1950 bis 2021 dargestellt. Auf der
+            y-Achse sind die absoluten Geburts- und Sterbefallzahlen im
+            entsprechenden Jahr von 0 bis 1.400.000 dargestellt. Es gibt zwei
+            Linien. Die eine Linie zeigt den Verlauf der Geburten pro Jahr. Das
+            Maximum liegt bei 1.357.304 Geburten im Jahr 1964. Das Minimum liegt
+            bei 662.685 Geburten im Jahr 2011. Der Durchschnitt liegt bei
+            906.972 Geburten pro Jahr. Die andere Linie zeigt den Verlauf der
+            Sterbefälle pro Jahr. Das Maximum liegt bei 1.023.687 Sterbefällen
+            im Jahr 2021. Das Minimum liegt bei 748.329 Sterbefällen im Jahr
+            1950. Der Durchschnitt liegt bei 890.155 Sterbefällen pro Jahr.
           </p>
           <p class="screen-reader-only">
-            The number of births gradually increases, then abruptly drops until
-            1973. Afterwards it slightly fluctuates on a lower level. The number
-            of deaths slightly increases at first, then slightly decreases, then
-            slightly increases again. The number of deaths starts out much lower
-            than the number of births, but first surpasses it in 1972 during the
-            steep drop of births. After that it stays above the number of births
-            until the end.
+            Trends: Die Zahl der Geburten steigt anfangs und fällt dann bis
+            circa 1973 abrupt ab. Danach bleibt sie, leicht schwankend, auf
+            einem niedrigeren Niveau. Die Zahl der Sterbefälle steigt anfangs
+            etwas, fällt dann leicht und steigt dann wieder etwas. Die Zahl der
+            Sterbefälle ist anfangs deutlich niedriger als die Zahl der
+            Geburten. Die Zahl der Sterbefälle übersteigt die Zahl der Geburten
+            jedoch erstmalig 1972 während des starken Rückgangs der
+            Geburtenzahlen. Ab 1972 bleibt die Zahl der Sterbefälle durchgehend
+            höher als die Zahl der Geburten.
           </p>
         </div>
         <a
@@ -79,53 +87,62 @@
                 d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H64V352zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32H320zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32V352z"
               />
             </svg>
-            Enlarge Visualization
+            Diagramm vergrößern
           </div>
         </a>
         <h2 id="sonification-title">Sonification</h2>
         <p>
-          Listen to the data. Use the radio buttons to choose which data series
-          to play. Use the button to play and pause the sonification. The
-          sonification plays one or two sounds for each data point across the x
-          axis, starting with the year 1950 and ending with 2021. Higher-pitched
-          sounds represent higher numbers of births or deaths. Lower-pitched
-          sounds represent lower numbers. The number of sounds per datapoint
-          depends on whether you choose to listen to one data series or both at
-          the same time.
+          Hören Sie sich eine Sonification der Daten an, wo die Datenpunkte als
+          Töne abgespielt werden.
+        </p>
+        <p>
+          Benutzen Sie die Auswahlschalter, um zu wählen, ob Geburten,
+          Sterbefälle oder beides abgespielt werden soll. Benutzen Sie den
+          Button, um die Sonification zu starten und zu pausieren.
+        </p>
+        <p>
+          Die Sonification spielt einen oder zwei Töne für jedes Jahr entlang
+          der x-Achse, beginnend bei 1950 und endend bei 2021. Höhere Töne
+          bedeuten eine höhere Zahl der Geburten bzw. Sterbefälle in diesem
+          Jahr. Niedrige Töne bedeuten einen niedrigere Zahl. Ob ein oder zwei
+          Töne pro Jahr abgespielt werden, hängt davon ab, ob Sie wählen, eine
+          der beiden Datenreihen oder beide gleichzeitig anzuhören.
         </p>
         <fieldset>
-          <legend>Data series</legend>
+          <legend>Abzuspielende Datenreihen</legend>
           <div class="radio-button-wrapper">
             <input type="radio" name="data-series" id="radio-births" checked />
-            <label for="radio-births">Only births by year</label>
+            <label for="radio-births">Nur Geburten pro Jahr</label>
           </div>
           <div class="radio-button-wrapper">
             <input type="radio" name="data-series" id="radio-deaths" />
-            <label for="radio-deaths">Only deaths by year</label>
+            <label for="radio-deaths">Nur Sterbefälle pro Jahr</label>
           </div>
           <div class="radio-button-wrapper">
             <input type="radio" name="data-series" id="radio-both" />
             <label for="radio-both"
-              >Births and deaths by year (the first sound is for births, the
-              second for deaths)</label
+              >Geburten und Sterbefälle pro Jahr (der erste Ton ist für die Zahl
+              der Geburten in diesem Jahr, der zweite Ton für die Zahl der
+              Sterbefälle)</label
             >
           </div>
         </fieldset>
         <p>
           <button id="play-pause-sonification" class="button" type="button">
-            Play
+            Start
           </button>
         </p>
         <h2>Download</h2>
         <p>
-          Download the
-          <a download href="/birth_death_rate.csv">data as CSV file</a>.
+          Lade die
+          <a download href="/birth_death_rate.csv">Daten als CSV-Datei</a>
+          herunter.
         </p>
-        <h2>Table</h2>
+        <h2>Tabelle</h2>
         <div>
           <p>
-            View population data
-            <a href="/src/birth-death-rates/table.html">as a table</a>.
+            Rufe die Daten
+            <a href="/src/birth-death-rates/table.html">als Tabelle</a> auf.
           </p>
         </div>
       </div>

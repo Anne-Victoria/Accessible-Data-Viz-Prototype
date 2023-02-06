@@ -3,7 +3,7 @@ import accessData from '../common/accessData';
 import rowProcessor from './main';
 import { AgeDatapoint } from '../common/commonTypes';
 
-const numberFormatter = Intl.NumberFormat('en-US');
+const numberFormatter = Intl.NumberFormat('de-DE');
 
 /**
  * Renders a table with the given population data

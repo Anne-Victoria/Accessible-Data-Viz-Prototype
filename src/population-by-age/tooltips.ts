@@ -3,7 +3,7 @@ import { AgeDatapoint } from '../common/commonTypes';
 
 let timeOfLastForceHide = Date.now();
 
-const numberFormatter = Intl.NumberFormat('en-US');
+const numberFormatter = Intl.NumberFormat('de-DE');
 
 /**
  * Calculates the positions and dimensions needed for rendering the tooltip for every data point
