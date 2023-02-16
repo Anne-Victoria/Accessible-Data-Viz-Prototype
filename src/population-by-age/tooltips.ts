@@ -255,7 +255,7 @@ const setupTooltips = (
     .attr('stroke-width', '1')
     .attr('stroke', '#000000');
 
-  // Hidden toooltip text: Bar
+  // Hidden tooltip text: Bar
   tooltips
     .append('text')
     .attr('fill', '#00000000')
@@ -278,6 +278,12 @@ const setupTooltips = (
     )
     .attr('y', (d) => (yScale(d.population_size) ?? 0) - 50);
 
+  // Invisible comma for a short pause
+  tooltips
+    .append('text')
+    .attr('fill', '#00000000')
+    .text(() => `, `);
+
   // Tooltip text: population size
   tooltips
     .append('text')
@@ -293,6 +299,12 @@ const setupTooltips = (
         tooltipDimensions.width / 2
     )
     .attr('y', (d) => (yScale(d.population_size) ?? 0) - 30);
+
+  // Full stop for a short pause after each tooltip
+  tooltips
+    .append('text')
+    .attr('fill', '#00000000')
+    .text(() => ` .`);
 
   // Tooltip will only hide, once the cursor leaves this area
   const keepShowingTooltipAreas = svg
