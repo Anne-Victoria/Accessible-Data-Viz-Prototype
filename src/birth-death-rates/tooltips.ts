@@ -271,7 +271,7 @@ const setupTooltips = (
     .attr('class', 'screen-reader-only')
     .text('Datenpunkt.');
 
-  // Tooltip text: year
+  // Tooltip text: age group
   tooltips
     .append('text')
     .attr('fill', '#000000')
@@ -279,12 +279,6 @@ const setupTooltips = (
     .text((d) => `Jahr: ${d.year}`)
     .attr('x', (d) => (xScale(d.year) ?? 0) - 70)
     .attr('y', (d) => (yScale(getHighestNumber(d)) ?? 0) - 70);
-
-  // Invisible comma for a short pause
-  tooltips
-    .append('text')
-    .attr('fill', '#00000000')
-    .text(() => `, `);
 
   // Tooltip text: births size
   tooltips
@@ -295,13 +289,6 @@ const setupTooltips = (
     .attr('x', (d) => (xScale(d.year) ?? 0) - 70)
     .attr('y', (d) => (yScale(getHighestNumber(d)) ?? 0) - 50);
 
-  // Invisible comma, so that it doesn´t sound like the number of births
-  // belongs to deaths, since they are otherwise read without pause
-  tooltips
-    .append('text')
-    .attr('fill', '#00000000')
-    .text(() => `, `);
-
   // Tooltip text: deaths size
   tooltips
     .append('text')
@@ -310,12 +297,6 @@ const setupTooltips = (
     .text((d) => `Sterbefälle: ${numberFormatter.format(d.deaths)}`)
     .attr('x', (d) => (xScale(d.year) ?? 0) - 70)
     .attr('y', (d) => (yScale(getHighestNumber(d)) ?? 0) - 30);
-
-  // Full stop for a short pause after each tooltip
-  tooltips
-    .append('text')
-    .attr('fill', '#00000000')
-    .text(() => ` .`);
 
   // Deaths data circle
   tooltips
