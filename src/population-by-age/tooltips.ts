@@ -3,6 +3,8 @@ import { AgeDatapoint } from '../common/commonTypes';
 
 let timeOfLastForceHide = Date.now();
 
+const numberFormatter = Intl.NumberFormat('de-DE');
+
 /**
  * Calculates the positions and dimensions needed for rendering the tooltip for every data point
  *
@@ -281,7 +283,7 @@ const setupTooltips = (
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'left')
-    .text((d) => `Menschen: ${d.population_size}`)
+    .text((d) => `Menschen: ${numberFormatter.format(d.population_size)}`)
     .attr(
       'x',
       (d) =>

@@ -3,6 +3,8 @@ import accessData from '../common/accessData';
 import rowProcessor from './main';
 import { AgeDatapoint } from '../common/commonTypes';
 
+const numberFormatter = Intl.NumberFormat('de-DE');
+
 /**
  * Renders a table with the given population data
  *
@@ -12,7 +14,7 @@ const drawTable = (data: AgeDatapoint[]): void => {
   const svg = d3.select('#data-table');
   const rows = svg.selectAll('row').data(data).join('tr');
   rows.append('td').text((d) => d.age_group);
-  rows.append('td').text((d) => d.population_size);
+  rows.append('td').text((d) => numberFormatter.format(d.population_size));
 };
 
 /**

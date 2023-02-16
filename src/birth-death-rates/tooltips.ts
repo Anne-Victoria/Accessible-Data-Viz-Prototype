@@ -211,6 +211,8 @@ const setupTooltips = (
     return Math.max(datapoint.births, datapoint.deaths);
   };
 
+  const numberFormatter = Intl.NumberFormat('de-DE');
+
   // Note: We assume that the time between the data points is the same everywhere (1 year)
   const distanceBetweenPoints =
     (xScale(data[1].year) ?? 0) - (xScale(data[0].year) ?? 0);
@@ -287,7 +289,7 @@ const setupTooltips = (
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'left')
-    .text((d) => `- Geburten: ${d.births}`)
+    .text((d) => `- Geburten: ${numberFormatter.format(d.births)}`)
     .attr('x', (d) => (xScale(d.year) ?? 0) - 80)
     .attr('y', (d) => (yScale(getHighestNumber(d)) ?? 0) - 50);
 
@@ -296,7 +298,7 @@ const setupTooltips = (
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'left')
-    .text((d) => `- Sterbefälle: ${d.deaths}`)
+    .text((d) => `- Sterbefälle: ${numberFormatter.format(d.deaths)}`)
     .attr('x', (d) => (xScale(d.year) ?? 0) - 80)
     .attr('y', (d) => (yScale(getHighestNumber(d)) ?? 0) - 30);
 
