@@ -45,7 +45,7 @@ function getTooltipParameters(
   };
 }> {
   const tooltipDimensions = {
-    width: 150,
+    width: 180,
     height: 80,
   };
 
@@ -269,15 +269,15 @@ const setupTooltips = (
     .append('text')
     .attr('fill', '#00000000')
     .attr('class', 'screen-reader-only')
-    .text('Datapoint.');
+    .text('Datenpunkt.');
 
   // Tooltip text: age group
   tooltips
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'left')
-    .text((d) => `Year: ${d.year}`)
-    .attr('x', (d) => (xScale(d.year) ?? 0) - 60)
+    .text((d) => `Jahr: ${d.year}`)
+    .attr('x', (d) => (xScale(d.year) ?? 0) - 70)
     .attr('y', (d) => (yScale(getHighestNumber(d)) ?? 0) - 70);
 
   // Tooltip text: births size
@@ -285,8 +285,8 @@ const setupTooltips = (
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'left')
-    .text((d) => `Births: ${numberFormatter.format(d.births)}`)
-    .attr('x', (d) => (xScale(d.year) ?? 0) - 60)
+    .text((d) => `Geburten: ${numberFormatter.format(d.births)}`)
+    .attr('x', (d) => (xScale(d.year) ?? 0) - 70)
     .attr('y', (d) => (yScale(getHighestNumber(d)) ?? 0) - 50);
 
   // Tooltip text: deaths size
@@ -294,8 +294,8 @@ const setupTooltips = (
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'left')
-    .text((d) => `Deaths: ${numberFormatter.format(d.deaths)}`)
-    .attr('x', (d) => (xScale(d.year) ?? 0) - 60)
+    .text((d) => `Sterbefälle: ${numberFormatter.format(d.deaths)}`)
+    .attr('x', (d) => (xScale(d.year) ?? 0) - 70)
     .attr('y', (d) => (yScale(getHighestNumber(d)) ?? 0) - 30);
 
   // Deaths data circle
