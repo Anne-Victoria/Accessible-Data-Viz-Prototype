@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css" />
-    <title>Prototype 1 | Data Viz Prototypes</title>
+    <title>Prototyp 1 | Diagramm-Prototypen</title>
   </head>
   <body>
     <main class="main">
@@ -22,40 +22,51 @@
                 d="M109.3 288L480 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-370.7 0 73.4-73.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288z"
               />
             </svg>
-            Return to Home
+            Zurück zum Start
           </div>
         </a>
-        <h1>Prototype 1 &mdash; Population of Germany by age (2018)</h1>
+        <h1>
+          Prototyp 1 &mdash; Bevölkerung des fiktiven Landes Loremland nach
+          Alter
+        </h1>
         <p>
-          Usage: Use tab or mouse hover over the bars to see the tooltips of the
-          individual data points. Use the escape key or move the mouse away from
-          the bar to close the tooltip. When using a screen reader, use the tab
-          key to access the individual data points in the visualization.
+          Benutzung: Nutzen Sie die Tabulator-Taste oder fahren Sie mit der Maus
+          über die Balken, um die Tooltips der einzelnen Datenpunkte anzuzeigen.
+          Verwenden Sie die Escape-Taste oder entfernen Sie die Maus vom Balken,
+          um den Tooltip zu schließen. Wenn Sie einen Screenreader benutzen,
+          verwenden Sie die Tabulator-Taste, um die einzelnen Datenpunkte im
+          Diagramm auszulesen.
         </p>
         <a href="#sonification-title" class="skip-link button"
-          >Skip to sonification</a
+          >Springe zur Sonification</a
         >
         <div
           id="population-chart"
           class="viz-container"
           role="figure"
-          aria-label="Visualization"
+          aria-label="Diagramm"
         >
           <p class="screen-reader-only">
-            A bar chart showing the age distribution of the population in
-            Germany in 2018. Ages are grouped into 20 groups starting with 0 to
-            4 and ending with 95 to 99. 100 and over and not depicted. Age
-            groups are on the x axis. Number of people in the age group is on
-            the y axis. Y axis ranges from 0 to 7,000,000. Maximum at 50 to 54
-            years with 6,875,000 people. Minimum at 95 to 99 with 144,000
-            people. Average population per group is 4,149,950.
+            <!-- "Grafik. Diagramm." is redundant, but is needed, since VoiceOver did not read the info from role/aria-label -->
+            Grafik. Diagramm. Überblick: Ein Balkendiagramm, das die
+            Altersverteilung der Bevölkerung von Loremland zeigt. Es gibt
+            zwanzig Altersgruppen. Diese beginnen mit 0 bis 4 Jahre und enden
+            mit 95 bis 99 Jahre. 100 Jahre und älter ist nicht dargestellt.
+            Altersgruppen sind auf der x-Achse darstellt. Die Anzahl der
+            Menschen in der jeweiligen Altersgruppe ist durch die Höhe des
+            Balkens auf der y-Achse dargestellt. Die y-Achse erstreckt sich von
+            0 bis 7.000.000. Das Maximum liegt bei 50 bis 54 Jahren mit
+            6.875.000 Menschen. Das Minimum liegt bei 95 bis 99 Jahren mit
+            144.000 Menschen. Der Durchschnitt liegt bei 4.149.950 Menschen pro
+            Gruppe.
           </p>
           <p class="screen-reader-only">
-            There is a comparatively low number of people in the groups under
-            20. In the age groups between 20 and 50, there is a moderate amount
-            of people. There is a high amount of people in the groups between 50
-            and 60. The number of people in the groups older than 60 then
-            steadily decreases with increasing age.
+            Trends: Die Anzahl der Menschen in den Altersgruppen, die jünger als
+            zwanzig sind, ist eher gering. In den Altersgruppen zwischen 20 und
+            50 ist meist eine mittelgroße Anzahl von Menschen. In den
+            Altersgruppen zwischen 50 und 60 Jahren ist eine hohe Anzahl von
+            Menschen. Bei den Gruppen über 60 nimmt die Anzahl der Menschen dann
+            mit steigendem Alter relativ stetig ab.
           </p>
         </div>
         <a
@@ -73,16 +84,22 @@
                 d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H64V352zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32H320zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32V352z"
               />
             </svg>
-            Enlarge Visualization
+            Diagramm vergrößern
           </div>
         </a>
-        <h2 id="sonification-title">Sonification</h2>
+        <h2 id="sonification-title" tabindex="-1">Sonification</h2>
         <p>
-          Listen to the data. Use the button to play and pause the sonification.
-          The sonification plays one sound for each population group along the x
-          axis, starting with 0–4 and ending with the 95–99. Higher-pitched
-          sounds represent a larger population size in that group. Lower-pitched
-          sounds represent a smaller size.
+          Hören Sie sich eine Sonification der Daten an, wo die Datenpunkte als
+          Töne abgespielt werden.
+        </p>
+        <p>
+          Benutzen Sie den Button, um die Sonification zu starten und zu
+          pausieren. Die Sonification spielt für jeden jeden Balken, also für
+          jeden Altersgruppe, entlang der x-Achse einen Ton ab, angefangen bei
+          der Gruppe 0 bis 4 Jahre und endend mit der Altersgruppe 95 bis 99
+          Jahre. Höhere Töne bedeuten, dass in der Altersgruppe mehr Menschen
+          sind. Niedrigere Töne bedeuten, dass in der Altersgruppe weniger
+          Menschen sind.
         </p>
         <p>
           <button
@@ -90,34 +107,22 @@
             class="button"
             type="button"
           >
-            Play
+            Start
           </button>
         </p>
         <h2>Download</h2>
         <p>
-          Download the
-          <a download href="/population_by_age.csv">data as CSV file</a>.
+          Lade die
+          <a download href="/population_by_age.csv">Daten als CSV-Datei</a>
+          herunter.
         </p>
-        <h2>Table</h2>
+        <h2>Tabelle</h2>
         <div>
           <p>
-            View population data
-            <a href="/src/population-by-age/table.html">as a table</a>.
+            Rufe die Daten
+            <a href="/src/population-by-age/table.html">als Tabelle</a> auf.
           </p>
         </div>
-        <h2 id="source-title">Data Source</h2>
-        <p>
-          The data was taken from
-          <a
-            href="https://service.destatis.de/bevoelkerungspyramide/index.html#!y=2018"
-            >Statistisches Bundesamt</a
-          >
-          and is licensed under the
-          <a href="https://www.govdata.de/dl-de/by-2-0"
-            >Data licence Germany - attribution - Version 2.0</a
-          >. The data has been modified in the following way: it was aggregated
-          into groups spanning five years of age, and it was visualized.
-        </p>
       </div>
     </main>
     <script type="module" src="./main.ts"></script>

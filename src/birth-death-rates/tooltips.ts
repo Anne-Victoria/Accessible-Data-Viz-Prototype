@@ -45,7 +45,7 @@ function getTooltipParameters(
   };
 }> {
   const tooltipDimensions = {
-    width: 150,
+    width: 190,
     height: 80,
   };
 
@@ -211,7 +211,7 @@ const setupTooltips = (
     return Math.max(datapoint.births, datapoint.deaths);
   };
 
-  const numberFormatter = Intl.NumberFormat('en-US');
+  const numberFormatter = Intl.NumberFormat('de-DE');
 
   // Note: We assume that the time between the data points is the same everywhere (1 year)
   const distanceBetweenPoints =
@@ -269,15 +269,19 @@ const setupTooltips = (
     .append('text')
     .attr('fill', '#00000000')
     .attr('class', 'screen-reader-only')
-    .text('Datapoint.');
+    .text('Datenpunkt.');
 
-  // Tooltip text: age group
+  // Note: The dashes at the start of each text field are needed
+  // for audible separation, so it doesn't get confusing whether the
+  // number belongs to births or deaths
+
+  // Tooltip text: year
   tooltips
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'left')
-    .text((d) => `Year: ${d.year}`)
-    .attr('x', (d) => (xScale(d.year) ?? 0) - 60)
+    .text((d) => `- Jahr: ${d.year}`)
+    .attr('x', (d) => (xScale(d.year) ?? 0) - 80)
     .attr('y', (d) => (yScale(getHighestNumber(d)) ?? 0) - 70);
 
   // Tooltip text: births size
@@ -285,8 +289,8 @@ const setupTooltips = (
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'left')
-    .text((d) => `Births: ${numberFormatter.format(d.births)}`)
-    .attr('x', (d) => (xScale(d.year) ?? 0) - 60)
+    .text((d) => `- Geburten: ${numberFormatter.format(d.births)}`)
+    .attr('x', (d) => (xScale(d.year) ?? 0) - 80)
     .attr('y', (d) => (yScale(getHighestNumber(d)) ?? 0) - 50);
 
   // Tooltip text: deaths size
@@ -294,8 +298,8 @@ const setupTooltips = (
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'left')
-    .text((d) => `Deaths: ${numberFormatter.format(d.deaths)}`)
-    .attr('x', (d) => (xScale(d.year) ?? 0) - 60)
+    .text((d) => `- Sterbefälle: ${numberFormatter.format(d.deaths)}`)
+    .attr('x', (d) => (xScale(d.year) ?? 0) - 80)
     .attr('y', (d) => (yScale(getHighestNumber(d)) ?? 0) - 30);
 
   // Deaths data circle

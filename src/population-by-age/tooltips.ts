@@ -3,7 +3,7 @@ import { AgeDatapoint } from '../common/commonTypes';
 
 let timeOfLastForceHide = Date.now();
 
-const numberFormatter = Intl.NumberFormat('en-US');
+const numberFormatter = Intl.NumberFormat('de-DE');
 
 /**
  * Calculates the positions and dimensions needed for rendering the tooltip for every data point
@@ -260,14 +260,14 @@ const setupTooltips = (
     .append('text')
     .attr('fill', '#00000000')
     .attr('class', 'screen-reader-only')
-    .text('Bar.');
+    .text('Balken.');
 
   // Tooltip text: age group
   tooltips
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'left')
-    .text((d) => `Age: ${d.age_group}`)
+    .text((d) => `Alter: ${d.age_group}`)
     .attr(
       'x',
       (d) =>
@@ -283,7 +283,7 @@ const setupTooltips = (
     .append('text')
     .attr('fill', '#000000')
     .attr('text-anchor', 'left')
-    .text((d) => `Population: ${numberFormatter.format(d.population_size)}`)
+    .text((d) => `Menschen: ${numberFormatter.format(d.population_size)}`)
     .attr(
       'x',
       (d) =>

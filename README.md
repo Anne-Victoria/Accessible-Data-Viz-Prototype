@@ -22,7 +22,23 @@ The data on [births](https://www-genesis.destatis.de/genesis//online?operation=t
 
 #### Dataset license
 
-Note: all datasets are licensed under the [Data licence Germany - attribution - Version 2.0](https://www.govdata.de/dl-de/by-2-0). Download the data and place the csv file in `raw_data`.
+All datasets are licensed under the [Data licence Germany - attribution - Version 2.0](https://www.govdata.de/dl-de/by-2-0). Download the data and place the csv file in `raw_data`.
+
+##### Population by age group dataset
+
+The data was taken from [Statistisches Bundesamt](https://service.destatis.de/bevoelkerungspyramide/index.html#!y=2018)
+and is licensed under the [Data licence Germany - attribution - Version 2.0](https://www.govdata.de/dl-de/by-2-0). The data has been modified in the following way: it was aggregated
+into groups spanning five years of age, and it was visualized.
+
+##### Births and deaths by year dataset
+
+The data was taken from the [births](https://www-genesis.destatis.de/genesis//online?operation=table&code=12612-0001)
+and [deaths](https://www-genesis.destatis.de/genesis//online?operation=table&code=12613-0002)
+datasets of [Statistisches Bundesamt (Destatis)](https://www.destatis.de/) and is licensed under the [Data licence Germany - attribution - Version 2.0](https://www.govdata.de/dl-de/by-2-0).
+
+##### Change of country name in frontend
+
+For the purpose of the usability study it has been obscured, that the data is from Germany. This is why in the frontend the data is presented as data from the fictional country "Loremland".
 
 ### VS Code extensions
 

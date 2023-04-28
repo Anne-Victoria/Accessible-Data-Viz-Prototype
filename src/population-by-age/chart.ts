@@ -78,7 +78,7 @@ const setupChart = (
     .attr('fill', '#00000000')
     .attr('class', 'screen-reader-only')
     .text(
-      'X axis. Age, divided into 20 age groups, ranging from 0–4 to 95–99.'
+      'X-Achse, zeigt Alter, aufgeteilt in zwanzig Altersgruppen beginnend mit 0–4 und endend mit 95–99.'
     );
 
   // Render x axis label
@@ -89,7 +89,7 @@ const setupChart = (
     .attr('y', heightWithoutMargins + margins.bottom - 30)
     .attr('class', 'axis-label')
     .attr('fill', 'currentColor')
-    .text('Age');
+    .text('Alter');
 
   // Render y axis
   svg
@@ -111,18 +111,18 @@ const setupChart = (
     .attr('fill', '#00000000')
     .attr('class', 'screen-reader-only')
     .text(
-      'Y axis. Size of population at this age, ranging from 0 to 7,000,000.'
+      'Y-Achse, zeigt die Zahl der Menschen in dieser Altersgruppe auf einer Skala von 0 bis 7.000.000.'
     );
 
   //   Render y axis label
   svg
     .append('text')
     .attr('text-anchor', 'middle')
-    .attr('x', 0)
+    .attr('x', 50)
     .attr('y', -20)
     .attr('class', 'axis-label')
     .attr('fill', 'currentColor')
-    .text('Population at this age');
+    .text('Menschen in dieser Altersgruppe');
 
   // Render bars
   const bars = svg.selectAll('mybar').data(data);
