@@ -1,16 +1,16 @@
 {
-  "name": "2022-04-accessible-bar-chart-prototype",
+  "name": "accessible-data-viz-prototype",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "description": "A prototype experimenting with data visualization accessibility.",
+  "main": "main.ts",
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.ts",
-    "prebuild": "node preprocessPopulationByAge.js && node preprocessPopulationByYear.js && node preprocessBirthDeathRate.js"
+    "prebuild": "node preprocessPopulationByAge.js && node preprocessBirthDeathRate.js"
   },
-  "author": "",
+  "author": "Anne-Victoria",
   "license": "UNLICENSED",
   "dependencies": {
     "@types/d3": "^7.4.0",
