@@ -1,6 +1,6 @@
 # Accessible data visualization prototype
 
-## Setup
+## Setup for local development
 
 ### Installing dependencies
 
@@ -14,11 +14,15 @@ Download the dataset from [Statistisches Bundesamt](https://service.destatis.de/
 
 #### Birth and death rate data
 
-The data on [births](https://www-genesis.destatis.de/genesis//online?operation=table&code=12612-0001) and [deaths](https://www-genesis.destatis.de/genesis//online?operation=table&code=12613-0002) are also taken from Statistisches Bundesamt.
+Download the [births](https://www-genesis.destatis.de/genesis//online?operation=table&code=12612-0001) and [deaths](https://www-genesis.destatis.de/genesis//online?operation=table&code=12613-0002) data sets from Statistisches Bundesamt and place the csv files in `raw_data`.
+
+### Preprocessing the data sets
+
+To preprocess the raw data for use in this application, run `npm run prebuild`.
 
 ### VS Code extensions
 
-Make sure to have the [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions installed and working in VS Code.
+If you want to work on the code, make sure to have the [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions installed and working in VS Code.
 
 ### Starting the dev server
 
@@ -30,7 +34,7 @@ To build the project, run `npm run build`. The result will be in the `dist` dire
 
 ## Dataset attribution
 
-All datasets are licensed under the [Data licence Germany - attribution - Version 2.0](https://www.govdata.de/dl-de/by-2-0). Download the data and place the csv file in `raw_data`.
+All datasets are licensed under the [Data licence Germany - attribution - Version 2.0](https://www.govdata.de/dl-de/by-2-0).
 
 ### Population by age group dataset
 
